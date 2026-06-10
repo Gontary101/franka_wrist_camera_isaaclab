@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-import types
 from pathlib import Path
 
 
@@ -71,7 +70,8 @@ from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
-from franka_wrist_camera_scene.episode.reset import reset_robot_to_default
+from franka_wrist_camera_scene.episode.reset import reset_robot_to_default, reset_pick_place_episode
+from franka_wrist_camera_scene.episode.success import pick_place_success
 
 
 def run_simulator(
@@ -131,10 +131,13 @@ def run_simulator(
 
         if cmd.done:
             if not settling:
-                print(f"[INFO] Scripted policy completed execution. Settling for 1.0s ({max_settle_steps} steps)...")
+                print(f"[INFO] Scripted policy completed execution. Settling for 1.0s ({max_settle_steps} steps)...", flush=True)
                 settling = True
             settle_steps += 1
             if settle_steps >= max_settle_steps:
+                if isinstance(policy, PickPlaceScriptedPolicy):
+                    success = pick_place_success(scene, policy.spec)
+                    print(f"[INFO] Pick-place success: {success.detach().cpu().tolist()}", flush=True)
                 break
 
     video_recorder.close()
@@ -177,7 +180,11 @@ def main() -> None:
     policy.bind(scene, robot)
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
-    reset_robot_to_default(scene)
+    if args_cli.task == "pick_place":
+        reset_pick_place_episode(scene, spec)
+    else:
+        reset_robot_to_default(scene)
+        scene.reset()
     ik.reset()
 
     nudge_camera_prims(sim, scene)

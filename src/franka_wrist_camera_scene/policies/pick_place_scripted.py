@@ -29,6 +29,8 @@ class PickPlaceScriptedPolicy:
 
     def bind(self, scene: InteractiveScene, robot: Articulation) -> None:
         """Bind simulation scene and get device reference."""
+        if scene.num_envs != 1:
+            raise RuntimeError("PickPlaceScriptedPolicy currently supports only num_envs=1.")
         self._scene = scene
         self._device = robot.device
         self.quat_wxyz = self.quat_wxyz.to(self._device)
