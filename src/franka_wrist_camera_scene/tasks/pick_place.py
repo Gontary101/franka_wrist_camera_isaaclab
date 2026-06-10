@@ -16,7 +16,7 @@ class PickPlaceTaskSpec(TaskSpec):
     instruction: str = "pick up the red cube and place it on the target area"
 
     object_pos_w: tuple[float, float, float] = (0.58, -0.16, 1.08)
-    place_pos_w: tuple[float, float, float] = (0.55, 0.22, 1.08)
+    place_pos_local: tuple[float, float, float] = (0.55, 0.22, 1.08)
 
     pregrasp_height_m: float = 0.16
     lift_height_m: float = 0.20

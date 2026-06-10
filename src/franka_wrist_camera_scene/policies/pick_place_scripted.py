@@ -52,9 +52,9 @@ class PickPlaceScriptedPolicy:
         # Target definitions (TCP targets)
         # Target definitions (TCP targets)
         # Dynamic object position from the simulated RigidObject (allows randomization)
-        obj_pos = self._scene["target_cube"].data.root_pos_w  # shape: (num_envs, 3)
+        obj_pos = self._scene[self.spec.object_name].data.root_pos_w  # shape: (num_envs, 3)
 
-        place_local = torch.tensor(self.spec.place_pos_w, device=self._device)
+        place_local = torch.tensor(self.spec.place_pos_local, device=self._device)
         # Convert env-local coordinates to world coordinates using env origins
         place_pos = self._scene.env_origins + place_local.view(1, 3)
 

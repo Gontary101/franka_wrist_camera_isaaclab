@@ -42,7 +42,7 @@ class VideoRecorder:
                     self.video_writers[camera_name] = cv2.VideoWriter(
                         f"{camera_name}.mp4", fourcc, self.fps, (width, height)
                     )
-                print("[INFO] Recording wrist_camera.mp4 and agent_camera.mp4 for 20 seconds.")
+                print("[INFO] Recording wrist_camera.mp4 and agent_camera.mp4 until stop or 20 seconds.")
 
             for camera_name, writer in self.video_writers.items():
                 rgb = scene[camera_name].data.output["rgb"][0].detach().cpu().numpy()[..., :3]

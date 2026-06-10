@@ -77,6 +77,15 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
         init_state=RigidObjectCfg.InitialStateCfg(pos=(0.43, 0.18, TABLE_HEIGHT_M + 0.0275)),
     )
 
+    place_target = AssetBaseCfg(
+        prim_path="{ENV_REGEX_NS}/PlaceTarget",
+        spawn=sim_utils.CuboidCfg(
+            size=(0.14, 0.14, 0.004),
+            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.10, 0.65, 0.20)),
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.22, TABLE_HEIGHT_M + 0.002)),
+    )
+
     wrist_camera = CameraCfg(
         prim_path="{ENV_REGEX_NS}/Robot/panda_hand/wrist_rgbd_camera",
         update_period=0.0,

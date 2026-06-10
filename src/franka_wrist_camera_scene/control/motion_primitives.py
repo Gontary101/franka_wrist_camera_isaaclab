@@ -16,8 +16,16 @@ class LinearPoseMotion:
     duration_s: float
     start_time_s: float
 
+    def __post_init__(self) -> None:
+        self.start_pos_w = self.start_pos_w.clone()
+        self.goal_pos_w = self.goal_pos_w.clone()
+        self.quat_w = self.quat_w.clone()
+
     def sample(self, sim_time_s: float) -> tuple[torch.Tensor, torch.Tensor, bool]:
         """Sample target pose at simulation time."""
+        if self.duration_s <= 0.0:
+            raise ValueError("LinearPoseMotion duration_s must be positive.")
+
         alpha = (sim_time_s - self.start_time_s) / self.duration_s
         alpha = float(max(0.0, min(1.0, alpha)))
 
