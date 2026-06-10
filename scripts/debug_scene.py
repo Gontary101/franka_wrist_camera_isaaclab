@@ -69,31 +69,17 @@ import isaaclab.sim as sim_utils  # noqa: E402
 from isaaclab.assets import Articulation  # noqa: E402
 from isaaclab.scene import InteractiveScene  # noqa: E402
 
-from franka_wrist_camera_scene import (  # noqa: E402
-    CircleTrajectoryCfg,
-    CartesianIKController,
-    GripperController,
-    CircleMotionPolicy,
-    TabletopFrankaSceneCfg,
-    VideoRecorder,
-    WristCameraProbe,
-    circle_points_w,
-)
-from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers  # noqa: E402
-from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ  # noqa: E402
-
-
-def reset_scene(scene: InteractiveScene) -> None:
-    """Write the default robot state once before simulation starts."""
-    robot: Articulation = scene["robot"]
-    root_state = robot.data.default_root_state.clone()
-    root_state[:, :3] += scene.env_origins
-
-    robot.write_root_pose_to_sim(root_state[:, :7])
-    robot.write_root_velocity_to_sim(root_state[:, 7:])
-    robot.write_joint_state_to_sim(robot.data.default_joint_pos.clone(), robot.data.default_joint_vel.clone())
-    robot.set_joint_position_target(robot.data.default_joint_pos.clone())
-    scene.reset()
+from franka_wrist_camera_scene.control.gripper import GripperController
+from franka_wrist_camera_scene.control.ik import CartesianIKController
+from franka_wrist_camera_scene.control.trajectory import CircleTrajectoryCfg, circle_points_w
+from franka_wrist_camera_scene.debug.camera_probe import WristCameraProbe
+from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
+from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
+from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
+from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
+from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ
+from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
+from franka_wrist_camera_scene.episode.reset import reset_robot_to_default
 
 
 def run_simulator(
@@ -150,32 +136,6 @@ def run_simulator(
     video_recorder.close()
 
 
-def nudge_camera_prims(sim: sim_utils.SimulationContext, scene: InteractiveScene) -> None:
-    """Dirty camera transforms once to prevent white camera views."""
-    from pxr import Gf, UsdGeom
-    import omni.usd
-
-    stage = omni.usd.get_context().get_stage()
-    for camera_name in ("wrist_camera", "agent_camera"):
-        camera = scene[camera_name]
-        for path in camera._view.prim_paths:
-            prim = stage.GetPrimAtPath(path)
-            xform = UsdGeom.Xformable(prim)
-            translate_op = next(
-                (op for op in xform.GetOrderedXformOps() if op.GetOpName() == "xformOp:translate"),
-                None,
-            )
-            if translate_op is None:
-                translate_op = xform.AddTranslateOp(precision=UsdGeom.XformOp.PrecisionDouble)
-
-            original = translate_op.Get() or Gf.Vec3d(0.0, 0.0, 0.0)
-            translate_op.Set(Gf.Vec3d(original[0] + 1.0e-3, original[1], original[2]))
-            sim.render()
-            translate_op.Set(original)
-
-    sim.render()
-
-
 def main() -> None:
     sim_cfg = sim_utils.SimulationCfg(
         dt=1.0 / 120.0,
@@ -208,7 +168,7 @@ def main() -> None:
     policy.bind(scene, robot)
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
-    reset_scene(scene)
+    reset_robot_to_default(scene)
     ik.reset()
 
     nudge_camera_prims(sim, scene)

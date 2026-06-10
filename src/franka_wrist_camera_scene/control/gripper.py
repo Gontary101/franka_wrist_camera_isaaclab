@@ -33,5 +33,5 @@ class GripperController:
     def apply(self, robot: Articulation) -> None:
         """Apply finger width targets to the robot simulator."""
         if self._finger_joint_ids is None or self._target_width is None:
-            return
+            raise RuntimeError("GripperController was not bound before apply().")
         robot.set_joint_position_target(self._target_width, joint_ids=self._finger_joint_ids)

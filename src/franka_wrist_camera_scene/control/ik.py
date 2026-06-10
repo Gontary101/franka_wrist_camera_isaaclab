@@ -62,7 +62,7 @@ class CartesianIKController:
     def apply(self, scene: InteractiveScene, robot: Articulation) -> None:
         """Compute and apply joint command targets for the arm."""
         if self._target_pos_w is None or self._target_quat_w is None:
-            return
+            raise RuntimeError("CartesianIKController target pose was not set before apply().")
 
         # Transform target pose from world to robot base frame
         root_pose_w = robot.data.root_pose_w
