@@ -1,17 +1,20 @@
-"""Shared scene and motion parameters for the Franka tabletop demo."""
+"""Shared settings loading constants from configs/scene.yaml to prevent drift."""
 
 from __future__ import annotations
 
-TABLE_HEIGHT_M = 1.05
-# TABLE_SCALE = (1.25, 0.85, 1.0)
-TABLE_SIZE = (2.0, 2.0, 0.05)
-ROBOT_BASE_POS = (0.1, 0.0, TABLE_HEIGHT_M)
+from .utils.paths import load_yaml_config
+
+# Load config from the single source of truth configs/scene.yaml
+_cfg = load_yaml_config("scene.yaml")
+
+TABLE_HEIGHT_M = _cfg["table"]["height_m"]
+TABLE_SIZE = tuple(_cfg["table"]["size"])
+ROBOT_BASE_POS = tuple(_cfg["robot"]["base_pos"])
 
 # Local to each Isaac Lab environment origin.
-CIRCLE_CENTER_LOCAL = (0.45, 0.0, TABLE_HEIGHT_M + 0.26)
-CIRCLE_DIAMETER_M = 0.40
-CIRCLE_FREQUENCY_HZ = 0.045
+CIRCLE_CENTER_LOCAL = tuple(_cfg["debug_circle"]["center_local"])
+CIRCLE_DIAMETER_M = _cfg["debug_circle"]["diameter_m"]
+CIRCLE_FREQUENCY_HZ = _cfg["debug_circle"]["frequency_hz"]
 
-# WXYZ quaternion used by Isaac Lab. This is the standard Franka tabletop IK orientation
-# used to keep the Panda hand directed toward the table during the circle motion.
-GRIPPER_DOWN_QUAT_WXYZ = (0.0, 1.0, 0.0, 0.0)
+# WXYZ quaternion used by Isaac Lab to orient the gripper toward the table.
+GRIPPER_DOWN_QUAT_WXYZ = tuple(_cfg["debug_circle"]["orientation_wxyz"])
