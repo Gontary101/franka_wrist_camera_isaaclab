@@ -13,8 +13,8 @@ from isaaclab.managers import SceneEntityCfg
 from isaaclab.scene import InteractiveScene
 from isaaclab.utils.math import quat_apply, subtract_frame_transforms
 
-from .settings import CIRCLE_CENTER_LOCAL, CIRCLE_DIAMETER_M, CIRCLE_FREQUENCY_HZ, GRIPPER_DOWN_QUAT_WXYZ
-from .visualization import CircleMotionMarkers
+from ..settings import CIRCLE_CENTER_LOCAL, CIRCLE_DIAMETER_M, CIRCLE_FREQUENCY_HZ, GRIPPER_DOWN_QUAT_WXYZ
+from ..debug.visualization import CircleMotionMarkers
 
 
 @dataclass(frozen=True, slots=True)

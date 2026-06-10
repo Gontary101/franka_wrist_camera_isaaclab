@@ -10,7 +10,7 @@ from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab_assets import FRANKA_PANDA_HIGH_PD_CFG
 
-from .settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
+from ..settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
 TABLE_USD = f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd"
