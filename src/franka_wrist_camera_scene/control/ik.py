@@ -53,6 +53,8 @@ class CartesianIKController:
     def reset(self) -> None:
         """Reset the differential IK solver state."""
         self._ik.reset()
+        self._target_pos_w = None
+        self._target_quat_w = None
 
     def set_target_pose(self, target_pos_w: torch.Tensor, target_quat_w: torch.Tensor) -> None:
         """Set the target end-effector pose in world coordinates."""

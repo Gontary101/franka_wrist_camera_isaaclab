@@ -9,23 +9,10 @@ import types
 from pathlib import Path
 
 
-# Compatibility layer for Isaac Sim 6.0 (redirects omni.physics.tensors.impl.api -> omni.physics.tensors.api)
-class LazyApiModule(types.ModuleType):
-    def __getattr__(self, name):
-        import omni.physics.tensors.api as api
-        return getattr(api, "DeformableBodyView" if name == "SoftBodyView" else name)
-
-    def __dir__(self):
-        import omni.physics.tensors.api as api
-        return dir(api)
-
-
-sys.modules["omni.physics.tensors.impl.api"] = LazyApiModule("omni.physics.tensors.impl.api")
-sys.modules["omni.physics.tensors.impl"] = types.ModuleType("omni.physics.tensors.impl")
-
 REPO_SRC = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(REPO_SRC))
 
+from franka_wrist_camera_scene.app import launcher  # noqa: F401
 from isaaclab.app import AppLauncher  # noqa: E402
 
 
@@ -66,11 +53,7 @@ args_cli = parse_args()
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
-# Patch pxr.PhysxSchema for Isaac Sim 6.0 compatibility
-from pxr import PhysxSchema  # noqa: E402
-
-if not hasattr(PhysxSchema, "PhysxDeformableBodyAPI"):
-    PhysxSchema.PhysxDeformableBodyAPI = PhysxSchema.PhysxRigidBodyAPI
+launcher.patch_physx_schema()
 
 import isaaclab.sim as sim_utils  # noqa: E402
 from isaaclab.assets import Articulation  # noqa: E402
@@ -85,7 +68,7 @@ from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
 from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
-from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ
+from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
 from franka_wrist_camera_scene.episode.reset import reset_robot_to_default
@@ -117,6 +100,10 @@ def run_simulator(
         points_w = circle_points_w(scene, policy.cfg, robot.device)
         markers.draw_path(points_w)
 
+    settling = False
+    settle_steps = 0
+    max_settle_steps = int(1.0 / sim_dt)
+
     while simulation_app.is_running() and (max_steps <= 0 or step < max_steps):
         # 1. Step the policy to get reference actions
         cmd = policy.step(None, sim_time_s)
@@ -143,15 +130,19 @@ def run_simulator(
         video_recorder.record_step(scene, step)
 
         if cmd.done:
-            print("[INFO] Scripted policy completed execution.")
-            break
+            if not settling:
+                print(f"[INFO] Scripted policy completed execution. Settling for 1.0s ({max_settle_steps} steps)...")
+                settling = True
+            settle_steps += 1
+            if settle_steps >= max_settle_steps:
+                break
 
     video_recorder.close()
 
 
 def main() -> None:
     sim_cfg = sim_utils.SimulationCfg(
-        dt=1.0 / 120.0,
+        dt=SIM_DT,
         device=args_cli.device,
         physx=sim_utils.PhysxCfg(
             enable_external_forces_every_iteration=True,

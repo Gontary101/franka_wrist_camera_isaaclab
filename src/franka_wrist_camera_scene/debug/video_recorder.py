@@ -23,25 +23,26 @@ class VideoRecorder:
         if not self.enabled:
             return
 
-        import cv2
-
         self.record_interval = max(1, int((1.0 / self.sim_dt) / self.fps))
         self.max_record_frames = 20 * self.fps
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-
-        self.video_writers = {
-            "wrist_camera": cv2.VideoWriter("wrist_camera.mp4", fourcc, self.fps, (480, 480)),
-            "agent_camera": cv2.VideoWriter("agent_camera.mp4", fourcc, self.fps, (480, 480)),
-        }
-        print("[INFO] Recording wrist_camera.mp4 and agent_camera.mp4 for 20 seconds.")
 
     def record_step(self, scene: InteractiveScene, step: int) -> None:
         """Record a frame if the step matches the interval and limit is not exceeded."""
-        if not self.video_writers or self.recorded_frames >= self.max_record_frames:
+        if not self.enabled or self.recorded_frames >= self.max_record_frames:
             return
 
         if step % self.record_interval == 0:
             import cv2
+
+            if not self.video_writers:
+                fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+                for camera_name in ("wrist_camera", "agent_camera"):
+                    rgb = scene[camera_name].data.output["rgb"][0].detach().cpu().numpy()[..., :3]
+                    height, width = rgb.shape[:2]
+                    self.video_writers[camera_name] = cv2.VideoWriter(
+                        f"{camera_name}.mp4", fourcc, self.fps, (width, height)
+                    )
+                print("[INFO] Recording wrist_camera.mp4 and agent_camera.mp4 for 20 seconds.")
 
             for camera_name, writer in self.video_writers.items():
                 rgb = scene[camera_name].data.output["rgb"][0].detach().cpu().numpy()[..., :3]

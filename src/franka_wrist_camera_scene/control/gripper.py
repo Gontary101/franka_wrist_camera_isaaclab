@@ -25,6 +25,8 @@ class GripperController:
 
     def set_width(self, width: float | torch.Tensor) -> None:
         """Set target gripper width."""
+        if self._target_width is None:
+            raise RuntimeError("GripperController was not bound before set_width().")
         if isinstance(width, (float, int)):
             self._target_width.fill_(width)
         else:

@@ -32,7 +32,7 @@ class PickPlaceScriptedPolicy:
         self._scene = scene
         self._device = robot.device
         self.quat_wxyz = self.quat_wxyz.to(self._device)
-        self._ee_body_id = robot.find_bodies(self.spec.object_name if hasattr(self.spec, "ee_body_name") else "panda_hand")[0][0]
+        self._ee_body_id = robot.find_bodies(self.spec.ee_body_name)[0][0]
 
     def reset(self) -> None:
         """Reset the policy to the initial state."""
@@ -50,24 +50,29 @@ class PickPlaceScriptedPolicy:
         num_envs = self._scene.num_envs
 
         # Target definitions (TCP targets)
-        obj_pos = torch.tensor(self.spec.object_pos_w, device=self._device)
-        place_pos = torch.tensor(self.spec.place_pos_w, device=self._device)
+        # Target definitions (TCP targets)
+        # Dynamic object position from the simulated RigidObject (allows randomization)
+        obj_pos = self._scene["target_cube"].data.root_pos_w  # shape: (num_envs, 3)
+
+        place_local = torch.tensor(self.spec.place_pos_w, device=self._device)
+        # Convert env-local coordinates to world coordinates using env origins
+        place_pos = self._scene.env_origins + place_local.view(1, 3)
 
         # Subtract TCP offset (0.10m down in local coordinates) to get the hand position targets
         tcp_offset_local = torch.tensor([0.0, 0.0, 0.10], device=self._device).view(1, 3)
         tcp_offset_w = quat_apply(self.quat_wxyz.view(1, 4), tcp_offset_local).view(3)
 
-        obj_hand_pos = obj_pos - tcp_offset_w
-        place_hand_pos = place_pos - tcp_offset_w
+        obj_hand_pos = obj_pos - tcp_offset_w.view(1, 3)
+        place_hand_pos = place_pos - tcp_offset_w.view(1, 3)
 
         pregrasp_pos = obj_hand_pos.clone()
-        pregrasp_pos[2] += self.spec.pregrasp_height_m
+        pregrasp_pos[:, 2] += self.spec.pregrasp_height_m
 
         lift_pos = obj_hand_pos.clone()
-        lift_pos[2] += self.spec.lift_height_m
+        lift_pos[:, 2] += self.spec.lift_height_m
 
         place_pre_pos = place_hand_pos.clone()
-        place_pre_pos[2] += self.spec.lift_height_m
+        place_pre_pos[:, 2] += self.spec.lift_height_m
 
         target_pos_w = ee_pos_w.clone()
         target_quat_w = self.quat_wxyz.repeat(num_envs, 1)
@@ -78,7 +83,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=pregrasp_pos.repeat(num_envs, 1),
+                    goal_pos_w=pregrasp_pos,
                     quat_w=target_quat_w,
                     duration_s=2.0,
                     start_time_s=sim_time_s,
@@ -94,7 +99,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=obj_hand_pos.repeat(num_envs, 1),
+                    goal_pos_w=obj_hand_pos,
                     quat_w=target_quat_w,
                     duration_s=1.5,
                     start_time_s=sim_time_s,
@@ -105,9 +110,10 @@ class PickPlaceScriptedPolicy:
             if finished:
                 self.state = "close"
                 self._state_start_time = sim_time_s
+                self._motion = None
 
         elif self.state == "close":
-            target_pos_w = obj_hand_pos.repeat(num_envs, 1)
+            target_pos_w = obj_hand_pos
             finger_opening = self.spec.closed_finger_m
             if sim_time_s - self._state_start_time >= 1.0:
                 self.state = "lift"
@@ -118,7 +124,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=lift_pos.repeat(num_envs, 1),
+                    goal_pos_w=lift_pos,
                     quat_w=target_quat_w,
                     duration_s=1.5,
                     start_time_s=sim_time_s,
@@ -135,7 +141,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=place_pre_pos.repeat(num_envs, 1),
+                    goal_pos_w=place_pre_pos,
                     quat_w=target_quat_w,
                     duration_s=2.0,
                     start_time_s=sim_time_s,
@@ -152,7 +158,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=place_hand_pos.repeat(num_envs, 1),
+                    goal_pos_w=place_hand_pos,
                     quat_w=target_quat_w,
                     duration_s=1.5,
                     start_time_s=sim_time_s,
@@ -163,9 +169,10 @@ class PickPlaceScriptedPolicy:
             if finished:
                 self.state = "open"
                 self._state_start_time = sim_time_s
+                self._motion = None
 
         elif self.state == "open":
-            target_pos_w = place_hand_pos.repeat(num_envs, 1)
+            target_pos_w = place_hand_pos
             finger_opening = self.spec.open_finger_m
             if sim_time_s - self._state_start_time >= 1.0:
                 self.state = "retreat"
@@ -176,7 +183,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=place_pre_pos.repeat(num_envs, 1),
+                    goal_pos_w=place_pre_pos,
                     quat_w=target_quat_w,
                     duration_s=1.5,
                     start_time_s=sim_time_s,
@@ -186,9 +193,10 @@ class PickPlaceScriptedPolicy:
             target_quat_w = quat
             if finished:
                 self.state = "done"
+                self._motion = None
 
         elif self.state == "done":
-            target_pos_w = place_pre_pos.repeat(num_envs, 1)
+            target_pos_w = place_pre_pos
             finger_opening = self.spec.open_finger_m
             done = True
 

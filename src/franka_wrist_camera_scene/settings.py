@@ -7,6 +7,7 @@ from .utils.paths import load_yaml_config
 # Load config from the single source of truth configs/scene.yaml
 _cfg = load_yaml_config("scene.yaml")
 
+SIM_DT = float(_cfg["sim"]["dt"])
 TABLE_HEIGHT_M = _cfg["table"]["height_m"]
 TABLE_SIZE = tuple(_cfg["table"]["size"])
 ROBOT_BASE_POS = tuple(_cfg["robot"]["base_pos"])
