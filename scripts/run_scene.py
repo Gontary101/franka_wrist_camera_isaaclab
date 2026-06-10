@@ -9,18 +9,14 @@ import types
 from pathlib import Path
 
 
-# Inject compatibility layer for Isaac Sim 6.0 (redirects omni.physics.tensors.impl.api -> omni.physics.tensors.api)
+# Compatibility layer for Isaac Sim 6.0 (redirects omni.physics.tensors.impl.api -> omni.physics.tensors.api)
 class LazyApiModule(types.ModuleType):
     def __getattr__(self, name):
         import omni.physics.tensors.api as api
-
-        if name == "SoftBodyView":
-            return getattr(api, "DeformableBodyView")
-        return getattr(api, name)
+        return getattr(api, "DeformableBodyView" if name == "SoftBodyView" else name)
 
     def __dir__(self):
         import omni.physics.tensors.api as api
-
         return dir(api)
 
 
@@ -50,16 +46,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--video", action="store_true", help="Record a video from the wrist camera.")
     parser.add_argument(
-        "--video_steps", type=int, default=7200, help="Number of steps to record for the video."
-    )
-    parser.add_argument(
         "--show_markers", action="store_true", help="Show physical circle debug markers in the scene."
-    )
-    parser.add_argument(
-        "--viewport_camera",
-        choices=("agent", "wrist", "perspective"),
-        default="agent",
-        help="Camera shown in the active viewport after scene initialization.",
     )
     AppLauncher.add_app_launcher_args(parser)
     args = parser.parse_args()
@@ -73,24 +60,10 @@ app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
 # Patch pxr.PhysxSchema for Isaac Sim 6.0 compatibility
-from pxr import Gf, PhysxSchema, UsdGeom
+from pxr import PhysxSchema  # noqa: E402
 
 if not hasattr(PhysxSchema, "PhysxDeformableBodyAPI"):
     PhysxSchema.PhysxDeformableBodyAPI = PhysxSchema.PhysxRigidBodyAPI
-
-# Patch CreateShaderPrimFromSdrCommand for Isaac Sim 6.0 compatibility (name -> prim_name)
-import omni.usd.commands
-
-original_init = omni.usd.commands.CreateShaderPrimFromSdrCommand.__init__
-
-
-def patched_init(self, *args, **kwargs):
-    if "name" in kwargs:
-        kwargs["prim_name"] = kwargs.pop("name")
-    original_init(self, *args, **kwargs)
-
-
-omni.usd.commands.CreateShaderPrimFromSdrCommand.__init__ = patched_init
 
 import isaaclab.sim as sim_utils  # noqa: E402
 from isaaclab.assets import Articulation  # noqa: E402
@@ -104,69 +77,6 @@ from franka_wrist_camera_scene import (  # noqa: E402
     WristCameraProbe,
 )
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ  # noqa: E402
-
-ENV0_PRIM = "/World/envs/env_0"
-VIEWPORT_CAMERA_PRIMS = {
-    "agent": f"{ENV0_PRIM}/AgentViewCamera",
-    "wrist": f"{ENV0_PRIM}/Robot/panda_hand/wrist_rgbd_camera",
-}
-
-
-def resolved_env_0_path(prim_path: str) -> str:
-    """Return the concrete env_0 prim path for a scene config path."""
-    return prim_path.replace("{ENV_REGEX_NS}", "/World/envs/env_0")
-
-
-def warm_start_cameras(sim: sim_utils.SimulationContext, scene: InteractiveScene, frames: int = 24) -> None:
-    """Render a few stable frames before motion starts so camera render products bind cleanly."""
-    sim_dt = sim.get_physics_dt()
-
-    for _ in range(frames):
-        scene.write_data_to_sim()
-        sim.render()
-        scene.update(sim_dt)
-
-        for camera_name in ("wrist_camera", "agent_camera"):
-            camera = scene[camera_name]
-            camera.update(sim_dt, force_recompute=True)
-            _ = camera.data.output["rgb"]
-
-
-def sync_viewport_camera(camera_name: str) -> None:
-    """Bind the active viewport to a scene camera after the camera prim has rendered once."""
-    if camera_name == "perspective":
-        return
-
-    from isaacsim.core.rendering_manager import ViewportManager
-
-    ViewportManager.set_camera(VIEWPORT_CAMERA_PRIMS[camera_name])
-    sim_utils.SimulationContext.instance().render()
-    ViewportManager.wait_for_viewport(max_frames=30)
-
-
-def nudge_camera_prims(sim: sim_utils.SimulationContext, scene: InteractiveScene) -> None:
-    """Dirty camera transforms once, then restore them exactly."""
-    stage = omni.usd.get_context().get_stage()
-
-    for env_id in range(scene.num_envs):
-        for env0_path in VIEWPORT_CAMERA_PRIMS.values():
-            path = env0_path.replace("/env_0/", f"/env_{env_id}/")
-            prim = stage.GetPrimAtPath(path)
-            xform = UsdGeom.Xformable(prim)
-
-            translate_op = next(
-                (op for op in xform.GetOrderedXformOps() if op.GetOpName() == "xformOp:translate"),
-                None,
-            )
-            if translate_op is None:
-                translate_op = xform.AddTranslateOp(precision=UsdGeom.XformOp.PrecisionDouble)
-
-            original = translate_op.Get() or Gf.Vec3d(0.0, 0.0, 0.0)
-            translate_op.Set(Gf.Vec3d(original[0] + 1.0e-3, original[1], original[2]))
-            sim.render()
-            translate_op.Set(original)
-
-    sim.render()
 
 
 def reset_scene(scene: InteractiveScene) -> None:
@@ -199,7 +109,6 @@ def run_simulator(
     probe: WristCameraProbe,
     max_steps: int,
     video: bool = False,
-    video_steps: int = 0,
 ) -> None:
     """Run the scene until the app closes or the optional step limit is reached."""
     robot: Articulation = scene["robot"]
@@ -224,6 +133,32 @@ def run_simulator(
     video_recorder.close()
 
 
+def nudge_camera_prims(sim: sim_utils.SimulationContext, scene: InteractiveScene) -> None:
+    """Dirty camera transforms once to prevent white camera views."""
+    from pxr import Gf, UsdGeom
+    import omni.usd
+
+    stage = omni.usd.get_context().get_stage()
+    for camera_name in ("wrist_camera", "agent_camera"):
+        camera = scene[camera_name]
+        for path in camera._view.prim_paths:
+            prim = stage.GetPrimAtPath(path)
+            xform = UsdGeom.Xformable(prim)
+            translate_op = next(
+                (op for op in xform.GetOrderedXformOps() if op.GetOpName() == "xformOp:translate"),
+                None,
+            )
+            if translate_op is None:
+                translate_op = xform.AddTranslateOp(precision=UsdGeom.XformOp.PrecisionDouble)
+
+            original = translate_op.Get() or Gf.Vec3d(0.0, 0.0, 0.0)
+            translate_op.Set(Gf.Vec3d(original[0] + 1.0e-3, original[1], original[2]))
+            sim.render()
+            translate_op.Set(original)
+
+    sim.render()
+
+
 def main() -> None:
     sim_cfg = sim_utils.SimulationCfg(
         dt=1.0 / 120.0,
@@ -246,13 +181,8 @@ def main() -> None:
     reset_scene(scene)
     controller.reset()
 
-    warm_start_cameras(sim, scene)
-
-    if not args_cli.headless:
-        sync_viewport_camera(args_cli.viewport_camera)
-
     nudge_camera_prims(sim, scene)
-    run_simulator(sim, scene, controller, probe, args_cli.max_steps, args_cli.video, args_cli.video_steps)
+    run_simulator(sim, scene, controller, probe, args_cli.max_steps, args_cli.video)
 
 
 if __name__ == "__main__":
