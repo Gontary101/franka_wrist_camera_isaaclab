@@ -36,6 +36,13 @@ def parse_args() -> argparse.Namespace:
         "--max_steps", type=int, default=0, help="Stop after this many simulation steps; 0 runs forever."
     )
     parser.add_argument(
+        "--task",
+        type=str,
+        default="circle",
+        choices=["circle", "pick_place"],
+        help="Task/policy to run.",
+    )
+    parser.add_argument(
         "--circle_diameter", type=float, default=0.40, help="Gripper circle diameter in meters."
     )
     parser.add_argument("--circle_frequency", type=float, default=0.045, help="Circle frequency in Hz.")
@@ -76,8 +83,10 @@ from franka_wrist_camera_scene.debug.camera_probe import WristCameraProbe
 from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
 from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
+from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
 from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ
+from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
 from franka_wrist_camera_scene.episode.reset import reset_robot_to_default
 
@@ -85,7 +94,7 @@ from franka_wrist_camera_scene.episode.reset import reset_robot_to_default
 def run_simulator(
     sim: sim_utils.SimulationContext,
     scene: InteractiveScene,
-    policy: CircleMotionPolicy,
+    policy: CircleMotionPolicy | PickPlaceScriptedPolicy,
     ik: CartesianIKController,
     gripper: GripperController,
     probe: WristCameraProbe,
@@ -101,23 +110,23 @@ def run_simulator(
 
     video_recorder = VideoRecorder(video, sim_dt)
 
-    # Debug markers
+    # Debug markers (only applicable for circle task)
     markers = None
-    if show_markers:
+    if show_markers and isinstance(policy, CircleMotionPolicy):
         markers = CircleMotionMarkers()
         points_w = circle_points_w(scene, policy.cfg, robot.device)
         markers.draw_path(points_w)
 
     while simulation_app.is_running() and (max_steps <= 0 or step < max_steps):
         # 1. Step the policy to get reference actions
-        target_pos_w, target_quat_w, gripper_width = policy.step(None, sim_time_s)
+        cmd = policy.step(None, sim_time_s)
 
         # 2. Update and apply Cartesian IK command
-        ik.set_target_pose(target_pos_w, target_quat_w)
+        ik.set_target_pose(cmd.target_pos_w, cmd.target_quat_w)
         ik.apply(scene, robot)
 
         # 3. Update and apply gripper command
-        gripper.set_width(gripper_width)
+        gripper.set_width(cmd.finger_opening_m)
         gripper.apply(robot)
 
         scene.write_data_to_sim()
@@ -129,9 +138,13 @@ def run_simulator(
         probe.maybe_save(scene, step)
 
         if markers is not None:
-            markers.draw_target(target_pos_w)
+            markers.draw_target(cmd.target_pos_w)
 
         video_recorder.record_step(scene, step)
+
+        if cmd.done:
+            print("[INFO] Scripted policy completed execution.")
+            break
 
     video_recorder.close()
 
@@ -152,14 +165,19 @@ def main() -> None:
     scene = InteractiveScene(TabletopFrankaSceneCfg(num_envs=args_cli.num_envs, env_spacing=2.5))
     robot: Articulation = scene["robot"]
 
-    trajectory_cfg = CircleTrajectoryCfg(
-        center_local=CIRCLE_CENTER_LOCAL,
-        diameter_m=args_cli.circle_diameter,
-        frequency_hz=args_cli.circle_frequency,
-        orientation_wxyz=GRIPPER_DOWN_QUAT_WXYZ,
-    )
+    # Choose policy based on selected task
+    if args_cli.task == "circle":
+        trajectory_cfg = CircleTrajectoryCfg(
+            center_local=CIRCLE_CENTER_LOCAL,
+            diameter_m=args_cli.circle_diameter,
+            frequency_hz=args_cli.circle_frequency,
+            orientation_wxyz=GRIPPER_DOWN_QUAT_WXYZ,
+        )
+        policy = CircleMotionPolicy(cfg=trajectory_cfg)
+    else:  # pick_place
+        spec = PickPlaceTaskSpec()
+        policy = PickPlaceScriptedPolicy(spec=spec)
 
-    policy = CircleMotionPolicy(cfg=trajectory_cfg)
     ik = CartesianIKController()
     gripper = GripperController()
     probe = WristCameraProbe(args_cli.probe_u, args_cli.probe_v, args_cli.save_probe_every)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import isaaclab.sim as sim_utils
-from isaaclab.assets import ArticulationCfg, AssetBaseCfg
+from isaaclab.assets import ArticulationCfg, AssetBaseCfg, RigidObjectCfg
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sensors import CameraCfg
 from isaaclab.utils import configclass
@@ -55,29 +55,33 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
     robot.spawn.fix_base = True
     robot.init_state.pos = ROBOT_BASE_POS
 
-    target_cube = AssetBaseCfg(
+    target_cube = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/TargetCube",
         spawn=sim_utils.CuboidCfg(
-            size=(0.075, 0.075, 0.075),
+            size=(0.06, 0.06, 0.06),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.8, 0.15, 0.10)),
         ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.58, -0.16, TABLE_HEIGHT_M + 0.08)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.58, -0.16, TABLE_HEIGHT_M + 0.0375)),
     )
 
-    blue_block = AssetBaseCfg(
+    blue_block = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/BlueBlock",
         spawn=sim_utils.CuboidCfg(
             size=(0.10, 0.055, 0.055),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(),
+            collision_props=sim_utils.CollisionPropertiesCfg(),
             visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.10, 0.20, 0.85)),
         ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.43, 0.18, TABLE_HEIGHT_M + 0.065)),
+        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.43, 0.18, TABLE_HEIGHT_M + 0.0275)),
     )
 
     wrist_camera = CameraCfg(
         prim_path="{ENV_REGEX_NS}/Robot/panda_hand/wrist_rgbd_camera",
         update_period=0.0,
-        height=480,
-        width=480,
+        height=128,
+        width=128,
         data_types=["rgb", "distance_to_image_plane"],
         update_latest_camera_pose=True,
         spawn=pinhole_camera_cfg(clipping_range=(0.02, 4.0)),
@@ -91,8 +95,8 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
     agent_camera = CameraCfg(
         prim_path="{ENV_REGEX_NS}/AgentViewCamera",
         update_period=1.0 / 30.0,
-        height=480,
-        width=480,
+        height=128,
+        width=128,
         data_types=["rgb", "distance_to_image_plane"],
         spawn=pinhole_camera_cfg(clipping_range=(0.05, 25.0)),
         offset=CameraCfg.OffsetCfg(

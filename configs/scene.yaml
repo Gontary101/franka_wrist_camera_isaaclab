@@ -1,7 +1,7 @@
 # Isaac Lab Franka Tabletop Scene Configurations
 
 sim:
-  dt: 0.00833333333  # 1/120
+  dt: 0.03333333333 # 1/60
   physx:
     enable_external_forces_every_iteration: true
     min_velocity_iteration_count: 1
@@ -38,8 +38,8 @@ debug_circle:
 
 wrist_camera:
   prim_path: "{ENV_REGEX_NS}/Robot/panda_hand/wrist_rgbd_camera"
-  height: 480
-  width: 480
+  height: 128
+  width: 128
   clipping_range: [0.02, 4.0]
   update_period: 0.0
   data_types: ["rgb", "distance_to_image_plane"]
@@ -50,10 +50,10 @@ wrist_camera:
 
 agent_camera:
   prim_path: "{ENV_REGEX_NS}/AgentViewCamera"
-  height: 480
-  width: 480
+  height: 128
+  width: 128
   clipping_range: [0.05, 25.0]
-  update_period: 0.03333333333  # 1/30
+  update_period: 0.03333333333 # 1/30
   data_types: ["rgb", "distance_to_image_plane"]
   offset:
     pos: [1.4186131747, 0.0, 1.7603500240]
