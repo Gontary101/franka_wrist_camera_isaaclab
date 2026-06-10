@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 TABLE_HEIGHT_M = 1.05
-TABLE_SCALE = (1.25, 0.85, 1.0)
-
+# TABLE_SCALE = (1.25, 0.85, 1.0)
+TABLE_SIZE = (2.0, 2.0, 0.05)
 ROBOT_BASE_POS = (0.1, 0.0, TABLE_HEIGHT_M)
 
 # Local to each Isaac Lab environment origin.

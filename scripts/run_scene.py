@@ -100,6 +100,7 @@ from franka_wrist_camera_scene import (  # noqa: E402
     CircleTrajectoryCfg,
     FrankaCircleIKController,
     TabletopFrankaSceneCfg,
+    VideoRecorder,
     WristCameraProbe,
 )
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ  # noqa: E402
@@ -206,17 +207,7 @@ def run_simulator(
     sim_time_s = 0.0
     step = 0
 
-    video_writer = None
-    if video:
-        import cv2
-        import numpy as np
-
-        fps = 30
-        # 120Hz / 30Hz = 4
-        record_interval = max(1, int((1.0 / sim_dt) / fps))
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        video_writer = cv2.VideoWriter("wrist_camera.mp4", fourcc, fps, (640, 480))
-        print(f"[INFO] Recording video to wrist_camera.mp4 at {fps} FPS (every {record_interval} steps)")
+    video_recorder = VideoRecorder(video, sim_dt)
 
     while simulation_app.is_running() and (max_steps <= 0 or step < max_steps):
         controller.apply(scene, robot, sim_time_s)
@@ -228,19 +219,9 @@ def run_simulator(
         scene.update(sim_dt)
         probe.maybe_save(scene, step)
 
-        if video_writer is not None and step % record_interval == 0:
-            camera = scene["wrist_camera"]
-            rgb = camera.data.output["rgb"][0].detach().cpu().numpy()[..., :3]
-            rgb_uint8 = np.clip(rgb, 0, 255).astype(np.uint8)
-            frame = cv2.cvtColor(rgb_uint8, cv2.COLOR_RGB2BGR)
-            video_writer.write(frame)
-            if step >= video_steps:
-                print(f"[INFO] Reached {step} steps, stopping video recording.")
-                break
+        video_recorder.record_step(scene, step)
 
-    if video_writer is not None:
-        video_writer.release()
-        print("[INFO] Video saved to wrist_camera.mp4")
+    video_recorder.close()
 
 
 def main() -> None:
