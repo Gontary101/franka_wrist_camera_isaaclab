@@ -1,0 +1,18 @@
+[project]
+name = "franka-wrist-camera-isaaclab"
+version = "0.1.0"
+description = "Isaac Lab Franka Panda tabletop scene with wrist and third-person cameras."
+requires-python = ">=3.11,<3.12"
+readme = "README.md"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 110
+target-version = ["py311"]
