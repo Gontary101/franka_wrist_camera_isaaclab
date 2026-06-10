@@ -13,7 +13,6 @@ from isaaclab_assets import FRANKA_PANDA_HIGH_PD_CFG
 from ..settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
-TABLE_USD = f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd"
 
 
 def pinhole_camera_cfg(clipping_range: tuple[float, float]) -> sim_utils.PinholeCameraCfg:

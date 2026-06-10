@@ -1,1 +1,10 @@
-# Configuration parameters for scene construction (robots, assets, cameras, workspace limits).
+# Scene configuration parameters
+table_height_m: 1.05
+table_size: [2.0, 2.0, 0.05]
+robot_base_pos: [0.1, 0.0, 1.05]
+
+# Circle trajectory configuration parameters
+circle_center_local: [0.45, 0.0, 1.31] # 1.05 + 0.26
+circle_diameter_m: 0.40
+circle_frequency_hz: 0.045
+gripper_down_quat_wxyz: [0.0, 1.0, 0.0, 0.0]

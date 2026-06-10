@@ -71,11 +71,15 @@ from isaaclab.scene import InteractiveScene  # noqa: E402
 
 from franka_wrist_camera_scene import (  # noqa: E402
     CircleTrajectoryCfg,
-    FrankaCircleIKController,
+    CartesianIKController,
+    GripperController,
+    CircleMotionPolicy,
     TabletopFrankaSceneCfg,
     VideoRecorder,
     WristCameraProbe,
+    circle_points_w,
 )
+from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers  # noqa: E402
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ  # noqa: E402
 
 
@@ -92,23 +96,16 @@ def reset_scene(scene: InteractiveScene) -> None:
     scene.reset()
 
 
-def build_controller() -> FrankaCircleIKController:
-    trajectory = CircleTrajectoryCfg(
-        center_local=CIRCLE_CENTER_LOCAL,
-        diameter_m=args_cli.circle_diameter,
-        frequency_hz=args_cli.circle_frequency,
-        orientation_wxyz=GRIPPER_DOWN_QUAT_WXYZ,
-    )
-    return FrankaCircleIKController(trajectory=trajectory, show_markers=args_cli.show_markers)
-
-
 def run_simulator(
     sim: sim_utils.SimulationContext,
     scene: InteractiveScene,
-    controller: FrankaCircleIKController,
+    policy: CircleMotionPolicy,
+    ik: CartesianIKController,
+    gripper: GripperController,
     probe: WristCameraProbe,
     max_steps: int,
     video: bool = False,
+    show_markers: bool = False,
 ) -> None:
     """Run the scene until the app closes or the optional step limit is reached."""
     robot: Articulation = scene["robot"]
@@ -118,8 +115,25 @@ def run_simulator(
 
     video_recorder = VideoRecorder(video, sim_dt)
 
+    # Debug markers
+    markers = None
+    if show_markers:
+        markers = CircleMotionMarkers()
+        points_w = circle_points_w(scene, policy.cfg, robot.device)
+        markers.draw_path(points_w)
+
     while simulation_app.is_running() and (max_steps <= 0 or step < max_steps):
-        controller.apply(scene, robot, sim_time_s)
+        # 1. Step the policy to get reference actions
+        target_pos_w, target_quat_w, gripper_width = policy.step(None, sim_time_s)
+
+        # 2. Update and apply Cartesian IK command
+        ik.set_target_pose(target_pos_w, target_quat_w)
+        ik.apply(scene, robot)
+
+        # 3. Update and apply gripper command
+        gripper.set_width(gripper_width)
+        gripper.apply(robot)
+
         scene.write_data_to_sim()
 
         sim.step()
@@ -127,6 +141,9 @@ def run_simulator(
         step += 1
         scene.update(sim_dt)
         probe.maybe_save(scene, step)
+
+        if markers is not None:
+            markers.draw_target(target_pos_w)
 
         video_recorder.record_step(scene, step)
 
@@ -173,16 +190,39 @@ def main() -> None:
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
     scene = InteractiveScene(TabletopFrankaSceneCfg(num_envs=args_cli.num_envs, env_spacing=2.5))
-    controller = build_controller()
+    robot: Articulation = scene["robot"]
+
+    trajectory_cfg = CircleTrajectoryCfg(
+        center_local=CIRCLE_CENTER_LOCAL,
+        diameter_m=args_cli.circle_diameter,
+        frequency_hz=args_cli.circle_frequency,
+        orientation_wxyz=GRIPPER_DOWN_QUAT_WXYZ,
+    )
+
+    policy = CircleMotionPolicy(cfg=trajectory_cfg)
+    ik = CartesianIKController()
+    gripper = GripperController()
     probe = WristCameraProbe(args_cli.probe_u, args_cli.probe_v, args_cli.save_probe_every)
 
     sim.reset()
-    controller.bind(scene, scene["robot"])
+    policy.bind(scene, robot)
+    ik.bind(scene, robot)
+    gripper.bind(scene, robot)
     reset_scene(scene)
-    controller.reset()
+    ik.reset()
 
     nudge_camera_prims(sim, scene)
-    run_simulator(sim, scene, controller, probe, args_cli.max_steps, args_cli.video)
+    run_simulator(
+        sim,
+        scene,
+        policy,
+        ik,
+        gripper,
+        probe,
+        args_cli.max_steps,
+        video=args_cli.video,
+        show_markers=args_cli.show_markers,
+    )
 
 
 if __name__ == "__main__":
