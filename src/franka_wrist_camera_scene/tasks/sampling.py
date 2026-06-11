@@ -19,11 +19,19 @@ class ObjectColor:
 
 
 @dataclass(frozen=True, slots=True)
+class LightingOptions:
+    intensity_range: tuple[float, float]
+    color_options: tuple[tuple[float, float, float], ...]
+
+
+@dataclass(frozen=True, slots=True)
 class PickPlaceSample:
     object_xy_offset: tuple[float, float]
     place_xy_offset: tuple[float, float]
     object_color_name: str
     object_color_rgb: tuple[float, float, float]
+    light_intensity: float
+    light_color: tuple[float, float, float]
 
 
 def parse_xy_range(config: dict) -> XYRange:
@@ -43,12 +51,20 @@ def parse_object_colors(config: list[dict]) -> tuple[ObjectColor, ...]:
     )
 
 
+def parse_lighting_options(config: dict) -> LightingOptions:
+    return LightingOptions(
+        intensity_range=(float(config["dome_light_intensity_range"][0]), float(config["dome_light_intensity_range"][1])),
+        color_options=tuple(tuple(float(x) for x in color) for color in config["dome_light_color_options"]),
+    )
+
+
 def sample_pick_place_offsets(
     seed: int,
     episode_id: int,
     object_range: XYRange,
     place_range: XYRange,
     object_colors: tuple[ObjectColor, ...],
+    lighting: LightingOptions,
 ) -> PickPlaceSample:
     rng = random.Random(seed + episode_id)
 
@@ -61,10 +77,14 @@ def sample_pick_place_offsets(
         rng.uniform(place_range.y[0], place_range.y[1]),
     )
     object_color = object_colors[rng.randrange(len(object_colors))]
+    light_intensity = rng.uniform(lighting.intensity_range[0], lighting.intensity_range[1])
+    light_color = lighting.color_options[rng.randrange(len(lighting.color_options))]
 
     return PickPlaceSample(
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
         object_color_name=object_color.name,
         object_color_rgb=object_color.rgb,
+        light_intensity=light_intensity,
+        light_color=light_color,
     )

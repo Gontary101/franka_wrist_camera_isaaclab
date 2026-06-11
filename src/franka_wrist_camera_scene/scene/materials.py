@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from pxr import Gf, UsdShade
 from isaaclab.scene import InteractiveScene
 
@@ -11,7 +12,6 @@ def set_target_cube_color(scene: InteractiveScene, color_rgb: tuple[float, float
     prim_path_template = scene["target_cube"].cfg.prim_path
 
     for env_id in range(scene.num_envs):
-        import re
         env_prim_path = prim_path_template.replace("{ENV_REGEX_NS}", f"/World/envs/env_{env_id}")
         env_prim_path = re.sub(r"env_\.\*", f"env_{env_id}", env_prim_path)
         shader_path = f"{env_prim_path}/geometry/material/Shader"

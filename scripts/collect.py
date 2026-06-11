@@ -71,8 +71,9 @@ from franka_wrist_camera_scene.settings import SIM_DT  # noqa: E402
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec  # noqa: E402
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 from franka_wrist_camera_scene.episode.manifest import write_collection_manifest  # noqa: E402
-from franka_wrist_camera_scene.tasks.sampling import parse_xy_range, sample_pick_place_offsets, parse_object_colors  # noqa: E402
+from franka_wrist_camera_scene.tasks.sampling import parse_xy_range, sample_pick_place_offsets, parse_object_colors, parse_lighting_options  # noqa: E402
 from franka_wrist_camera_scene.scene.materials import set_target_cube_color  # noqa: E402
+from franka_wrist_camera_scene.scene.lighting import set_dome_light  # noqa: E402
 
 
 def run_episode(
@@ -93,6 +94,8 @@ def run_episode(
     place_xy_offset: tuple[float, float] | None = None,
     object_color_name: str | None = None,
     object_color_rgb: tuple[float, float, float] | None = None,
+    light_intensity: float | None = None,
+    light_color: tuple[float, float, float] | None = None,
 ) -> Path:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
@@ -119,6 +122,8 @@ def run_episode(
         place_xy_offset=place_xy_offset,
         object_color_name=object_color_name,
         object_color_rgb=object_color_rgb,
+        light_intensity=light_intensity,
+        light_color=light_color,
     )
     recorder.validate_output_path()
 
@@ -205,6 +210,9 @@ def main() -> None:
     appearance_randomization = collection_cfg["appearance_randomization"]
     object_colors = parse_object_colors(appearance_randomization["object_colors"])
 
+    lighting_randomization = collection_cfg["lighting_randomization"]
+    lighting_options = parse_lighting_options(lighting_randomization)
+
     output_dir = Path(collection_cfg["output_dir"])
     start_episode_id = int(collection_cfg["start_episode_id"])
     num_episodes = int(collection_cfg["num_episodes"])
@@ -224,6 +232,7 @@ def main() -> None:
             object_range=object_xy_range,
             place_range=place_xy_range,
             object_colors=object_colors,
+            lighting=lighting_options,
         )
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
@@ -237,6 +246,7 @@ def main() -> None:
 
         reset_pick_place_episode(scene, episode_spec)
         set_target_cube_color(scene, sample.object_color_rgb)
+        set_dome_light(scene, sample.light_intensity, sample.light_color)
         policy.reset()
         ik.reset()
         nudge_camera_prims(sim, scene)
@@ -259,6 +269,8 @@ def main() -> None:
             place_xy_offset=sample.place_xy_offset,
             object_color_name=sample.object_color_name,
             object_color_rgb=sample.object_color_rgb,
+            light_intensity=sample.light_intensity,
+            light_color=sample.light_color,
         )
         saved_episode_dirs.append(saved_dir)
 

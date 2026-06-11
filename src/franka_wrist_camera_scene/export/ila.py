@@ -60,6 +60,8 @@ def export_episode(
         "place_pos_local": meta["place_pos_local"],
         "object_color_name": meta.get("object_color_name"),
         "object_color_rgb": meta.get("object_color_rgb"),
+        "light_intensity": meta.get("light_intensity"),
+        "light_color": meta.get("light_color"),
     }
 
 
