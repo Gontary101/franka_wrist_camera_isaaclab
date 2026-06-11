@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect a single deterministic pick-place episode in the tabletop scene."""
+"""Collect deterministic pick-place episodes in the tabletop scene."""
 
 from __future__ import annotations
 
@@ -180,8 +180,6 @@ def main() -> None:
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
 
-    nudge_camera_prims(sim, scene)
-
     output_dir = Path(collection_cfg["output_dir"])
     start_episode_id = int(collection_cfg["start_episode_id"])
     num_episodes = int(collection_cfg["num_episodes"])
@@ -196,6 +194,7 @@ def main() -> None:
         reset_pick_place_episode(scene, spec)
         policy.reset()
         ik.reset()
+        nudge_camera_prims(sim, scene)
 
         run_episode(
             sim=sim,
