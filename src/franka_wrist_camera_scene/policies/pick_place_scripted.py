@@ -52,7 +52,6 @@ class PickPlaceScriptedPolicy:
         num_envs = self._scene.num_envs
 
         # Target definitions (TCP targets)
-        # Target definitions (TCP targets)
         # Dynamic object position from the simulated RigidObject (allows randomization)
         obj_pos = self._scene[self.spec.object_name].data.root_pos_w  # shape: (num_envs, 3)
 

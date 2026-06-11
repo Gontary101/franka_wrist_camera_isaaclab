@@ -56,6 +56,12 @@ class CartesianIKController:
         self._target_pos_w = None
         self._target_quat_w = None
 
+    @property
+    def end_effector_body_id(self) -> int:
+        if self._entity is None:
+            raise RuntimeError("CartesianIKController was not bound.")
+        return self._entity.body_ids[0]
+
     def set_target_pose(self, target_pos_w: torch.Tensor, target_quat_w: torch.Tensor) -> None:
         """Set the target end-effector pose in world coordinates."""
         self._target_pos_w = target_pos_w

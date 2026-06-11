@@ -10,3 +10,5 @@ runs/
 *.usd
 *.usda
 *.usdc
+data/
+
