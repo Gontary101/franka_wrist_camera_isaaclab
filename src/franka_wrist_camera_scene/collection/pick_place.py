@@ -204,14 +204,14 @@ def collect_pick_place_dataset(
             base_spec=spec,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
-            object_color_name=sample.object_color_name,
+            object_label="apple",
         )
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
         policy.bind(scene, robot)
 
         reset_pick_place_episode(scene, episode_spec)
-        set_target_cube_color(scene, sample.object_color_rgb)
+        # USD catalog objects keep their authored materials.
         set_dome_light(scene, sample.light_intensity, sample.light_color)
         policy.reset()
         ik.reset()
