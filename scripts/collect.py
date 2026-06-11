@@ -67,6 +67,7 @@ from franka_wrist_camera_scene.settings import SIM_DT  # noqa: E402
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec  # noqa: E402
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 from franka_wrist_camera_scene.episode.manifest import write_collection_manifest  # noqa: E402
+from franka_wrist_camera_scene.tasks.sampling import parse_xy_range, sample_pick_place_offsets  # noqa: E402
 
 
 def run_episode(
@@ -82,6 +83,9 @@ def run_episode(
     record_cameras: bool,
     record_depth: bool,
     camera_fps: int,
+    seed: int | None = None,
+    object_xy_offset: tuple[float, float] | None = None,
+    place_xy_offset: tuple[float, float] | None = None,
 ) -> Path:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
@@ -104,6 +108,9 @@ def run_episode(
         record_depth=record_depth,
         object_pos_local=policy.spec.object_pos_local,
         place_pos_local=policy.spec.place_pos_local,
+        seed=seed,
+        object_xy_offset=object_xy_offset,
+        place_xy_offset=place_xy_offset,
     )
     recorder.validate_output_path()
 
@@ -182,14 +189,10 @@ def main() -> None:
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
 
-    object_offsets = [tuple(x) for x in collection_cfg["pose_grid"]["object_xy_offsets"]]
-    place_offsets = [tuple(x) for x in collection_cfg["pose_grid"]["place_xy_offsets"]]
-
-    pose_pairs = [
-        (object_offset, place_offset)
-        for object_offset in object_offsets
-        for place_offset in place_offsets
-    ]
+    seed = int(collection_cfg["seed"])
+    pose_randomization = collection_cfg["pose_randomization"]
+    object_xy_range = parse_xy_range(pose_randomization["object_xy_range"])
+    place_xy_range = parse_xy_range(pose_randomization["place_xy_range"])
 
     output_dir = Path(collection_cfg["output_dir"])
     start_episode_id = int(collection_cfg["start_episode_id"])
@@ -204,13 +207,17 @@ def main() -> None:
 
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
-        pose_index = (episode_id - start_episode_id) % len(pose_pairs)
-        object_offset, place_offset = pose_pairs[pose_index]
+        sample = sample_pick_place_offsets(
+            seed=seed,
+            episode_id=episode_id,
+            object_range=object_xy_range,
+            place_range=place_xy_range,
+        )
 
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
-            object_xy_offset=object_offset,
-            place_xy_offset=place_offset,
+            object_xy_offset=sample.object_xy_offset,
+            place_xy_offset=sample.place_xy_offset,
         )
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
@@ -234,6 +241,9 @@ def main() -> None:
             record_cameras=record_cameras,
             record_depth=record_depth,
             camera_fps=camera_fps,
+            seed=seed,
+            object_xy_offset=sample.object_xy_offset,
+            place_xy_offset=sample.place_xy_offset,
         )
         saved_episode_dirs.append(saved_dir)
 

@@ -16,6 +16,9 @@ class EpisodeManifestEntry:
     num_camera_frames: int
     object_pos_local: tuple[float, float, float] | None
     place_pos_local: tuple[float, float, float] | None
+    seed: int | None
+    object_xy_offset: tuple[float, float] | None
+    place_xy_offset: tuple[float, float] | None
     trajectory_file: str
     metadata_file: str
 
@@ -57,6 +60,9 @@ def write_collection_manifest(
                 num_camera_frames=int(meta.get("num_camera_frames", 0)),
                 object_pos_local=tuple(meta["object_pos_local"]) if meta.get("object_pos_local") is not None else None,
                 place_pos_local=tuple(meta["place_pos_local"]) if meta.get("place_pos_local") is not None else None,
+                seed=meta.get("seed"),
+                object_xy_offset=tuple(meta["object_xy_offset"]) if meta.get("object_xy_offset") is not None else None,
+                place_xy_offset=tuple(meta["place_xy_offset"]) if meta.get("place_xy_offset") is not None else None,
                 trajectory_file=(rel_dir / "trajectory.npz").as_posix(),
                 metadata_file=(rel_dir / "meta.json").as_posix(),
             )

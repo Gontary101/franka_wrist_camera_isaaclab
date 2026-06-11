@@ -28,6 +28,9 @@ class EpisodeRecorder:
     record_depth: bool = False
     object_pos_local: tuple[float, float, float] | None = None
     place_pos_local: tuple[float, float, float] | None = None
+    seed: int | None = None
+    object_xy_offset: tuple[float, float] | None = None
+    place_xy_offset: tuple[float, float] | None = None
 
     joint_pos: list[np.ndarray] = field(default_factory=list)
     joint_vel: list[np.ndarray] = field(default_factory=list)
@@ -132,11 +135,14 @@ class EpisodeRecorder:
             success=success,
             num_steps=len(self.joint_pos),
             sim_dt=self.sim_dt,
+            seed=self.seed,
             record_cameras=self.record_cameras,
             record_depth=self.record_depth,
             num_camera_frames=len(self.camera_step_indices) if self.record_cameras else 0,
             object_pos_local=self.object_pos_local,
             place_pos_local=self.place_pos_local,
+            object_xy_offset=self.object_xy_offset,
+            place_xy_offset=self.place_xy_offset,
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir
