@@ -64,7 +64,7 @@ from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder  # noqa: 
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy  # noqa: E402
 from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg  # noqa: E402
 from franka_wrist_camera_scene.settings import SIM_DT  # noqa: E402
-from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec  # noqa: E402
+from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec  # noqa: E402
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 
 
@@ -101,6 +101,8 @@ def run_episode(
         object_name=policy.spec.object_name,
         record_cameras=record_cameras,
         record_depth=record_depth,
+        object_pos_local=policy.spec.object_pos_local,
+        place_pos_local=policy.spec.place_pos_local,
     )
     recorder.validate_output_path()
 
@@ -170,15 +172,22 @@ def main() -> None:
     robot: Articulation = scene["robot"]
 
     spec = PickPlaceTaskSpec()
-    policy = PickPlaceScriptedPolicy(spec=spec)
 
     ik = CartesianIKController()
     gripper = GripperController()
 
     sim.reset()
-    policy.bind(scene, robot)
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
+
+    object_offsets = [tuple(x) for x in collection_cfg["pose_grid"]["object_xy_offsets"]]
+    place_offsets = [tuple(x) for x in collection_cfg["pose_grid"]["place_xy_offsets"]]
+
+    pose_pairs = [
+        (object_offset, place_offset)
+        for object_offset in object_offsets
+        for place_offset in place_offsets
+    ]
 
     output_dir = Path(collection_cfg["output_dir"])
     start_episode_id = int(collection_cfg["start_episode_id"])
@@ -191,7 +200,20 @@ def main() -> None:
 
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
-        reset_pick_place_episode(scene, spec)
+        pose_index = (episode_id - start_episode_id) % len(pose_pairs)
+        object_offset, place_offset = pose_pairs[pose_index]
+
+        episode_spec = make_pick_place_episode_spec(
+            base_spec=spec,
+            episode_id=episode_id,
+            object_xy_offset=object_offset,
+            place_xy_offset=place_offset,
+        )
+
+        policy = PickPlaceScriptedPolicy(spec=episode_spec)
+        policy.bind(scene, robot)
+
+        reset_pick_place_episode(scene, episode_spec)
         policy.reset()
         ik.reset()
         nudge_camera_prims(sim, scene)

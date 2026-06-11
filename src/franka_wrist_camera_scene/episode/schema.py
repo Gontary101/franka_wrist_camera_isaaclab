@@ -21,6 +21,8 @@ class EpisodeMetadata:
     record_cameras: bool = False
     record_depth: bool = False
     num_camera_frames: int = 0
+    object_pos_local: tuple[float, float, float] | None = None
+    place_pos_local: tuple[float, float, float] | None = None
 
     def save(self, path: Path) -> None:
         path.write_text(json.dumps(asdict(self), indent=2), encoding="utf-8")

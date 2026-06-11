@@ -58,15 +58,21 @@ def main() -> None:
     print(f"episodes: {len(summaries)}")
     print(f"success: {successes}/{len(summaries)}")
     print()
-    print(f"{'episode_id':<10} {'success':<8} {'steps':<7} {'camera_frames':<14} {'record_depth':<12}")
+    print(
+        f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
+        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6}"
+    )
 
     for item in summaries:
         episode_id = f"{item['episode_id']:06d}"
         success = str(item["success"]).lower()
-        steps = item["num_steps"]
-        camera_frames = item["num_camera_frames"]
         record_depth = str(item["record_depth"]).lower()
-        print(f"{episode_id:<10} {success:<8} {steps:<7} {camera_frames:<14} {record_depth:<12}")
+        print(
+            f"{episode_id:<10} {success:<8} "
+            f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
+            f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
+            f"{record_depth:<6}"
+        )
 
 
 if __name__ == "__main__":

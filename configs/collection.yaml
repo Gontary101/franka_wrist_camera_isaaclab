@@ -7,3 +7,17 @@ settle_time_s: 1.0
 record_cameras: true
 camera_fps: 30
 record_depth: true
+
+pose_grid:
+  object_xy_offsets:
+    - [0.0, 0.0]
+    - [-0.04, 0.0]
+    - [0.04, 0.0]
+    - [0.0, -0.04]
+    - [0.0, 0.04]
+  place_xy_offsets:
+    - [0.0, 0.0]
+    - [-0.04, 0.0]
+    - [0.04, 0.0]
+    - [0.0, -0.04]
+    - [0.0, 0.04]
