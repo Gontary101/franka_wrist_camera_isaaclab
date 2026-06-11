@@ -37,12 +37,15 @@ args_cli = parse_args()
 from franka_wrist_camera_scene.utils.paths import load_yaml_config  # noqa: E402
 collection_cfg = load_yaml_config(args_cli.collection_config)
 
-# Fail fast if output directory already exists
+# Fail fast if any of the output directories in the range already exist
 output_dir = Path(collection_cfg["output_dir"])
-episode_id = int(collection_cfg["episode_id"])
-episode_dir = output_dir / f"{episode_id:06d}"
-if episode_dir.exists():
-    raise FileExistsError(f"Episode directory already exists: {episode_dir}")
+start_episode_id = int(collection_cfg["start_episode_id"])
+num_episodes = int(collection_cfg["num_episodes"])
+
+for episode_id in range(start_episode_id, start_episode_id + num_episodes):
+    episode_dir = output_dir / f"{episode_id:06d}"
+    if episode_dir.exists():
+        raise FileExistsError(f"Episode directory already exists: {episode_dir}")
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
@@ -177,34 +180,37 @@ def main() -> None:
     ik.bind(scene, robot)
     gripper.bind(scene, robot)
 
-    # Clean episode reset
-    reset_pick_place_episode(scene, spec)
-    ik.reset()
-
     nudge_camera_prims(sim, scene)
 
     output_dir = Path(collection_cfg["output_dir"])
-    episode_id = int(collection_cfg["episode_id"])
+    start_episode_id = int(collection_cfg["start_episode_id"])
+    num_episodes = int(collection_cfg["num_episodes"])
     max_steps = int(collection_cfg["max_steps"])
     settle_time_s = float(collection_cfg["settle_time_s"])
     record_cameras = bool(collection_cfg["record_cameras"])
     record_depth = bool(collection_cfg.get("record_depth", False))
     camera_fps = int(collection_cfg.get("camera_fps", 30))
 
-    run_episode(
-        sim=sim,
-        scene=scene,
-        policy=policy,
-        ik=ik,
-        gripper=gripper,
-        output_dir=output_dir,
-        episode_id=episode_id,
-        max_steps=max_steps,
-        settle_time_s=settle_time_s,
-        record_cameras=record_cameras,
-        record_depth=record_depth,
-        camera_fps=camera_fps,
-    )
+    for episode_id in range(start_episode_id, start_episode_id + num_episodes):
+        print(f"[INFO] Starting episode {episode_id}", flush=True)
+        reset_pick_place_episode(scene, spec)
+        policy.reset()
+        ik.reset()
+
+        run_episode(
+            sim=sim,
+            scene=scene,
+            policy=policy,
+            ik=ik,
+            gripper=gripper,
+            output_dir=output_dir,
+            episode_id=episode_id,
+            max_steps=max_steps,
+            settle_time_s=settle_time_s,
+            record_cameras=record_cameras,
+            record_depth=record_depth,
+            camera_fps=camera_fps,
+        )
 
 
 if __name__ == "__main__":

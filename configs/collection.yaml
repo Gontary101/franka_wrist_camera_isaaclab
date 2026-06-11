@@ -1,5 +1,6 @@
 output_dir: data/raw/debug_pick_place
-episode_id: 0
+start_episode_id: 0
+num_episodes: 10
 max_steps: 2400
 settle_time_s: 1.0
 
