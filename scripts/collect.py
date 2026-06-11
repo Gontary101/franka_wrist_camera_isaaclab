@@ -66,6 +66,7 @@ from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg  # n
 from franka_wrist_camera_scene.settings import SIM_DT  # noqa: E402
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec  # noqa: E402
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
+from franka_wrist_camera_scene.episode.manifest import write_collection_manifest  # noqa: E402
 
 
 def run_episode(
@@ -81,7 +82,7 @@ def run_episode(
     record_cameras: bool,
     record_depth: bool,
     camera_fps: int,
-) -> None:
+) -> Path:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
     sim_dt = sim.get_physics_dt()
@@ -153,6 +154,7 @@ def run_episode(
     # Save episode data
     saved_dir = recorder.save(success)
     print(f"[INFO] Saved episode data to: {saved_dir}", flush=True)
+    return saved_dir
 
 
 def main() -> None:
@@ -198,6 +200,8 @@ def main() -> None:
     record_depth = bool(collection_cfg.get("record_depth", False))
     camera_fps = int(collection_cfg.get("camera_fps", 30))
 
+    saved_episode_dirs: list[Path] = []
+
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
         pose_index = (episode_id - start_episode_id) % len(pose_pairs)
@@ -217,7 +221,7 @@ def main() -> None:
         ik.reset()
         nudge_camera_prims(sim, scene)
 
-        run_episode(
+        saved_dir = run_episode(
             sim=sim,
             scene=scene,
             policy=policy,
@@ -231,6 +235,14 @@ def main() -> None:
             record_depth=record_depth,
             camera_fps=camera_fps,
         )
+        saved_episode_dirs.append(saved_dir)
+
+    manifest_path = write_collection_manifest(
+        output_dir=output_dir,
+        task_name="pick_place",
+        episode_dirs=saved_episode_dirs,
+    )
+    print(f"[INFO] Saved collection manifest to: {manifest_path}", flush=True)
 
 
 if __name__ == "__main__":

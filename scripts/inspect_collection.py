@@ -38,7 +38,6 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "trajectory_steps": steps,
         "num_camera_frames": int(meta.get("num_camera_frames", camera_frames)),
         "trajectory_camera_frames": camera_frames,
-        "record_cameras": bool(meta.get("record_cameras", False)),
         "record_depth": bool(meta.get("record_depth", False)),
         "object_pos_local": tuple(meta["object_pos_local"]),
         "place_pos_local": tuple(meta["place_pos_local"]),
@@ -49,9 +48,12 @@ def main() -> None:
     args = parse_args()
     collection_dir: Path = args.collection_dir
 
-    episode_dirs = sorted(path for path in collection_dir.iterdir() if path.is_dir())
-    if not episode_dirs:
-        raise RuntimeError(f"No episode directories found in {collection_dir}")
+    manifest_path = collection_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise FileNotFoundError(manifest_path)
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    episode_dirs = [collection_dir / item["episode_dir"] for item in manifest["episodes"]]
 
     summaries = [load_episode_summary(path) for path in episode_dirs]
     successes = sum(item["success"] for item in summaries)
