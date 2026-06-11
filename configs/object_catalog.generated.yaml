@@ -1,0 +1,632 @@
+asset_root: objects
+categories:
+- id: apple
+  label: apple
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: apple00
+    usd_path: apple/apple00.usd
+  - id: apple01
+    usd_path: apple/apple01.usd
+  - id: apple02
+    usd_path: apple/apple02.usd
+  - id: apple03
+    usd_path: apple/apple03.usd
+  - id: apple04
+    usd_path: apple/apple04.usd
+  - id: apple05
+    usd_path: apple/apple05.usd
+  - id: apple06
+    usd_path: apple/apple06.usd
+  - id: apple07
+    usd_path: apple/apple07.usd
+  - id: apple08
+    usd_path: apple/apple08.usd
+  - id: apple09
+    usd_path: apple/apple09.usd
+  - id: apple10
+    usd_path: apple/apple10.usd
+  - id: apple11
+    usd_path: apple/apple11.usd
+  - id: apple12
+    usd_path: apple/apple12.usd
+  - id: apple13
+    usd_path: apple/apple13.usd
+  - id: apple14
+    usd_path: apple/apple14.usd
+  - id: apple15
+    usd_path: apple/apple15.usd
+  - id: apple18
+    usd_path: apple/apple18.usd
+  - id: apple19
+    usd_path: apple/apple19.usd
+  - id: apple20
+    usd_path: apple/apple20.usd
+  - id: apple22
+    usd_path: apple/apple22.usd
+- id: avocado
+  label: avocado
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: avocado00
+    usd_path: avocado/avocado00.usd
+  - id: avocado01
+    usd_path: avocado/avocado01.usd
+  - id: avocado02
+    usd_path: avocado/avocado02.usd
+  - id: avocado04
+    usd_path: avocado/avocado04.usd
+  - id: avocado05
+    usd_path: avocado/avocado05.usd
+  - id: avocado06
+    usd_path: avocado/avocado06.usd
+  - id: avocado08
+    usd_path: avocado/avocado08.usd
+- id: beer
+  label: beer
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: beer00
+    usd_path: beer/beer00.usd
+  - id: beer01
+    usd_path: beer/beer01.usd
+  - id: beer03
+    usd_path: beer/beer03.usd
+  - id: beer05
+    usd_path: beer/beer05.usd
+  - id: beer07
+    usd_path: beer/beer07.usd
+  - id: beer09
+    usd_path: beer/beer09.usd
+  - id: beer13
+    usd_path: beer/beer13.usd
+  - id: beer19
+    usd_path: beer/beer19.usd
+- id: bottle
+  label: bottle
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: dbottle02
+    usd_path: bottle/dbottle02.usd
+  - id: dbottle04
+    usd_path: bottle/dbottle04.usd
+  - id: wbottle01
+    usd_path: bottle/wbottle01.usd
+  - id: wbottle02
+    usd_path: bottle/wbottle02.usd
+  - id: wbottle07
+    usd_path: bottle/wbottle07.usd
+  - id: wbottle08
+    usd_path: bottle/wbottle08.usd
+  - id: wbottle11
+    usd_path: bottle/wbottle11.usd
+  - id: wbottle12
+    usd_path: bottle/wbottle12.usd
+  - id: wbottle17
+    usd_path: bottle/wbottle17.usd
+  - id: wbottle23
+    usd_path: bottle/wbottle23.usd
+- id: bowl
+  label: bowl
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: bowl00
+    usd_path: bowl/bowl00.usd
+  - id: bowl01
+    usd_path: bowl/bowl01.usd
+  - id: bowl02
+    usd_path: bowl/bowl02.usd
+  - id: bowl04
+    usd_path: bowl/bowl04.usd
+  - id: bowl05
+    usd_path: bowl/bowl05.usd
+  - id: bowl06
+    usd_path: bowl/bowl06.usd
+  - id: bowl07
+    usd_path: bowl/bowl07.usd
+  - id: bowl08
+    usd_path: bowl/bowl08.usd
+  - id: bowl09
+    usd_path: bowl/bowl09.usd
+  - id: bowl10
+    usd_path: bowl/bowl10.usd
+  - id: bowl11
+    usd_path: bowl/bowl11.usd
+  - id: bowl12
+    usd_path: bowl/bowl12.usd
+  - id: bowl13
+    usd_path: bowl/bowl13.usd
+  - id: bowl14
+    usd_path: bowl/bowl14.usd
+  - id: bowl15
+    usd_path: bowl/bowl15.usd
+  - id: bowl16
+    usd_path: bowl/bowl16.usd
+  - id: bowl17
+    usd_path: bowl/bowl17.usd
+  - id: bowl18
+    usd_path: bowl/bowl18.usd
+  - id: bowl19
+    usd_path: bowl/bowl19.usd
+- id: box
+  label: box
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: box00
+    usd_path: box/box00.usd
+  - id: box01
+    usd_path: box/box01.usd
+  - id: box02
+    usd_path: box/box02.usd
+  - id: box03
+    usd_path: box/box03.usd
+  - id: box04
+    usd_path: box/box04.usd
+  - id: box05
+    usd_path: box/box05.usd
+  - id: box06
+    usd_path: box/box06.usd
+  - id: box08
+    usd_path: box/box08.usd
+  - id: box09
+    usd_path: box/box09.usd
+  - id: box10
+    usd_path: box/box10.usd
+  - id: box11
+    usd_path: box/box11.usd
+  - id: box12
+    usd_path: box/box12.usd
+  - id: box13
+    usd_path: box/box13.usd
+  - id: box14
+    usd_path: box/box14.usd
+  - id: box15
+    usd_path: box/box15.usd
+- id: can
+  label: can
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: can00
+    usd_path: can/can00.usd
+  - id: can02
+    usd_path: can/can02.usd
+  - id: can03
+    usd_path: can/can03.usd
+  - id: can04
+    usd_path: can/can04.usd
+  - id: can11
+    usd_path: can/can11.usd
+  - id: can12
+    usd_path: can/can12.usd
+  - id: can13
+    usd_path: can/can13.usd
+  - id: can15
+    usd_path: can/can15.usd
+  - id: fcan01
+    usd_path: can/fcan01.usd
+  - id: fcan03
+    usd_path: can/fcan03.usd
+  - id: fcan04
+    usd_path: can/fcan04.usd
+  - id: fcan05
+    usd_path: can/fcan05.usd
+  - id: fcan08
+    usd_path: can/fcan08.usd
+  - id: fcan11
+    usd_path: can/fcan11.usd
+  - id: fcan15
+    usd_path: can/fcan15.usd
+  - id: fcan17
+    usd_path: can/fcan17.usd
+  - id: fcan18
+    usd_path: can/fcan18.usd
+- id: cup
+  label: cup
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: cup00
+    usd_path: cup/cup00.usd
+  - id: cup01
+    usd_path: cup/cup01.usd
+  - id: cup02
+    usd_path: cup/cup02.usd
+  - id: cup03
+    usd_path: cup/cup03.usd
+  - id: cup04
+    usd_path: cup/cup04.usd
+  - id: cup05
+    usd_path: cup/cup05.usd
+  - id: cup06
+    usd_path: cup/cup06.usd
+  - id: cup07
+    usd_path: cup/cup07.usd
+  - id: cup08
+    usd_path: cup/cup08.usd
+  - id: cup09
+    usd_path: cup/cup09.usd
+- id: egg
+  label: egg
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: egg00
+    usd_path: egg/egg00.usd
+  - id: egg03
+    usd_path: egg/egg03.usd
+  - id: egg04
+    usd_path: egg/egg04.usd
+  - id: egg05
+    usd_path: egg/egg05.usd
+  - id: egg06
+    usd_path: egg/egg06.usd
+  - id: egg07
+    usd_path: egg/egg07.usd
+  - id: egg09
+    usd_path: egg/egg09.usd
+  - id: egg10
+    usd_path: egg/egg10.usd
+  - id: egg11
+    usd_path: egg/egg11.usd
+  - id: egg12
+    usd_path: egg/egg12.usd
+  - id: egg13
+    usd_path: egg/egg13.usd
+- id: kiwi
+  label: kiwi
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: kiwi00
+    usd_path: kiwi/kiwi00.usd
+  - id: kiwi05
+    usd_path: kiwi/kiwi05.usd
+  - id: kiwi07
+    usd_path: kiwi/kiwi07.usd
+- id: lemon
+  label: lemon
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: lemon01
+    usd_path: lemon/lemon01.usd
+  - id: lemon02
+    usd_path: lemon/lemon02.usd
+  - id: lemon03
+    usd_path: lemon/lemon03.usd
+  - id: lemon04
+    usd_path: lemon/lemon04.usd
+  - id: lemon05
+    usd_path: lemon/lemon05.usd
+  - id: lemon06
+    usd_path: lemon/lemon06.usd
+  - id: lemon08
+    usd_path: lemon/lemon08.usd
+  - id: lemon09
+    usd_path: lemon/lemon09.usd
+  - id: lemon10
+    usd_path: lemon/lemon10.usd
+  - id: lemon12
+    usd_path: lemon/lemon12.usd
+  - id: lemon13
+    usd_path: lemon/lemon13.usd
+  - id: lemon14
+    usd_path: lemon/lemon14.usd
+  - id: lemon15
+    usd_path: lemon/lemon15.usd
+- id: lime
+  label: lime
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: lime00
+    usd_path: lime/lime00.usd
+  - id: lime01
+    usd_path: lime/lime01.usd
+  - id: lime02
+    usd_path: lime/lime02.usd
+  - id: lime03
+    usd_path: lime/lime03.usd
+- id: onion
+  label: onion
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: onion00
+    usd_path: onion/onion00.usd
+  - id: onion02
+    usd_path: onion/onion02.usd
+  - id: onion04
+    usd_path: onion/onion04.usd
+  - id: onion07
+    usd_path: onion/onion07.usd
+  - id: onion08
+    usd_path: onion/onion08.usd
+  - id: onion09
+    usd_path: onion/onion09.usd
+  - id: onion10
+    usd_path: onion/onion10.usd
+- id: orange
+  label: orange
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: orange02
+    usd_path: orange/orange02.usd
+  - id: orange03
+    usd_path: orange/orange03.usd
+  - id: orange05
+    usd_path: orange/orange05.usd
+  - id: orange09
+    usd_path: orange/orange09.usd
+  - id: orange12
+    usd_path: orange/orange12.usd
+  - id: orange13
+    usd_path: orange/orange13.usd
+- id: peach
+  label: peach
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: peach01
+    usd_path: peach/peach01.usd
+  - id: peach02
+    usd_path: peach/peach02.usd
+  - id: peach03
+    usd_path: peach/peach03.usd
+  - id: peach05
+    usd_path: peach/peach05.usd
+  - id: peach06
+    usd_path: peach/peach06.usd
+- id: placemat
+  label: placemat
+  split: train
+  role: clutter
+  affordances:
+  - reachable
+  - support
+  variants:
+  - id: placemat00
+    usd_path: placemat/placemat00.usd
+  - id: placemat01
+    usd_path: placemat/placemat01.usd
+  - id: placemat02
+    usd_path: placemat/placemat02.usd
+  - id: placemat03
+    usd_path: placemat/placemat03.usd
+  - id: placemat04
+    usd_path: placemat/placemat04.usd
+  - id: placemat05
+    usd_path: placemat/placemat05.usd
+- id: plate
+  label: plate
+  split: train
+  role: clutter
+  affordances:
+  - reachable
+  - support
+  variants:
+  - id: plate00
+    usd_path: plate/plate00.usd
+  - id: plate01
+    usd_path: plate/plate01.usd
+  - id: plate02
+    usd_path: plate/plate02.usd
+  - id: plate03
+    usd_path: plate/plate03.usd
+  - id: plate04
+    usd_path: plate/plate04.usd
+  - id: plate05
+    usd_path: plate/plate05.usd
+  - id: plate06
+    usd_path: plate/plate06.usd
+  - id: plate07
+    usd_path: plate/plate07.usd
+  - id: plate08
+    usd_path: plate/plate08.usd
+  - id: plate09
+    usd_path: plate/plate09.usd
+  - id: plate10
+    usd_path: plate/plate10.usd
+  - id: plate12
+    usd_path: plate/plate12.usd
+  - id: plate13
+    usd_path: plate/plate13.usd
+  - id: plate14
+    usd_path: plate/plate14.usd
+  - id: plate15
+    usd_path: plate/plate15.usd
+  - id: plate16
+    usd_path: plate/plate16.usd
+- id: potato
+  label: potato
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: potato00
+    usd_path: potato/potato00.usd
+  - id: potato02
+    usd_path: potato/potato02.usd
+  - id: potato03
+    usd_path: potato/potato03.usd
+  - id: potato06
+    usd_path: potato/potato06.usd
+  - id: potato07
+    usd_path: potato/potato07.usd
+  - id: potato10
+    usd_path: potato/potato10.usd
+  - id: potato13
+    usd_path: potato/potato13.usd
+  - id: potato14
+    usd_path: potato/potato14.usd
+  - id: potato16
+    usd_path: potato/potato16.usd
+  - id: potato17
+    usd_path: potato/potato17.usd
+  - id: potato18
+    usd_path: potato/potato18.usd
+- id: tangerine
+  label: tangerine
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: tangerine00
+    usd_path: tangerine/tangerine00.usd
+  - id: tangerine03
+    usd_path: tangerine/tangerine03.usd
+  - id: tangerine04
+    usd_path: tangerine/tangerine04.usd
+  - id: tangerine05
+    usd_path: tangerine/tangerine05.usd
+  - id: tangerine06
+    usd_path: tangerine/tangerine06.usd
+- id: tomato
+  label: tomato
+  split: train
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: tomato01
+    usd_path: tomato/tomato01.usd
+  - id: tomato02
+    usd_path: tomato/tomato02.usd
+  - id: tomato03
+    usd_path: tomato/tomato03.usd
+  - id: tomato07
+    usd_path: tomato/tomato07.usd
+- id: tray
+  label: tray
+  split: train
+  role: clutter
+  affordances:
+  - reachable
+  - support
+  variants:
+  - id: tray04
+    usd_path: tray/tray04.usd
+  - id: tray05
+    usd_path: tray/tray05.usd
+  - id: tray06
+    usd_path: tray/tray06.usd
+  - id: tray07
+    usd_path: tray/tray07.usd
+  - id: tray08
+    usd_path: tray/tray08.usd
+  - id: tray09
+    usd_path: tray/tray09.usd
+  - id: tray10
+    usd_path: tray/tray10.usd
+  - id: tray11
+    usd_path: tray/tray11.usd
+  - id: tray12
+    usd_path: tray/tray12.usd
+- id: unseen_apple
+  label: apple
+  split: unseen
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: apple99
+    usd_path: unseen/apple99.usd
+- id: unseen_bottle
+  label: bottle
+  split: unseen
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: dbottle99
+    usd_path: unseen/dbottle99.usd
+- id: unseen_can
+  label: can
+  split: unseen
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: can99
+    usd_path: unseen/can99.usd
+- id: unseen_cup
+  label: cup
+  split: unseen
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: cup99
+    usd_path: unseen/cup99.usd
+- id: unseen_peach
+  label: peach
+  split: unseen
+  role: target
+  affordances:
+  - pickable
+  - reachable
+  variants:
+  - id: peach99
+    usd_path: unseen/peach99.usd
