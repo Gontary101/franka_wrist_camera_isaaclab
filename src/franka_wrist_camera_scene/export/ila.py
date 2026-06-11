@@ -25,15 +25,19 @@ def export_episode(
 
     with np.load(raw_traj_path) as traj:
         idx = traj["camera_step_indices"].astype(np.int64)
+        ee_pos_w = traj["ee_pos_w"][idx]
+        action_target_pos_w = traj["action_target_pos_w"][idx]
+        delta_target_pos_w = action_target_pos_w - ee_pos_w
 
         arrays = {
             "agent_rgb": traj["agent_rgb"],
             "wrist_rgb": traj["wrist_rgb"],
-            "action_target_pos_w": traj["action_target_pos_w"][idx],
-            "action_target_quat_w": traj["action_target_quat_w"][idx],
-            "action_finger_opening_m": traj["action_finger_opening_m"][idx],
-            "ee_pos_w": traj["ee_pos_w"][idx],
+            "ee_pos_w": ee_pos_w,
             "object_pos_w": traj["object_pos_w"][idx],
+            "action_target_pos_w": action_target_pos_w,
+            "action_target_quat_w": traj["action_target_quat_w"][idx],
+            "action_delta_target_pos_w": delta_target_pos_w,
+            "action_finger_opening_m": traj["action_finger_opening_m"][idx],
             "timestamps_s": traj["camera_timestamps_s"],
             "source_control_step_indices": idx,
         }
@@ -79,7 +83,20 @@ def export_collection_to_ila(
         "task_name": raw_manifest["task_name"],
         "num_episodes": len(exported_episodes),
         "camera_names": ["agent_rgb", "wrist_rgb"],
-        "action_space": "cartesian_pose_plus_gripper",
+        "action_space": "relative_cartesian_target_plus_gripper",
+        "action_keys": [
+            "action_delta_target_pos_w",
+            "action_target_quat_w",
+            "action_finger_opening_m",
+        ],
+        "state_keys": [
+            "ee_pos_w",
+            "object_pos_w",
+        ],
+        "observation_keys": [
+            "agent_rgb",
+            "wrist_rgb",
+        ],
         "episodes": exported_episodes,
     }
 
