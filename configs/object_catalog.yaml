@@ -1,0 +1,59 @@
+asset_root: objects
+
+categories:
+  - id: apple
+    label: apple
+    split: train
+    role: target
+    affordances: [pickable, reachable]
+    variants:
+      - id: apple00
+        usd_path: apple/apple00.usd
+      - id: apple01
+        usd_path: apple/apple01.usd
+      - id: apple02
+        usd_path: apple/apple02.usd
+
+  - id: can
+    label: can
+    split: train
+    role: target
+    affordances: [pickable, reachable]
+    variants:
+      - id: can00
+        usd_path: can/can00.usd
+      - id: can02
+        usd_path: can/can02.usd
+      - id: fcan01
+        usd_path: can/fcan01.usd
+
+  - id: cup
+    label: cup
+    split: train
+    role: target
+    affordances: [pickable, reachable]
+    variants:
+      - id: cup00
+        usd_path: cup/cup00.usd
+      - id: cup01
+        usd_path: cup/cup01.usd
+
+  - id: plate
+    label: plate
+    split: train
+    role: clutter
+    affordances: [reachable, support]
+    variants:
+      - id: plate00
+        usd_path: plate/plate00.usd
+      - id: plate02
+        usd_path: plate/plate02.usd
+
+  - id: unseen_apple
+    label: apple
+    split: unseen
+    role: target
+    affordances: [pickable, reachable]
+    variants:
+      - id: apple99
+        usd_path: unseen/apple99.usd
