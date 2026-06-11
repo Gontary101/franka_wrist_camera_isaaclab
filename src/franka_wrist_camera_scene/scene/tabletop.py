@@ -66,8 +66,6 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
         init_state=RigidObjectCfg.InitialStateCfg(pos=(0.58, -0.16, TABLE_HEIGHT_M + 0.03)),
     )
 
-
-
     place_target = AssetBaseCfg(
         prim_path="{ENV_REGEX_NS}/PlaceTarget",
         spawn=sim_utils.CuboidCfg(

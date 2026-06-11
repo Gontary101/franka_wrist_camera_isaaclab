@@ -75,12 +75,17 @@ def run_episode(
     episode_id: int,
     max_steps: int,
     settle_time_s: float,
+    record_cameras: bool,
+    record_depth: bool,
+    camera_fps: int,
 ) -> None:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
     sim_dt = sim.get_physics_dt()
     sim_time_s = 0.0
     step = 0
+
+    camera_interval_steps = max(1, round(1.0 / (camera_fps * sim_dt)))
 
     # Initialize EpisodeRecorder
     recorder = EpisodeRecorder(
@@ -91,6 +96,8 @@ def run_episode(
         sim_dt=sim_dt,
         ee_body_id=ik.end_effector_body_id,
         object_name=policy.spec.object_name,
+        record_cameras=record_cameras,
+        record_depth=record_depth,
     )
     recorder.validate_output_path()
 
@@ -113,7 +120,10 @@ def run_episode(
         scene.write_data_to_sim()
 
         # Dataset convention: record state_t and command_t before advancing to state_{t+1}.
-        recorder.record_step(scene, cmd)
+        recorder.record_step(scene, cmd, step, sim_time_s)
+
+        if record_cameras and step % camera_interval_steps == 0:
+            recorder.record_cameras_step(scene, step, sim_time_s)
 
         sim.step()
         sim_time_s += sim_dt
@@ -177,6 +187,9 @@ def main() -> None:
     episode_id = int(collection_cfg["episode_id"])
     max_steps = int(collection_cfg["max_steps"])
     settle_time_s = float(collection_cfg["settle_time_s"])
+    record_cameras = bool(collection_cfg["record_cameras"])
+    record_depth = bool(collection_cfg.get("record_depth", False))
+    camera_fps = int(collection_cfg.get("camera_fps", 30))
 
     run_episode(
         sim=sim,
@@ -188,6 +201,9 @@ def main() -> None:
         episode_id=episode_id,
         max_steps=max_steps,
         settle_time_s=settle_time_s,
+        record_cameras=record_cameras,
+        record_depth=record_depth,
+        camera_fps=camera_fps,
     )
 
 
