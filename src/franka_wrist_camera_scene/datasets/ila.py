@@ -13,11 +13,17 @@ from torch.utils.data import Dataset
 class ILADataset(Dataset):
     """Frame-level dataset for exported image-language-action episodes."""
 
-    def __init__(self, dataset_dir: Path | str):
+    def __init__(self, dataset_dir: Path | str, split: str | None = None):
         self.dataset_dir = Path(dataset_dir)
         self.manifest = json.loads((self.dataset_dir / "manifest.json").read_text(encoding="utf-8"))
 
-        self.episodes = self.manifest["episodes"]
+        episodes = self.manifest["episodes"]
+        if split is not None:
+            split_data = json.loads((self.dataset_dir / "splits" / f"{split}.json").read_text(encoding="utf-8"))
+            episode_files = set(split_data["episode_files"])
+            episodes = [episode for episode in episodes if episode["episode_file"] in episode_files]
+
+        self.episodes = episodes
         self.observation_keys = tuple(self.manifest["observation_keys"])
         self.action_keys = tuple(self.manifest["action_keys"])
         self.state_keys = tuple(self.manifest["state_keys"])

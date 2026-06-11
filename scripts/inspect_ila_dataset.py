@@ -16,14 +16,16 @@ from franka_wrist_camera_scene.datasets.ila import ILADataset
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Inspect an exported ILA dataset.")
     parser.add_argument("dataset_dir", type=Path)
+    parser.add_argument("--split", type=str, default=None)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    dataset = ILADataset(args.dataset_dir)
+    dataset = ILADataset(args.dataset_dir, split=args.split)
 
     print(f"dataset: {args.dataset_dir}")
+    print(f"split: {args.split or 'all'}")
     print(f"episodes: {len(dataset.episodes)}")
     print(f"frames: {len(dataset)}")
     print(f"observation_keys: {dataset.observation_keys}")
