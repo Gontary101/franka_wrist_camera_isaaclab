@@ -11,7 +11,6 @@ class PickPlaceTaskSpec(TaskSpec):
     """Static single-object pick-and-place task."""
 
     object_name: str = "target_cube"
-    target_name: str = "place_target"
     ee_body_name: str = "panda_hand"
     instruction: str = "pick up the red cube and place it on the target area"
 
@@ -58,7 +57,6 @@ def make_pick_place_episode_spec(
     return PickPlaceTaskSpec(
         instruction=base_spec.instruction,
         object_name=base_spec.object_name,
-        target_name=base_spec.target_name,
         ee_body_name=base_spec.ee_body_name,
         object_pos_local=object_pos,
         place_pos_local=place_pos,
