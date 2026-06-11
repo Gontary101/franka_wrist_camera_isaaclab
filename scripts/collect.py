@@ -205,7 +205,6 @@ def main() -> None:
 
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
-            episode_id=episode_id,
             object_xy_offset=object_offset,
             place_xy_offset=place_offset,
         )

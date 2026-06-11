@@ -23,10 +23,24 @@ class PickPlaceTaskSpec(TaskSpec):
     open_finger_m: float = 0.035
     closed_finger_m: float = 0.0
 
+    free_space_max_speed_m_s: float = 0.22
+    free_space_max_accel_m_s2: float = 0.45
+
+    approach_max_speed_m_s: float = 0.08
+    approach_max_accel_m_s2: float = 0.20
+
+    lift_max_speed_m_s: float = 0.12
+    lift_max_accel_m_s2: float = 0.25
+
+    retreat_max_speed_m_s: float = 0.15
+    retreat_max_accel_m_s2: float = 0.30
+
+    grasp_dwell_s: float = 1.0
+    release_dwell_s: float = 1.0
+
 
 def make_pick_place_episode_spec(
     base_spec: PickPlaceTaskSpec,
-    episode_id: int,
     object_xy_offset: tuple[float, float],
     place_xy_offset: tuple[float, float],
 ) -> PickPlaceTaskSpec:
@@ -52,5 +66,15 @@ def make_pick_place_episode_spec(
         lift_height_m=base_spec.lift_height_m,
         open_finger_m=base_spec.open_finger_m,
         closed_finger_m=base_spec.closed_finger_m,
+        free_space_max_speed_m_s=base_spec.free_space_max_speed_m_s,
+        free_space_max_accel_m_s2=base_spec.free_space_max_accel_m_s2,
+        approach_max_speed_m_s=base_spec.approach_max_speed_m_s,
+        approach_max_accel_m_s2=base_spec.approach_max_accel_m_s2,
+        lift_max_speed_m_s=base_spec.lift_max_speed_m_s,
+        lift_max_accel_m_s2=base_spec.lift_max_accel_m_s2,
+        retreat_max_speed_m_s=base_spec.retreat_max_speed_m_s,
+        retreat_max_accel_m_s2=base_spec.retreat_max_accel_m_s2,
+        grasp_dwell_s=base_spec.grasp_dwell_s,
+        release_dwell_s=base_spec.release_dwell_s,
     )
 

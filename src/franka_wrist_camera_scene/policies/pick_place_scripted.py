@@ -82,12 +82,13 @@ class PickPlaceScriptedPolicy:
 
         if self.state == "move_to_pregrasp":
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=pregrasp_pos,
                     quat_w=target_quat_w,
-                    duration_s=2.0,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
+                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -98,12 +99,13 @@ class PickPlaceScriptedPolicy:
 
         elif self.state == "move_to_grasp":
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=obj_hand_pos,
                     quat_w=target_quat_w,
-                    duration_s=1.5,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_accel_m_s2=self.spec.approach_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -116,19 +118,20 @@ class PickPlaceScriptedPolicy:
         elif self.state == "close":
             target_pos_w = obj_hand_pos
             finger_opening = self.spec.closed_finger_m
-            if sim_time_s - self._state_start_time >= 1.0:
+            if sim_time_s - self._state_start_time >= self.spec.grasp_dwell_s:
                 self.state = "lift"
                 self._state_start_time = None
 
         elif self.state == "lift":
             finger_opening = self.spec.closed_finger_m
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=lift_pos,
                     quat_w=target_quat_w,
-                    duration_s=1.5,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.lift_max_speed_m_s,
+                    max_accel_m_s2=self.spec.lift_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -140,12 +143,13 @@ class PickPlaceScriptedPolicy:
         elif self.state == "move_to_place":
             finger_opening = self.spec.closed_finger_m
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=place_pre_pos,
                     quat_w=target_quat_w,
-                    duration_s=2.0,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
+                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -157,12 +161,13 @@ class PickPlaceScriptedPolicy:
         elif self.state == "lower":
             finger_opening = self.spec.closed_finger_m
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=place_hand_pos,
                     quat_w=target_quat_w,
-                    duration_s=1.5,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_accel_m_s2=self.spec.approach_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -175,19 +180,20 @@ class PickPlaceScriptedPolicy:
         elif self.state == "open":
             target_pos_w = place_hand_pos
             finger_opening = self.spec.open_finger_m
-            if sim_time_s - self._state_start_time >= 1.0:
+            if sim_time_s - self._state_start_time >= self.spec.release_dwell_s:
                 self.state = "retreat"
                 self._state_start_time = None
 
         elif self.state == "retreat":
             finger_opening = self.spec.open_finger_m
             if self._motion is None:
-                self._motion = LinearPoseMotion(
+                self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=place_pre_pos,
                     quat_w=target_quat_w,
-                    duration_s=1.5,
                     start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.retreat_max_speed_m_s,
+                    max_accel_m_s2=self.spec.retreat_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
