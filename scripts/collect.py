@@ -50,6 +50,9 @@ from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec  # noqa
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 
 
+MAX_EPISODE_STEPS = 2400  # 20 seconds at 120 Hz
+
+
 def run_episode(
     sim: sim_utils.SimulationContext,
     scene: InteractiveScene,
@@ -57,6 +60,7 @@ def run_episode(
     ik: CartesianIKController,
     gripper: GripperController,
     output_dir: Path,
+    max_steps: int,
 ) -> None:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
@@ -79,7 +83,7 @@ def run_episode(
     settle_steps = 0
     max_settle_steps = int(1.0 / sim_dt)
 
-    while simulation_app.is_running():
+    while simulation_app.is_running() and step < max_steps:
         # 1. Step the policy to get reference actions
         cmd = policy.step(None, sim_time_s)
 
@@ -93,7 +97,7 @@ def run_episode(
 
         scene.write_data_to_sim()
 
-        # Record control step
+        # Dataset convention: record state_t and command_t before advancing to state_{t+1}.
         recorder.record_step(scene, cmd)
 
         sim.step()
@@ -108,6 +112,9 @@ def run_episode(
             settle_steps += 1
             if settle_steps >= max_settle_steps:
                 break
+
+    if step >= max_steps:
+        raise RuntimeError(f"Episode exceeded max_steps={max_steps} before policy completion.")
 
     # Check success
     success = bool(pick_place_success(scene, policy.spec)[0].item())
@@ -152,7 +159,7 @@ def main() -> None:
     nudge_camera_prims(sim, scene)
 
     output_dir = Path(args_cli.output_dir)
-    run_episode(sim, scene, policy, ik, gripper, output_dir)
+    run_episode(sim, scene, policy, ik, gripper, output_dir, MAX_EPISODE_STEPS)
 
 
 if __name__ == "__main__":

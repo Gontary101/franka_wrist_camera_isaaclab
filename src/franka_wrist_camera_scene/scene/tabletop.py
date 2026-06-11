@@ -66,16 +66,7 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
         init_state=RigidObjectCfg.InitialStateCfg(pos=(0.58, -0.16, TABLE_HEIGHT_M + 0.03)),
     )
 
-    blue_block = RigidObjectCfg(
-        prim_path="{ENV_REGEX_NS}/BlueBlock",
-        spawn=sim_utils.CuboidCfg(
-            size=(0.10, 0.055, 0.055),
-            rigid_props=sim_utils.RigidBodyPropertiesCfg(),
-            collision_props=sim_utils.CollisionPropertiesCfg(),
-            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.10, 0.20, 0.85)),
-        ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(0.43, 0.18, TABLE_HEIGHT_M + 0.0275)),
-    )
+
 
     place_target = AssetBaseCfg(
         prim_path="{ENV_REGEX_NS}/PlaceTarget",

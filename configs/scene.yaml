@@ -1,61 +1,17 @@
-# Isaac Lab Franka Tabletop Scene Configurations
+# Isaac Lab Franka Tabletop Scene Configurations (Active parameters only)
 
 sim:
   dt: 0.008333333333333333 # 1/120
-  physx:
-    enable_external_forces_every_iteration: true
-    min_velocity_iteration_count: 1
-    min_position_iteration_count: 4
-  camera_view:
-    eye: [2.2, -2.2, 1.9]
-    target: [0.55, 0.0, 1.20]
 
 robot:
-  prim_path: "{ENV_REGEX_NS}/Robot"
   base_pos: [0.1, 0.0, 1.05]
-  arm_joint_expr: "panda_joint.*"
-  finger_joint_expr: "panda_finger_joint.*"
-  end_effector_body: "panda_hand"
 
 table:
-  prim_path: "{ENV_REGEX_NS}/Table"
   height_m: 1.05
   size: [2.0, 2.0, 0.05]
-  diffuse_color: [0.55, 0.42, 0.30]
-
-lighting:
-  prim_path: "/World/Light"
-  intensity: 900.0
-  color: [0.9, 0.9, 0.9]
 
 debug_circle:
   center_local: [0.45, 0.0, 1.31] # 1.05 + 0.26
   diameter_m: 0.40
   frequency_hz: 0.045
   orientation_wxyz: [0.0, 1.0, 0.0, 0.0]
-  tcp_offset_local: [0.0, 0.0, 0.10]
-  preview_points: 96
-
-wrist_camera:
-  prim_path: "{ENV_REGEX_NS}/Robot/panda_hand/wrist_rgbd_camera"
-  height: 128
-  width: 128
-  clipping_range: [0.02, 4.0]
-  update_period: 0.0
-  data_types: ["rgb", "distance_to_image_plane"]
-  offset:
-    pos: [-0.042, 0.0, 0.020]
-    rot: [0.7054, -0.0493, 0.0493, -0.7054]
-    convention: ros
-
-agent_camera:
-  prim_path: "{ENV_REGEX_NS}/AgentViewCamera"
-  height: 128
-  width: 128
-  clipping_range: [0.05, 25.0]
-  update_period: 0.03333333333 # 1/30
-  data_types: ["rgb", "distance_to_image_plane"]
-  offset:
-    pos: [1.4186131747, 0.0, 1.7603500240]
-    rot: [0.0, -0.33316794, 0.0, 0.94286750]
-    convention: world

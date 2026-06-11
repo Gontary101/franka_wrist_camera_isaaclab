@@ -33,6 +33,7 @@ class EpisodeRecorder:
     action_finger_opening_m: list[float] = field(default_factory=list)
 
     def record_step(self, scene: InteractiveScene, cmd: PolicyCommand) -> None:
+        # Dataset convention: record state_t and command_t before advancing to state_{t+1}.
         robot = scene["robot"]
         obj = scene[self.object_name]
 
@@ -47,7 +48,9 @@ class EpisodeRecorder:
 
     def save(self, success: bool) -> Path:
         episode_dir = self.output_dir / f"{self.episode_id:06d}"
-        episode_dir.mkdir(parents=True, exist_ok=True)
+        if episode_dir.exists():
+            raise FileExistsError(f"Episode directory already exists: {episode_dir}")
+        episode_dir.mkdir(parents=True)
 
         np.savez_compressed(
             episode_dir / "trajectory.npz",

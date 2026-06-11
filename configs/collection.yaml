@@ -1,1 +1,5 @@
-# Parameters for data collection run (number of episodes, output directory, seeds, etc.).
+output_dir: data/raw/debug_pick_place
+episode_id: 0
+max_steps: 2400
+settle_time_s: 1.0
+record_cameras: false
