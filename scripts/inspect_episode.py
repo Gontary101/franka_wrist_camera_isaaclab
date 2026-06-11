@@ -1,59 +1,44 @@
 #!/usr/bin/env python3
-"""Inspect a recorded raw episode's metadata and trajectory arrays."""
+"""Inspect one raw recorded episode."""
+
+from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
+
 import numpy as np
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Inspect one raw tabletop episode.")
+    parser.add_argument("episode_dir", type=Path)
+    return parser.parse_args()
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Inspect a recorded episode.")
-    parser.add_argument(
-        "--episode_dir",
-        type=str,
-        default="data/raw/debug_pick_place/000000",
-        help="Path to the episode directory (containing meta.json and trajectory.npz).",
-    )
-    args = parser.parse_args()
+    args = parse_args()
+    episode_dir: Path = args.episode_dir
 
-    episode_path = Path(args.episode_dir)
-    if not episode_path.exists():
-        print(f"Error: Episode directory does not exist: {episode_path}")
-        return
+    meta_path = episode_dir / "meta.json"
+    traj_path = episode_dir / "trajectory.npz"
 
-    meta_path = episode_path / "meta.json"
-    traj_path = episode_path / "trajectory.npz"
+    if not meta_path.exists():
+        raise FileNotFoundError(meta_path)
+    if not traj_path.exists():
+        raise FileNotFoundError(traj_path)
 
-    print("=" * 60)
-    print(f"Inspecting Episode Directory: {episode_path.resolve()}")
-    print("=" * 60)
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    traj = np.load(traj_path)
 
-    # 1. Inspect meta.json
-    if meta_path.exists():
-        print("\n--- Metadata (meta.json) ---")
-        try:
-            with open(meta_path, "r", encoding="utf-8") as f:
-                meta = json.load(f)
-            print(json.dumps(meta, indent=2))
-        except Exception as e:
-            print(f"Error reading meta.json: {e}")
-    else:
-        print("\nWarning: meta.json does not exist!")
+    print("metadata:")
+    for key, value in meta.items():
+        print(f"  {key}: {value}")
 
-    # 2. Inspect trajectory.npz
-    if traj_path.exists():
-        print("\n--- Trajectory Arrays (trajectory.npz) ---")
-        try:
-            with np.load(traj_path) as data:
-                for key in sorted(data.files):
-                    array = data[key]
-                    print(f"  {key:<25} shape: {str(array.shape):<20} dtype: {str(array.dtype):<10}")
-        except Exception as e:
-            print(f"Error reading trajectory.npz: {e}")
-    else:
-        print("\nWarning: trajectory.npz does not exist!")
-    print("=" * 60)
+    print("\ntrajectory.npz:")
+    for key in traj.files:
+        array = traj[key]
+        print(f"  {key:<28} {str(array.shape):<24} {array.dtype}")
 
 
 if __name__ == "__main__":
