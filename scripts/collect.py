@@ -47,6 +47,10 @@ for episode_id in range(start_episode_id, start_episode_id + num_episodes):
     if episode_dir.exists():
         raise FileExistsError(f"Episode directory already exists: {episode_dir}")
 
+manifest_path = output_dir / "manifest.json"
+if manifest_path.exists():
+    raise FileExistsError(f"Collection manifest already exists: {manifest_path}")
+
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
