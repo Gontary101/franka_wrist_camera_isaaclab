@@ -40,6 +40,8 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "trajectory_camera_frames": camera_frames,
         "record_cameras": bool(meta.get("record_cameras", False)),
         "record_depth": bool(meta.get("record_depth", False)),
+        "object_pos_local": tuple(meta["object_pos_local"]),
+        "place_pos_local": tuple(meta["place_pos_local"]),
     }
 
 
@@ -73,6 +75,31 @@ def main() -> None:
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
             f"{record_depth:<6}"
         )
+
+    print_pose_variant_summary(summaries)
+
+
+def pose_key(summary: dict) -> tuple:
+    return (
+        tuple(round(float(x), 4) for x in summary["object_pos_local"]),
+        tuple(round(float(x), 4) for x in summary["place_pos_local"]),
+    )
+
+
+def print_pose_variant_summary(summaries: list[dict]) -> None:
+    grouped: dict[tuple, list[dict]] = {}
+
+    for item in summaries:
+        grouped.setdefault(pose_key(item), []).append(item)
+
+    print()
+    print("success by pose variant:")
+    print(f"{'object_pos_local':<26} {'place_pos_local':<26} {'success':<8}")
+
+    for (object_pos, place_pos), items in sorted(grouped.items()):
+        successes = sum(item["success"] for item in items)
+        total = len(items)
+        print(f"{str(object_pos):<26} {str(place_pos):<26} {successes}/{total:<8}")
 
 
 if __name__ == "__main__":
