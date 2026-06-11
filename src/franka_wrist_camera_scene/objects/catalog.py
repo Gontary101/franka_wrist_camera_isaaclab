@@ -40,10 +40,17 @@ class ObjectCatalog:
         return tuple(variant for category in self.categories for variant in category.variants)
 
 
+def resolve_asset_root(asset_root_value: str) -> Path:
+    asset_root = Path(asset_root_value)
+    if asset_root.is_absolute():
+        return asset_root
+    return REPO_ROOT / asset_root
+
+
 def load_object_catalog(config_name: str = "object_catalog.yaml") -> ObjectCatalog:
     """Load the USD object catalog from configs/."""
     data = load_yaml_config(config_name)
-    asset_root = REPO_ROOT / str(data["asset_root"])
+    asset_root = resolve_asset_root(str(data["asset_root"]))
 
     categories: list[ObjectCategory] = []
     for item in data["categories"]:

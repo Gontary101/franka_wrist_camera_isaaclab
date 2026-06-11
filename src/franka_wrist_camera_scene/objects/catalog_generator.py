@@ -81,6 +81,12 @@ def collect_unseen_categories(asset_root: Path, unseen_dir: Path) -> list[dict]:
         for label, variants in sorted(grouped_variants.items())
     ]
 
+def catalog_asset_root_value(asset_root: Path) -> str:
+    try:
+        return str(asset_root.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(asset_root)
+
 
 def generate_object_catalog(asset_root: Path) -> dict:
     """Generate an object catalog dictionary from an asset tree."""
@@ -109,7 +115,7 @@ def generate_object_catalog(asset_root: Path) -> dict:
         )
 
     return {
-        "asset_root": str(asset_root.relative_to(REPO_ROOT)),
+        "asset_root": catalog_asset_root_value(asset_root),
         "categories": categories,
     }
 
