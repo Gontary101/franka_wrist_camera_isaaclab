@@ -31,6 +31,7 @@ class EpisodeRecorder:
     seed: int | None = None
     object_xy_offset: tuple[float, float] | None = None
     place_xy_offset: tuple[float, float] | None = None
+    object_color: tuple[float, float, float] | None = None
 
     joint_pos: list[np.ndarray] = field(default_factory=list)
     joint_vel: list[np.ndarray] = field(default_factory=list)
@@ -143,6 +144,7 @@ class EpisodeRecorder:
             place_pos_local=self.place_pos_local,
             object_xy_offset=self.object_xy_offset,
             place_xy_offset=self.place_xy_offset,
+            object_color=self.object_color,
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir

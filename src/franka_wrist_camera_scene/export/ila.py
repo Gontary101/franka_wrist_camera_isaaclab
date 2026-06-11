@@ -58,6 +58,7 @@ def export_episode(
         "num_frames": int(arrays["timestamps_s"].shape[0]),
         "object_pos_local": meta["object_pos_local"],
         "place_pos_local": meta["place_pos_local"],
+        "object_color": meta.get("object_color"),
     }
 
 

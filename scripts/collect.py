@@ -72,6 +72,7 @@ from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_p
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 from franka_wrist_camera_scene.episode.manifest import write_collection_manifest  # noqa: E402
 from franka_wrist_camera_scene.tasks.sampling import parse_xy_range, sample_pick_place_offsets  # noqa: E402
+from franka_wrist_camera_scene.scene.materials import set_target_cube_color  # noqa: E402
 
 
 def run_episode(
@@ -90,13 +91,13 @@ def run_episode(
     seed: int | None = None,
     object_xy_offset: tuple[float, float] | None = None,
     place_xy_offset: tuple[float, float] | None = None,
+    object_color: tuple[float, float, float] | None = None,
 ) -> Path:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
     sim_dt = sim.get_physics_dt()
     sim_time_s = 0.0
     step = 0
-
     camera_interval_steps = max(1, round(1.0 / (camera_fps * sim_dt)))
 
     # Initialize EpisodeRecorder
@@ -115,6 +116,7 @@ def run_episode(
         seed=seed,
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
+        object_color=object_color,
     )
     recorder.validate_output_path()
 
@@ -198,6 +200,12 @@ def main() -> None:
     object_xy_range = parse_xy_range(pose_randomization["object_xy_range"])
     place_xy_range = parse_xy_range(pose_randomization["place_xy_range"])
 
+    appearance_randomization = collection_cfg.get("appearance_randomization", {})
+    object_colors = tuple(
+        tuple(float(c) for c in color)
+        for color in appearance_randomization.get("object_colors", [[0.8, 0.15, 0.10]])
+    )
+
     output_dir = Path(collection_cfg["output_dir"])
     start_episode_id = int(collection_cfg["start_episode_id"])
     num_episodes = int(collection_cfg["num_episodes"])
@@ -216,8 +224,8 @@ def main() -> None:
             episode_id=episode_id,
             object_range=object_xy_range,
             place_range=place_xy_range,
+            object_colors=object_colors,
         )
-
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
             object_xy_offset=sample.object_xy_offset,
@@ -228,6 +236,7 @@ def main() -> None:
         policy.bind(scene, robot)
 
         reset_pick_place_episode(scene, episode_spec)
+        set_target_cube_color(scene, sample.object_color)
         policy.reset()
         ik.reset()
         nudge_camera_prims(sim, scene)
@@ -248,6 +257,7 @@ def main() -> None:
             seed=seed,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
+            object_color=sample.object_color,
         )
         saved_episode_dirs.append(saved_dir)
 

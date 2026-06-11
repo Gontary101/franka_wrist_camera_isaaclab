@@ -41,6 +41,7 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "record_depth": bool(meta.get("record_depth", False)),
         "object_pos_local": tuple(meta["object_pos_local"]),
         "place_pos_local": tuple(meta["place_pos_local"]),
+        "object_color": tuple(meta["object_color"]) if meta.get("object_color") is not None else None,
     }
 
 
@@ -64,18 +65,23 @@ def main() -> None:
     print()
     print(
         f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
-        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6}"
+        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} {'object_color':<16}"
     )
 
     for item in summaries:
         episode_id = f"{item['episode_id']:06d}"
         success = str(item["success"]).lower()
         record_depth = str(item["record_depth"]).lower()
+        color_str = (
+            f"({', '.join(f'{x:.2f}' for x in item['object_color'])})"
+            if item["object_color"] is not None
+            else "none"
+        )
         print(
             f"{episode_id:<10} {success:<8} "
             f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
-            f"{record_depth:<6}"
+            f"{record_depth:<6} {color_str:<16}"
         )
 
     print_pose_variant_summary(summaries)

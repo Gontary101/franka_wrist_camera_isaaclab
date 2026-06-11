@@ -16,6 +16,7 @@ class XYRange:
 class PickPlaceSample:
     object_xy_offset: tuple[float, float]
     place_xy_offset: tuple[float, float]
+    object_color: tuple[float, float, float]
 
 
 def parse_xy_range(config: dict) -> XYRange:
@@ -30,6 +31,7 @@ def sample_pick_place_offsets(
     episode_id: int,
     object_range: XYRange,
     place_range: XYRange,
+    object_colors: tuple[tuple[float, float, float], ...],
 ) -> PickPlaceSample:
     rng = random.Random(seed + episode_id)
 
@@ -41,8 +43,10 @@ def sample_pick_place_offsets(
         rng.uniform(place_range.x[0], place_range.x[1]),
         rng.uniform(place_range.y[0], place_range.y[1]),
     )
+    object_color = object_colors[rng.randrange(len(object_colors))]
 
     return PickPlaceSample(
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
+        object_color=object_color,
     )
