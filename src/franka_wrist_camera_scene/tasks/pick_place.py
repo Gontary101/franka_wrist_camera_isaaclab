@@ -38,10 +38,15 @@ class PickPlaceTaskSpec(TaskSpec):
     release_dwell_s: float = 1.0
 
 
+def instruction_for_color(object_color_name: str) -> str:
+    return f"pick up the {object_color_name} cube and place it on the target area"
+
+
 def make_pick_place_episode_spec(
     base_spec: PickPlaceTaskSpec,
     object_xy_offset: tuple[float, float],
     place_xy_offset: tuple[float, float],
+    object_color_name: str,
 ) -> PickPlaceTaskSpec:
     object_pos = (
         base_spec.object_pos_local[0] + object_xy_offset[0],
@@ -55,7 +60,7 @@ def make_pick_place_episode_spec(
     )
 
     return PickPlaceTaskSpec(
-        instruction=base_spec.instruction,
+        instruction=instruction_for_color(object_color_name),
         object_name=base_spec.object_name,
         ee_body_name=base_spec.ee_body_name,
         object_pos_local=object_pos,

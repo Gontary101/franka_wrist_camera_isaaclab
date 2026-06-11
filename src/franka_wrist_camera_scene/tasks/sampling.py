@@ -13,10 +13,17 @@ class XYRange:
 
 
 @dataclass(frozen=True, slots=True)
+class ObjectColor:
+    name: str
+    rgb: tuple[float, float, float]
+
+
+@dataclass(frozen=True, slots=True)
 class PickPlaceSample:
     object_xy_offset: tuple[float, float]
     place_xy_offset: tuple[float, float]
-    object_color: tuple[float, float, float]
+    object_color_name: str
+    object_color_rgb: tuple[float, float, float]
 
 
 def parse_xy_range(config: dict) -> XYRange:
@@ -26,12 +33,22 @@ def parse_xy_range(config: dict) -> XYRange:
     )
 
 
+def parse_object_colors(config: list[dict]) -> tuple[ObjectColor, ...]:
+    return tuple(
+        ObjectColor(
+            name=str(item["name"]),
+            rgb=tuple(float(x) for x in item["rgb"]),
+        )
+        for item in config
+    )
+
+
 def sample_pick_place_offsets(
     seed: int,
     episode_id: int,
     object_range: XYRange,
     place_range: XYRange,
-    object_colors: tuple[tuple[float, float, float], ...],
+    object_colors: tuple[ObjectColor, ...],
 ) -> PickPlaceSample:
     rng = random.Random(seed + episode_id)
 
@@ -48,5 +65,6 @@ def sample_pick_place_offsets(
     return PickPlaceSample(
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
-        object_color=object_color,
+        object_color_name=object_color.name,
+        object_color_rgb=object_color.rgb,
     )
