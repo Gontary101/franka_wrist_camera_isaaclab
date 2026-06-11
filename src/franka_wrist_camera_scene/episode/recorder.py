@@ -32,6 +32,14 @@ class EpisodeRecorder:
     action_target_quat_w: list[np.ndarray] = field(default_factory=list)
     action_finger_opening_m: list[float] = field(default_factory=list)
 
+    @property
+    def episode_dir(self) -> Path:
+        return self.output_dir / f"{self.episode_id:06d}"
+
+    def validate_output_path(self) -> None:
+        if self.episode_dir.exists():
+            raise FileExistsError(f"Episode directory already exists: {self.episode_dir}")
+
     def record_step(self, scene: InteractiveScene, cmd: PolicyCommand) -> None:
         # Dataset convention: record state_t and command_t before advancing to state_{t+1}.
         robot = scene["robot"]
@@ -47,7 +55,7 @@ class EpisodeRecorder:
         self.action_finger_opening_m.append(float(cmd.finger_opening_m))
 
     def save(self, success: bool) -> Path:
-        episode_dir = self.output_dir / f"{self.episode_id:06d}"
+        episode_dir = self.episode_dir
         if episode_dir.exists():
             raise FileExistsError(f"Episode directory already exists: {episode_dir}")
         episode_dir.mkdir(parents=True)
@@ -73,3 +81,4 @@ class EpisodeRecorder:
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir
+

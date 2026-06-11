@@ -18,7 +18,10 @@ from isaaclab.app import AppLauncher  # noqa: E402
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Collect deterministic pick-and-place tabletop episodes.")
     parser.add_argument(
-        "--output_dir", type=str, default="data/raw/debug_pick_place", help="Output directory to save raw data."
+        "--collection_config",
+        type=str,
+        default="collection.yaml",
+        help="Collection config file under configs/.",
     )
     # Add app launcher arguments
     AppLauncher.add_app_launcher_args(parser)
@@ -29,6 +32,18 @@ def parse_args() -> argparse.Namespace:
 
 
 args_cli = parse_args()
+
+# Load collection config from config folder
+from franka_wrist_camera_scene.utils.paths import load_yaml_config  # noqa: E402
+collection_cfg = load_yaml_config(args_cli.collection_config)
+
+# Fail fast if output directory already exists
+output_dir = Path(collection_cfg["output_dir"])
+episode_id = int(collection_cfg["episode_id"])
+episode_dir = output_dir / f"{episode_id:06d}"
+if episode_dir.exists():
+    raise FileExistsError(f"Episode directory already exists: {episode_dir}")
+
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
@@ -50,9 +65,6 @@ from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec  # noqa
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims  # noqa: E402
 
 
-MAX_EPISODE_STEPS = 2400  # 20 seconds at 120 Hz
-
-
 def run_episode(
     sim: sim_utils.SimulationContext,
     scene: InteractiveScene,
@@ -60,7 +72,9 @@ def run_episode(
     ik: CartesianIKController,
     gripper: GripperController,
     output_dir: Path,
+    episode_id: int,
     max_steps: int,
+    settle_time_s: float,
 ) -> None:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
@@ -71,17 +85,18 @@ def run_episode(
     # Initialize EpisodeRecorder
     recorder = EpisodeRecorder(
         output_dir=output_dir,
-        episode_id=0,
+        episode_id=episode_id,
         task_name="pick_place",
         instruction=policy.spec.instruction,
         sim_dt=sim_dt,
         ee_body_id=ik.end_effector_body_id,
         object_name=policy.spec.object_name,
     )
+    recorder.validate_output_path()
 
     settling = False
     settle_steps = 0
-    max_settle_steps = int(1.0 / sim_dt)
+    max_settle_steps = int(settle_time_s / sim_dt)
 
     while simulation_app.is_running() and step < max_steps:
         # 1. Step the policy to get reference actions
@@ -107,7 +122,7 @@ def run_episode(
 
         if cmd.done:
             if not settling:
-                print(f"[INFO] Scripted policy completed execution. Settling for 1.0s ({max_settle_steps} steps)...", flush=True)
+                print(f"[INFO] Scripted policy completed execution. Settling for {settle_time_s}s ({max_settle_steps} steps)...", flush=True)
                 settling = True
             settle_steps += 1
             if settle_steps >= max_settle_steps:
@@ -118,7 +133,7 @@ def run_episode(
 
     # Check success
     success = bool(pick_place_success(scene, policy.spec)[0].item())
-    print(f"[INFO] Episode 0 success: {success}", flush=True)
+    print(f"[INFO] Episode {episode_id} success: {success}", flush=True)
 
     # Save episode data
     saved_dir = recorder.save(success)
@@ -158,8 +173,22 @@ def main() -> None:
 
     nudge_camera_prims(sim, scene)
 
-    output_dir = Path(args_cli.output_dir)
-    run_episode(sim, scene, policy, ik, gripper, output_dir, MAX_EPISODE_STEPS)
+    output_dir = Path(collection_cfg["output_dir"])
+    episode_id = int(collection_cfg["episode_id"])
+    max_steps = int(collection_cfg["max_steps"])
+    settle_time_s = float(collection_cfg["settle_time_s"])
+
+    run_episode(
+        sim=sim,
+        scene=scene,
+        policy=policy,
+        ik=ik,
+        gripper=gripper,
+        output_dir=output_dir,
+        episode_id=episode_id,
+        max_steps=max_steps,
+        settle_time_s=settle_time_s,
+    )
 
 
 if __name__ == "__main__":
