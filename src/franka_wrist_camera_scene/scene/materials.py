@@ -21,7 +21,7 @@ def set_target_cube_color(scene: InteractiveScene, color_rgb: tuple[float, float
 
         shader = UsdShade.Shader(shader_prim)
         color_input = shader.GetInput("diffuseColor")
-        if not color_input:
+        if not color_input.GetAttr().IsValid():
             raise RuntimeError(f"Target cube diffuseColor input not found: {shader_path}")
 
         color_input.Set(Gf.Vec3f(*color_rgb))
