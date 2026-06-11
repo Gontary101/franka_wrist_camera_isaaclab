@@ -11,4 +11,5 @@ runs/
 *.usda
 *.usdc
 data/
+exports/
 
