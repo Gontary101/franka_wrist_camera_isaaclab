@@ -46,15 +46,18 @@ class PickPlaceScriptedPolicy:
         return root_pos
 
     def _object_root_above_receptacle_w(self, receptacle_root_w: torch.Tensor) -> torch.Tensor:
-        if self.spec.object_local_bbox_min is None or self.spec.placement_target_local_bbox_max is None:
+        if (
+            self.spec.object_local_bbox_min is None
+            or self.spec.placement_target_local_bbox_min is None
+        ):
             raise RuntimeError("Receptacle placement requires object and placement target geometry.")
 
         root_pos = receptacle_root_w.clone()
-        receptacle_top_z = receptacle_root_w[:, 2] + float(self.spec.placement_target_local_bbox_max[2])
+        receptacle_bottom_z = receptacle_root_w[:, 2] + float(self.spec.placement_target_local_bbox_min[2])
         root_pos[:, 2] = (
-            receptacle_top_z
+            receptacle_bottom_z
             - float(self.spec.object_local_bbox_min[2])
-            + self.spec.placement_receptacle_release_clearance_m
+            + self.spec.receptacle_release_bottom_clearance_m
         )
         return root_pos
 

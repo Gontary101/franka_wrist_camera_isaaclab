@@ -33,7 +33,7 @@ class PickPlaceTaskSpec(TaskSpec):
     support_surface_z_local: float = 1.05
     object_bottom_clearance_m: float = 0.006
     place_pregrasp_clearance_m: float = 0.055
-    placement_receptacle_release_clearance_m: float = 0.08
+    receptacle_release_bottom_clearance_m: float = 0.015
 
     lift_height_m: float = 0.20
     open_finger_m: float = 0.04
@@ -169,7 +169,7 @@ def make_pick_place_episode_spec(
         support_surface_z_local=base_spec.support_surface_z_local,
         object_bottom_clearance_m=base_spec.object_bottom_clearance_m,
         place_pregrasp_clearance_m=base_spec.place_pregrasp_clearance_m,
-        placement_receptacle_release_clearance_m=base_spec.placement_receptacle_release_clearance_m,
+        receptacle_release_bottom_clearance_m=base_spec.receptacle_release_bottom_clearance_m,
         lift_height_m=base_spec.lift_height_m,
         open_finger_m=base_spec.open_finger_m,
         closed_finger_m=base_spec.closed_finger_m,
