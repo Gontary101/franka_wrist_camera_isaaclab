@@ -19,7 +19,7 @@ class PickPlaceTaskSpec(TaskSpec):
 
     pregrasp_height_m: float = 0.16
     lift_height_m: float = 0.20
-    open_finger_m: float = 0.035
+    open_finger_m: float = 0.04
     closed_finger_m: float = 0.0
 
     free_space_max_speed_m_s: float = 0.22
