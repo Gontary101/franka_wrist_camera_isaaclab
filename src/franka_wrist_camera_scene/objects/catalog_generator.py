@@ -29,6 +29,9 @@ CENTER_GRASPABLE_CATEGORIES = {
     "tangerine",
     "tomato",
 }
+VARIANT_AFFORDANCE_OVERRIDES = {
+    ("box", "box00"): ["reachable", "container"],
+}
 IGNORED_DIRECTORY_NAMES = {"texture"}
 
 
@@ -84,12 +87,16 @@ def collect_category_variants(asset_root: Path, category_dir: Path) -> list[dict
     variants: list[dict] = []
 
     for usd_path in sorted(category_dir.glob("*.usd")):
-        variants.append(
-            {
-                "id": usd_path.stem,
-                "usd_path": str(usd_path.relative_to(asset_root)),
-            }
-        )
+        variant = {
+            "id": usd_path.stem,
+            "usd_path": str(usd_path.relative_to(asset_root)),
+        }
+
+        override = VARIANT_AFFORDANCE_OVERRIDES.get((category_dir.name, usd_path.stem))
+        if override is not None:
+            variant["affordances"] = override
+
+        variants.append(variant)
 
     return variants
 
@@ -116,6 +123,7 @@ def collect_unseen_categories(asset_root: Path, unseen_dir: Path) -> list[dict]:
         )
         for label, variants in sorted(grouped_variants.items())
     ]
+
 
 def catalog_asset_root_value(asset_root: Path) -> str:
     return asset_root.relative_to(REPO_ROOT).as_posix()

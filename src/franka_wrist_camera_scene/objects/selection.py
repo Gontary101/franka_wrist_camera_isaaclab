@@ -11,22 +11,46 @@ def category_matches(
     category: ObjectCategory,
     split: str,
     role: str,
-    required_affordances: tuple[str, ...],
 ) -> bool:
     if category.split != split:
         return False
-    if category.role != role:
-        return False
+    return category.role == role
 
-    affordances = set(category.affordances)
+
+def variant_affordances(category: ObjectCategory, variant: ObjectVariant) -> tuple[str, ...]:
+    if variant.affordances is not None:
+        return variant.affordances
+    return category.affordances
+
+
+def variant_matches(
+    category: ObjectCategory,
+    variant: ObjectVariant,
+    required_affordances: tuple[str, ...],
+) -> bool:
+    affordances = set(variant_affordances(category, variant))
     return all(affordance in affordances for affordance in required_affordances)
+
+
+def matching_variants(
+    category: ObjectCategory,
+    required_affordances: tuple[str, ...],
+) -> tuple[ObjectVariant, ...]:
+    return tuple(
+        variant
+        for variant in category.variants
+        if variant_matches(
+            category=category,
+            variant=variant,
+            required_affordances=required_affordances,
+        )
+    )
 
 
 def filtered_categories(
     catalog: ObjectCatalog,
     split: str,
     role: str,
-    required_affordances: tuple[str, ...],
 ) -> tuple[ObjectCategory, ...]:
     categories = tuple(
         category
@@ -35,15 +59,11 @@ def filtered_categories(
             category=category,
             split=split,
             role=role,
-            required_affordances=required_affordances,
         )
     )
 
     if not categories:
-        raise ValueError(
-            "No catalog categories match "
-            f"split={split!r}, role={role!r}, required_affordances={required_affordances!r}."
-        )
+        raise ValueError(f"No catalog categories match split={split!r}, role={role!r}.")
 
     return categories
 
@@ -62,7 +82,6 @@ def sample_catalog_object(
         catalog=catalog,
         split=split,
         role=role,
-        required_affordances=required_affordances,
     )
 
     should_sample_category = category_id == "sample"
@@ -76,28 +95,44 @@ def sample_catalog_object(
         if not should_sample_variant:
             raise ValueError("variant_id must be 'sample' when category_id is 'sample'.")
 
-        category = rng.choice(categories)
-        if not category.variants:
-            raise ValueError(f"Sampled category '{category.id}' has no variants.")
-        return category, rng.choice(category.variants)
+        candidate_categories = tuple(
+            (category, variants)
+            for category in categories
+            if (variants := matching_variants(category, required_affordances))
+        )
+        if not candidate_categories:
+            raise ValueError(
+                f"No catalog variants match required_affordances={required_affordances!r}."
+            )
+
+        category, variants = rng.choice(candidate_categories)
+        return category, rng.choice(variants)
 
     matching_categories = tuple(category for category in categories if category.id == category_id)
     if not matching_categories:
         raise KeyError(
-            f"Category '{category_id}' does not match "
-            f"split={split!r}, role={role!r}, required_affordances={required_affordances!r}."
+            f"Category '{category_id}' does not match split={split!r}, role={role!r}."
         )
 
     category = matching_categories[0]
 
     if should_sample_variant:
-        if not category.variants:
-            raise ValueError(f"Category '{category.id}' has no variants.")
-        return category, rng.choice(category.variants)
+        variants = matching_variants(category, required_affordances)
+        if not variants:
+            raise ValueError(
+                f"Category '{category.id}' has no variants matching "
+                f"required_affordances={required_affordances!r}."
+            )
+        return category, rng.choice(variants)
 
     for variant in category.variants:
         if variant.id == variant_id:
+            if not variant_matches(category, variant, required_affordances):
+                raise ValueError(
+                    f"Variant '{category.id}/{variant.id}' does not match "
+                    f"required_affordances={required_affordances!r}; "
+                    f"variant_affordances={variant_affordances(category, variant)!r}."
+                )
             return category, variant
 
     raise KeyError(f"Variant '{variant_id}' not found in category '{category_id}'.")
-

@@ -183,6 +183,9 @@ categories:
   variants:
   - id: box00
     usd_path: box/box00.usd
+    affordances:
+    - reachable
+    - container
   - id: box01
     usd_path: box/box01.usd
   - id: box02

@@ -14,6 +14,7 @@ class ObjectVariant:
 
     id: str
     usd_path: Path
+    affordances: tuple[str, ...] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -58,6 +59,11 @@ def load_object_catalog(config_name: str = "object_catalog.yaml") -> ObjectCatal
             ObjectVariant(
                 id=str(variant["id"]),
                 usd_path=asset_root / str(variant["usd_path"]),
+                affordances=(
+                    tuple(str(value) for value in variant["affordances"])
+                    if "affordances" in variant
+                    else None
+                ),
             )
             for variant in item["variants"]
         )
