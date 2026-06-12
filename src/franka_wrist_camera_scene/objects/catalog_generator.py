@@ -82,10 +82,7 @@ def collect_unseen_categories(asset_root: Path, unseen_dir: Path) -> list[dict]:
     ]
 
 def catalog_asset_root_value(asset_root: Path) -> str:
-    try:
-        return str(asset_root.relative_to(REPO_ROOT))
-    except ValueError:
-        return str(asset_root)
+    return asset_root.relative_to(REPO_ROOT).as_posix()
 
 
 def generate_object_catalog(asset_root: Path) -> dict:

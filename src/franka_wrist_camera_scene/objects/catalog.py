@@ -43,7 +43,7 @@ class ObjectCatalog:
 def resolve_asset_root(asset_root_value: str) -> Path:
     asset_root = Path(asset_root_value)
     if asset_root.is_absolute():
-        return asset_root
+        raise ValueError(f"Object catalog asset_root must be repo-relative, got: {asset_root}")
     return REPO_ROOT / asset_root
 
 
