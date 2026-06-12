@@ -266,7 +266,6 @@ def collect_pick_place_dataset(
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
         policy.bind(scene, robot)
 
-
         reset_pick_place_episode(scene, episode_spec)
         # USD catalog objects keep their authored materials.
         set_dome_light(scene, sample.light_intensity, sample.light_color)

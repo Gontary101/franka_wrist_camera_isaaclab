@@ -2,7 +2,7 @@ task: reaching
 output_dir: data/raw/debug_reaching
 start_episode_id: 0
 num_episodes: 20
-max_steps: 2400
+max_steps: 3600
 settle_time_s: 1.0
 
 record_cameras: true
