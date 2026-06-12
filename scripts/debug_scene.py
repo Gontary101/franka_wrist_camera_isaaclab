@@ -41,6 +41,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--show_markers", action="store_true", help="Show physical circle debug markers in the scene."
     )
+    parser.add_argument(
+        "--collection_config",
+        type=str,
+        default="collection.yaml",
+        help="Collection config used to resolve the target catalog object.",
+    )
     AppLauncher.add_app_launcher_args(parser)
     args = parser.parse_args()
     args.enable_cameras = True
@@ -66,9 +72,11 @@ from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
 from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
+from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
+from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
-from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
+from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
+from franka_wrist_camera_scene.utils.paths import load_yaml_config
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
 from franka_wrist_camera_scene.episode.reset import reset_robot_to_default, reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
@@ -156,7 +164,22 @@ def main() -> None:
     sim = sim_utils.SimulationContext(sim_cfg)
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
-    scene = InteractiveScene(TabletopFrankaSceneCfg(num_envs=args_cli.num_envs, env_spacing=2.5))
+    collection_cfg = load_yaml_config(args_cli.collection_config)
+    target_object_cfg = collection_cfg["target_object"]
+
+    object_context = load_catalog_object_context(
+        catalog_config=target_object_cfg["catalog_config"],
+        category_id=target_object_cfg["category_id"],
+        variant_id=target_object_cfg["variant_id"],
+    )
+
+    scene = InteractiveScene(
+        make_tabletop_scene_cfg(
+            object_context=object_context,
+            num_envs=args_cli.num_envs,
+            env_spacing=2.5,
+        )
+    )
     robot: Articulation = scene["robot"]
 
     # Choose policy based on selected task
@@ -169,7 +192,13 @@ def main() -> None:
         )
         policy = CircleMotionPolicy(cfg=trajectory_cfg)
     else:  # pick_place
-        spec = PickPlaceTaskSpec()
+        base_spec = PickPlaceTaskSpec()
+        spec = make_pick_place_episode_spec(
+            base_spec=base_spec,
+            object_xy_offset=(0.0, 0.0),
+            place_xy_offset=(0.0, 0.0),
+            object_label=object_context.label,
+        )
         policy = PickPlaceScriptedPolicy(spec=spec)
 
     ik = CartesianIKController()

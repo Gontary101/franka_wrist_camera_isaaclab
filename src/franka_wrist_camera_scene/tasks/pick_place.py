@@ -12,7 +12,7 @@ class PickPlaceTaskSpec(TaskSpec):
 
     object_name: str = "target_cube"
     ee_body_name: str = "panda_hand"
-    instruction: str = "pick up the red cube and place it on the target area"
+    instruction: str = "pick up the object and place it on the target area"
 
     object_pos_local: tuple[float, float, float] = (0.58, -0.16, 1.08)
     place_pos_local: tuple[float, float, float] = (0.55, 0.22, 1.08)

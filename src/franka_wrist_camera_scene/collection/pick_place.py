@@ -14,7 +14,7 @@ from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg, make_tabletop_scene_cfg
+from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
 from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import SIM_DT
 from franka_wrist_camera_scene.utils.paths import REPO_ROOT
