@@ -1,1 +1,1 @@
-"""Object asset registry and metadata."""
+"""USD object catalog and selection utilities."""
