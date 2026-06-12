@@ -36,17 +36,9 @@ class PickPlaceTaskSpec(TaskSpec):
     closed_finger_m: float = 0.0
 
     free_space_max_speed_m_s: float = 0.22
-    free_space_max_accel_m_s2: float = 0.45
-
     approach_max_speed_m_s: float = 0.08
-    approach_max_accel_m_s2: float = 0.20
-
     lift_max_speed_m_s: float = 0.12
-    lift_max_accel_m_s2: float = 0.25
-
     retreat_max_speed_m_s: float = 0.15
-    retreat_max_accel_m_s2: float = 0.30
-
     grasp_dwell_s: float = 1.0
     release_dwell_s: float = 1.0
 
@@ -69,6 +61,14 @@ def make_pick_place_episode_spec(
         if object_local_bbox_min is not None
         else base_spec.object_local_bbox_min
     )
+    resolved_bbox_max = (
+        object_local_bbox_max
+        if object_local_bbox_max is not None
+        else base_spec.object_local_bbox_max
+    )
+    if resolved_bbox_min is None or resolved_bbox_max is None:
+        raise ValueError("Pick-place episode specs require object bbox metadata.")
+
     object_xy = (
         base_spec.object_pos_local[0] + object_xy_offset[0],
         base_spec.object_pos_local[1] + object_xy_offset[1],
@@ -77,23 +77,18 @@ def make_pick_place_episode_spec(
         base_spec.place_pos_local[0] + place_xy_offset[0],
         base_spec.place_pos_local[1] + place_xy_offset[1],
     )
-    if resolved_bbox_min is not None:
-        object_pos = object_root_pose_on_support(
-            xy_pos=object_xy,
-            support_surface_z=base_spec.support_surface_z_local,
-            object_bbox_min_z=resolved_bbox_min[2],
-            bottom_clearance_m=base_spec.object_bottom_clearance_m,
-        )
-        place_pos = object_root_pose_on_support(
-            xy_pos=place_xy,
-            support_surface_z=base_spec.support_surface_z_local,
-            object_bbox_min_z=resolved_bbox_min[2],
-            bottom_clearance_m=base_spec.object_bottom_clearance_m,
-        )
-    else:
-        object_root_z = base_spec.object_pos_local[2]
-        object_pos = (object_xy[0], object_xy[1], object_root_z)
-        place_pos = (place_xy[0], place_xy[1], object_root_z)
+    object_pos = object_root_pose_on_support(
+        xy_pos=object_xy,
+        support_surface_z=base_spec.support_surface_z_local,
+        object_bbox_min_z=resolved_bbox_min[2],
+        bottom_clearance_m=base_spec.object_bottom_clearance_m,
+    )
+    place_pos = object_root_pose_on_support(
+        xy_pos=place_xy,
+        support_surface_z=base_spec.support_surface_z_local,
+        object_bbox_min_z=resolved_bbox_min[2],
+        bottom_clearance_m=base_spec.object_bottom_clearance_m,
+    )
 
     return PickPlaceTaskSpec(
         instruction=instruction_for_object(object_label),
@@ -107,16 +102,8 @@ def make_pick_place_episode_spec(
             if grasp_closing_axis_xy is not None
             else base_spec.grasp_closing_axis_xy
         ),
-        object_local_bbox_min=(
-            object_local_bbox_min
-            if object_local_bbox_min is not None
-            else base_spec.object_local_bbox_min
-        ),
-        object_local_bbox_max=(
-            object_local_bbox_max
-            if object_local_bbox_max is not None
-            else base_spec.object_local_bbox_max
-        ),
+        object_local_bbox_min=resolved_bbox_min,
+        object_local_bbox_max=resolved_bbox_max,
         object_transit_clearance_m=base_spec.object_transit_clearance_m,
         pregrasp_clearance_m=base_spec.pregrasp_clearance_m,
         top_grasp_depth_m=base_spec.top_grasp_depth_m,
@@ -127,13 +114,9 @@ def make_pick_place_episode_spec(
         open_finger_m=base_spec.open_finger_m,
         closed_finger_m=base_spec.closed_finger_m,
         free_space_max_speed_m_s=base_spec.free_space_max_speed_m_s,
-        free_space_max_accel_m_s2=base_spec.free_space_max_accel_m_s2,
         approach_max_speed_m_s=base_spec.approach_max_speed_m_s,
-        approach_max_accel_m_s2=base_spec.approach_max_accel_m_s2,
         lift_max_speed_m_s=base_spec.lift_max_speed_m_s,
-        lift_max_accel_m_s2=base_spec.lift_max_accel_m_s2,
         retreat_max_speed_m_s=base_spec.retreat_max_speed_m_s,
-        retreat_max_accel_m_s2=base_spec.retreat_max_accel_m_s2,
         grasp_dwell_s=base_spec.grasp_dwell_s,
         release_dwell_s=base_spec.release_dwell_s,
     )

@@ -183,8 +183,8 @@ def collect_reaching_dataset(
     max_steps = int(collection_cfg["max_steps"])
     settle_time_s = float(collection_cfg["settle_time_s"])
     record_cameras = bool(collection_cfg["record_cameras"])
-    record_depth = bool(collection_cfg.get("record_depth", False))
-    camera_fps = int(collection_cfg.get("camera_fps", 30))
+    record_depth = bool(collection_cfg["record_depth"])
+    camera_fps = int(collection_cfg["camera_fps"])
 
     saved_episode_dirs: list[Path] = []
 

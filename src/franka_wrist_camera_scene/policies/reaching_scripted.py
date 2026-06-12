@@ -7,7 +7,7 @@ from isaaclab.assets import Articulation
 from isaaclab.scene import InteractiveScene
 from isaaclab.utils.math import quat_apply
 
-from ..control.motion_primitives import LinearPoseMotion
+from ..control.motion_primitives import MinimumJerkPoseMotion
 from ..tasks.reaching import ReachingTaskSpec
 from .scripted_base import PolicyCommand
 
@@ -70,13 +70,12 @@ class ReachingScriptedPolicy:
 
         if self.state == "move_to_pregrasp":
             if self._motion is None:
-                self._motion = LinearPoseMotion.from_limits(
+                self._motion = MinimumJerkPoseMotion.from_speed(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=pregrasp_pos,
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
                     max_speed_m_s=self.spec.free_space_max_speed_m_s,
-                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -87,13 +86,12 @@ class ReachingScriptedPolicy:
 
         elif self.state == "move_to_reach":
             if self._motion is None:
-                self._motion = LinearPoseMotion.from_limits(
+                self._motion = MinimumJerkPoseMotion.from_speed(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=obj_hand_pos,
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
                     max_speed_m_s=self.spec.approach_max_speed_m_s,
-                    max_accel_m_s2=self.spec.approach_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
