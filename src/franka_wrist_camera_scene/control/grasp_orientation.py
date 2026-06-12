@@ -7,6 +7,9 @@ import math
 import torch
 
 
+PANDA_GRIPPER_CLOSING_AXIS_YAW_OFFSET_RAD = math.pi / 2.0
+
+
 def yaw_from_planar_axis(axis_xy: tuple[float, float]) -> float:
     """Return world yaw angle for a 2D axis."""
     return math.atan2(float(axis_xy[1]), float(axis_xy[0]))
@@ -40,7 +43,13 @@ def downward_gripper_quat_for_closing_axis(
     closing_axis_xy: tuple[float, float],
     device: torch.device,
 ) -> torch.Tensor:
-    """Return downward gripper orientation with yaw aligned to a planar closing axis."""
+    """Return downward gripper orientation with jaws closing along a planar axis."""
     base_down_quat = torch.tensor([0.0, 1.0, 0.0, 0.0], device=device, dtype=torch.float32)
-    yaw_quat = yaw_quat_wxyz(yaw_from_planar_axis(closing_axis_xy), device=device)
+
+    yaw_rad = (
+        yaw_from_planar_axis(closing_axis_xy)
+        + PANDA_GRIPPER_CLOSING_AXIS_YAW_OFFSET_RAD
+    )
+    yaw_quat = yaw_quat_wxyz(yaw_rad, device=device)
+
     return quat_multiply_wxyz(yaw_quat, base_down_quat)
