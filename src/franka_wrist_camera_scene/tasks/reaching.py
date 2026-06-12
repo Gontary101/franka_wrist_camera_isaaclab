@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 from .base import TaskSpec
 
 
@@ -15,6 +16,7 @@ class ReachingTaskSpec(TaskSpec):
     instruction: str = "reach the object"
 
     object_pos_local: tuple[float, float, float] = (0.58, -0.16, 1.08)
+    tcp_offset_local: tuple[float, float, float] = (0.0, 0.0, 0.10)
 
     pregrasp_height_m: float = 0.16
     open_finger_m: float = 0.04
@@ -48,6 +50,7 @@ def make_reaching_episode_spec(
         object_name=base_spec.object_name,
         ee_body_name=base_spec.ee_body_name,
         object_pos_local=object_pos,
+        tcp_offset_local=base_spec.tcp_offset_local,
         pregrasp_height_m=base_spec.pregrasp_height_m,
         open_finger_m=base_spec.open_finger_m,
         free_space_max_speed_m_s=base_spec.free_space_max_speed_m_s,

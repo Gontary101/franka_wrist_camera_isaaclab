@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import torch
 from isaaclab.scene import InteractiveScene
+from isaaclab.utils.math import quat_apply
 
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
 from franka_wrist_camera_scene.tasks.reaching import ReachingTaskSpec
@@ -33,14 +34,19 @@ def reaching_success(
     spec: ReachingTaskSpec,
     threshold_m: float = 0.05,
 ) -> torch.Tensor:
-    """Return per-env success if the robot end-effector is close to the target object."""
+    """Return per-env success if the robot TCP is close to the target object."""
     robot = scene["robot"]
     ee_body_id = robot.find_bodies(spec.ee_body_name)[0][0]
-    ee_pos_w = robot.data.body_pos_w[:, ee_body_id]
+    ee_pose_w = robot.data.body_pose_w[:, ee_body_id]
+    ee_pos_w = ee_pose_w[:, :3]
+    ee_quat_w = ee_pose_w[:, 3:7]
+
+    tcp_offset_local = torch.tensor(spec.tcp_offset_local, device=ee_pos_w.device).view(1, 3)
+    tcp_offset_w = quat_apply(ee_quat_w, tcp_offset_local.expand(ee_pos_w.shape[0], -1))
+    tcp_pos_w = ee_pos_w + tcp_offset_w
 
     obj = scene[spec.object_name]
     obj_pos_w = obj.data.root_pos_w[:, :3]
 
-    distance = torch.linalg.norm(ee_pos_w - obj_pos_w, dim=-1)
+    distance = torch.linalg.norm(tcp_pos_w - obj_pos_w, dim=-1)
     return distance <= threshold_m
-

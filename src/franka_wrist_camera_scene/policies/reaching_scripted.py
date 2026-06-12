@@ -54,8 +54,8 @@ class ReachingScriptedPolicy:
         # Dynamic object position from the simulated RigidObject
         obj_pos = self._scene[self.spec.object_name].data.root_pos_w  # shape: (num_envs, 3)
 
-        # Subtract TCP offset (0.10m down in local coordinates) to get the hand position targets
-        tcp_offset_local = torch.tensor([0.0, 0.0, 0.10], device=self._device).view(1, 3)
+        # Subtract the configured TCP offset to get the hand-body target.
+        tcp_offset_local = torch.tensor(self.spec.tcp_offset_local, device=self._device).view(1, 3)
         tcp_offset_w = quat_apply(self.quat_wxyz.view(1, 4), tcp_offset_local).view(3)
 
         obj_hand_pos = obj_pos - tcp_offset_w.view(1, 3)
