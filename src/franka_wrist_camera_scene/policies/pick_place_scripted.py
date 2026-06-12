@@ -31,6 +31,19 @@ class PickPlaceScriptedPolicy:
     def _actual_tcp_pos_w(self, ee_pos_w: torch.Tensor, tcp_offset_w: torch.Tensor) -> torch.Tensor:
         return ee_pos_w + tcp_offset_w.view(1, 3)
 
+    def _object_root_on_support_w(self, xy_pos_w: torch.Tensor) -> torch.Tensor:
+        if self.spec.object_local_bbox_min is None:
+            raise RuntimeError("Pick-place requires object bbox metadata for placement height.")
+
+        root_pos = xy_pos_w.clone()
+        bbox_min_z = float(self.spec.object_local_bbox_min[2])
+        root_pos[:, 2] = (
+            self.spec.support_surface_z_local
+            - bbox_min_z
+            + self.spec.object_bottom_clearance_m
+        )
+        return root_pos
+
     def _object_top_tcp_targets_w(self, obj_pos_w: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         if self.spec.object_local_bbox_min is None or self.spec.object_local_bbox_max is None:
             raise RuntimeError("Pick-place requires object bbox metadata for top grasp targeting.")
@@ -100,32 +113,26 @@ class PickPlaceScriptedPolicy:
         lift_pos = obj_hand_pos.clone()
         lift_pos[:, 2] += self.spec.lift_height_m
 
-        if self.state in ["move_to_place_transit", "move_to_place", "lower", "open", "retreat", "done"]:
-            if self._grasp_tcp_offset_from_root_w is None:
-                raise RuntimeError("Cannot place before grasp TCP offset has been latched.")
+        place_hand_pos = None
+        place_pre_pos = None
+        place_transit_pos = None
 
         if self._grasp_tcp_offset_from_root_w is not None:
-            place_release_tcp = place_pos + self._grasp_tcp_offset_from_root_w
-            place_release_tcp[:, 2] += self.spec.place_release_clearance_m
+            place_root_pos = self._object_root_on_support_w(place_pos)
+            place_release_tcp = place_root_pos + self._grasp_tcp_offset_from_root_w
 
             place_pre_tcp = place_release_tcp.clone()
-            place_pre_tcp[:, 2] += self.spec.pregrasp_clearance_m
-
-            place_hand_pos = place_release_tcp - tcp_offset_w.view(1, 3)
-            place_pre_pos = place_pre_tcp - tcp_offset_w.view(1, 3)
-        else:
-            # Fallback pre-grasp targets during pickup phase
-            place_release_tcp = place_pos.clone()
-            place_release_tcp[:, 2] += self.spec.place_release_clearance_m
-
-            place_pre_tcp = place_release_tcp.clone()
-            place_pre_tcp[:, 2] += self.spec.pregrasp_clearance_m
+            place_pre_tcp[:, 2] += self.spec.place_pregrasp_clearance_m
 
             place_hand_pos = place_release_tcp - tcp_offset_w.view(1, 3)
             place_pre_pos = place_pre_tcp - tcp_offset_w.view(1, 3)
 
-        place_transit_pos = place_pre_pos.clone()
-        place_transit_pos[:, 2] = lift_pos[:, 2]
+            place_transit_pos = place_pre_pos.clone()
+            place_transit_pos[:, 2] = lift_pos[:, 2]
+
+        if self.state in ["move_to_place_transit", "move_to_place", "lower", "open", "retreat", "done"]:
+            if place_hand_pos is None or place_pre_pos is None or place_transit_pos is None:
+                raise RuntimeError("Placement targets requested before grasp offset was latched.")
 
         target_pos_w = ee_pos_w.clone()
         target_quat_w = self.quat_wxyz.repeat(num_envs, 1)

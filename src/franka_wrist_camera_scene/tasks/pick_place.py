@@ -26,7 +26,9 @@ class PickPlaceTaskSpec(TaskSpec):
     pregrasp_clearance_m: float = 0.055
     top_grasp_depth_m: float = 0.025
     place_transit_clearance_m: float = 0.13
-    place_release_clearance_m: float = 0.025
+    support_surface_z_local: float = 1.05
+    object_bottom_clearance_m: float = 0.006
+    place_pregrasp_clearance_m: float = 0.055
 
     lift_height_m: float = 0.20
     open_finger_m: float = 0.04
@@ -61,15 +63,29 @@ def make_pick_place_episode_spec(
     object_local_bbox_min: tuple[float, float, float] | None = None,
     object_local_bbox_max: tuple[float, float, float] | None = None,
 ) -> PickPlaceTaskSpec:
+    resolved_bbox_min = (
+        object_local_bbox_min
+        if object_local_bbox_min is not None
+        else base_spec.object_local_bbox_min
+    )
+    if resolved_bbox_min is not None:
+        object_root_z = (
+            base_spec.support_surface_z_local
+            - resolved_bbox_min[2]
+            + base_spec.object_bottom_clearance_m
+        )
+    else:
+        object_root_z = base_spec.object_pos_local[2]
+
     object_pos = (
         base_spec.object_pos_local[0] + object_xy_offset[0],
         base_spec.object_pos_local[1] + object_xy_offset[1],
-        base_spec.object_pos_local[2],
+        object_root_z,
     )
     place_pos = (
         base_spec.place_pos_local[0] + place_xy_offset[0],
         base_spec.place_pos_local[1] + place_xy_offset[1],
-        base_spec.place_pos_local[2],
+        object_root_z,
     )
 
     return PickPlaceTaskSpec(
@@ -97,7 +113,9 @@ def make_pick_place_episode_spec(
         pregrasp_clearance_m=base_spec.pregrasp_clearance_m,
         top_grasp_depth_m=base_spec.top_grasp_depth_m,
         place_transit_clearance_m=base_spec.place_transit_clearance_m,
-        place_release_clearance_m=base_spec.place_release_clearance_m,
+        support_surface_z_local=base_spec.support_surface_z_local,
+        object_bottom_clearance_m=base_spec.object_bottom_clearance_m,
+        place_pregrasp_clearance_m=base_spec.place_pregrasp_clearance_m,
         lift_height_m=base_spec.lift_height_m,
         open_finger_m=base_spec.open_finger_m,
         closed_finger_m=base_spec.closed_finger_m,
