@@ -1,0 +1,3484 @@
+format_version: 1
+catalog_config: object_catalog.generated.yaml
+aspect_threshold: 1.25
+records:
+- category_id: apple
+  variant_id: apple00
+  usd_path: apple/apple00.usd
+  local_bbox_size:
+  - 0.08
+  - 0.079618
+  - 0.079861
+  planar_centroid_local:
+  - 0.000694
+  - 0.001111
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.080024
+  planar_extent_minor: 0.079559
+  planar_aspect_ratio: 1.005847
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple01
+  usd_path: apple/apple01.usd
+  local_bbox_size:
+  - 0.085
+  - 0.081071
+  - 0.082902
+  planar_centroid_local:
+  - -4.7e-05
+  - 0.000599
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.084508
+  planar_extent_minor: 0.082999
+  planar_aspect_ratio: 1.018178
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple02
+  usd_path: apple/apple02.usd
+  local_bbox_size:
+  - 0.074355
+  - 0.08
+  - 0.077436
+  planar_centroid_local:
+  - 0.000967
+  - -0.000635
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079972
+  planar_extent_minor: 0.074297
+  planar_aspect_ratio: 1.076395
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple03
+  usd_path: apple/apple03.usd
+  local_bbox_size:
+  - 0.064731
+  - 0.066538
+  - 0.085
+  planar_centroid_local:
+  - 0.000562
+  - -0.002168
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.066408
+  planar_extent_minor: 0.064605
+  planar_aspect_ratio: 1.027908
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple04
+  usd_path: apple/apple04.usd
+  local_bbox_size:
+  - 0.072496
+  - 0.078
+  - 0.0755
+  planar_centroid_local:
+  - 0.000943
+  - -0.000619
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077973
+  planar_extent_minor: 0.072439
+  planar_aspect_ratio: 1.076395
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple05
+  usd_path: apple/apple05.usd
+  local_bbox_size:
+  - 0.079233
+  - 0.08
+  - 0.07292
+  planar_centroid_local:
+  - -0.000846
+  - -0.002717
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.083016
+  planar_extent_minor: 0.078287
+  planar_aspect_ratio: 1.060408
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple06
+  usd_path: apple/apple06.usd
+  local_bbox_size:
+  - 0.070637
+  - 0.076
+  - 0.073565
+  planar_centroid_local:
+  - 0.000919
+  - -0.000603
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.075974
+  planar_extent_minor: 0.070582
+  planar_aspect_ratio: 1.076395
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple07
+  usd_path: apple/apple07.usd
+  local_bbox_size:
+  - 0.085
+  - 0.08463
+  - 0.080676
+  planar_centroid_local:
+  - 0.000102
+  - 0.001527
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.084963
+  planar_extent_minor: 0.083981
+  planar_aspect_ratio: 1.011699
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple08
+  usd_path: apple/apple08.usd
+  local_bbox_size:
+  - 0.059479
+  - 0.062224
+  - 0.065418
+  planar_centroid_local:
+  - -1.0e-06
+  - 0.000283
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.062224
+  planar_extent_minor: 0.059479
+  planar_aspect_ratio: 1.046161
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple09
+  usd_path: apple/apple09.usd
+  local_bbox_size:
+  - 0.078174
+  - 0.082
+  - 0.079359
+  planar_centroid_local:
+  - 0.000841
+  - -0.001133
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.082102
+  planar_extent_minor: 0.078148
+  planar_aspect_ratio: 1.050591
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple10
+  usd_path: apple/apple10.usd
+  local_bbox_size:
+  - 0.06445
+  - 0.063234
+  - 0.07
+  planar_centroid_local:
+  - 0.001206
+  - -0.001057
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.064548
+  planar_extent_minor: 0.062821
+  planar_aspect_ratio: 1.027504
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple11
+  usd_path: apple/apple11.usd
+  local_bbox_size:
+  - 0.084192
+  - 0.084544
+  - 0.085
+  planar_centroid_local:
+  - -0.001579
+  - -0.002369
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.085812
+  planar_extent_minor: 0.083761
+  planar_aspect_ratio: 1.024481
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple12
+  usd_path: apple/apple12.usd
+  local_bbox_size:
+  - 0.074355
+  - 0.08
+  - 0.077436
+  planar_centroid_local:
+  - -0.000957
+  - 0.000542
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079983
+  planar_extent_minor: 0.074315
+  planar_aspect_ratio: 1.07628
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple13
+  usd_path: apple/apple13.usd
+  local_bbox_size:
+  - 0.076
+  - 0.075534
+  - 0.075358
+  planar_centroid_local:
+  - -0.002278
+  - 3.1e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.074912
+  planar_extent_minor: 0.073748
+  planar_aspect_ratio: 1.015792
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple14
+  usd_path: apple/apple14.usd
+  local_bbox_size:
+  - 0.073599
+  - 0.073752
+  - 0.075
+  planar_centroid_local:
+  - 0.000209
+  - 6.9e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.073817
+  planar_extent_minor: 0.073581
+  planar_aspect_ratio: 1.003216
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple15
+  usd_path: apple/apple15.usd
+  local_bbox_size:
+  - 0.060811
+  - 0.060354
+  - 0.07
+  planar_centroid_local:
+  - 0.00075
+  - -0.001739
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.061113
+  planar_extent_minor: 0.060115
+  planar_aspect_ratio: 1.016606
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple18
+  usd_path: apple/apple18.usd
+  local_bbox_size:
+  - 0.07
+  - 0.063958
+  - 0.067515
+  planar_centroid_local:
+  - 0.001727
+  - -0.001065
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.070001
+  planar_extent_minor: 0.063956
+  planar_aspect_ratio: 1.09453
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple19
+  usd_path: apple/apple19.usd
+  local_bbox_size:
+  - 0.074355
+  - 0.08
+  - 0.077436
+  planar_centroid_local:
+  - 0.000967
+  - -0.000635
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079972
+  planar_extent_minor: 0.074297
+  planar_aspect_ratio: 1.076395
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple20
+  usd_path: apple/apple20.usd
+  local_bbox_size:
+  - 0.068146
+  - 0.067512
+  - 0.078
+  planar_centroid_local:
+  - 0.001379
+  - 0.000211
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.069106
+  planar_extent_minor: 0.068157
+  planar_aspect_ratio: 1.013921
+  yaw_relevant: false
+- category_id: apple
+  variant_id: apple22
+  usd_path: apple/apple22.usd
+  local_bbox_size:
+  - 0.082455
+  - 0.079083
+  - 0.084
+  planar_centroid_local:
+  - 0.004738
+  - -0.000384
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.082114
+  planar_extent_minor: 0.078769
+  planar_aspect_ratio: 1.042467
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado00
+  usd_path: avocado/avocado00.usd
+  local_bbox_size:
+  - 0.056211
+  - 0.055743
+  - 0.071215
+  planar_centroid_local:
+  - -0.000808
+  - 0.000755
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.056273
+  planar_extent_minor: 0.055727
+  planar_aspect_ratio: 1.009808
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado01
+  usd_path: avocado/avocado01.usd
+  local_bbox_size:
+  - 0.049015
+  - 0.048485
+  - 0.075
+  planar_centroid_local:
+  - 0.000643
+  - -0.000228
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.049713
+  planar_extent_minor: 0.048115
+  planar_aspect_ratio: 1.033222
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado02
+  usd_path: avocado/avocado02.usd
+  local_bbox_size:
+  - 0.052213
+  - 0.051667
+  - 0.08
+  planar_centroid_local:
+  - 0.001391
+  - 0.001219
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.052417
+  planar_extent_minor: 0.051775
+  planar_aspect_ratio: 1.012418
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado04
+  usd_path: avocado/avocado04.usd
+  local_bbox_size:
+  - 0.055446
+  - 0.054247
+  - 0.08
+  planar_centroid_local:
+  - 0.002652
+  - -0.000224
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.055565
+  planar_extent_minor: 0.054302
+  planar_aspect_ratio: 1.023261
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado05
+  usd_path: avocado/avocado05.usd
+  local_bbox_size:
+  - 0.050508
+  - 0.049888
+  - 0.068
+  planar_centroid_local:
+  - 6.9e-05
+  - -3.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.050772
+  planar_extent_minor: 0.049552
+  planar_aspect_ratio: 1.024619
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado06
+  usd_path: avocado/avocado06.usd
+  local_bbox_size:
+  - 0.057161
+  - 0.057018
+  - 0.085
+  planar_centroid_local:
+  - 0.000651
+  - -0.002442
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.057434
+  planar_extent_minor: 0.056987
+  planar_aspect_ratio: 1.007847
+  yaw_relevant: false
+- category_id: avocado
+  variant_id: avocado08
+  usd_path: avocado/avocado08.usd
+  local_bbox_size:
+  - 0.044063
+  - 0.040457
+  - 0.075
+  planar_centroid_local:
+  - -4.3e-05
+  - -6.0e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.044029
+  planar_extent_minor: 0.040426
+  planar_aspect_ratio: 1.089118
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer00
+  usd_path: beer/beer00.usd
+  local_bbox_size:
+  - 0.065458
+  - 0.066468
+  - 0.24
+  planar_centroid_local:
+  - -0.0
+  - 0.00092
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.066468
+  planar_extent_minor: 0.065458
+  planar_aspect_ratio: 1.015428
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer01
+  usd_path: beer/beer01.usd
+  local_bbox_size:
+  - 0.063304
+  - 0.062919
+  - 0.24
+  planar_centroid_local:
+  - -0.001244
+  - 0.000281
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.063387
+  planar_extent_minor: 0.062926
+  planar_aspect_ratio: 1.00732
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer03
+  usd_path: beer/beer03.usd
+  local_bbox_size:
+  - 0.050365
+  - 0.050365
+  - 0.22
+  planar_centroid_local:
+  - -3.1e-05
+  - 0.000164
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.050338
+  planar_extent_minor: 0.050338
+  planar_aspect_ratio: 1.000005
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer05
+  usd_path: beer/beer05.usd
+  local_bbox_size:
+  - 0.060556
+  - 0.060556
+  - 0.24
+  planar_centroid_local:
+  - -0.00045
+  - -0.000262
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.060555
+  planar_extent_minor: 0.060555
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer07
+  usd_path: beer/beer07.usd
+  local_bbox_size:
+  - 0.049552
+  - 0.049549
+  - 0.23
+  planar_centroid_local:
+  - -1.0e-05
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.04955
+  planar_extent_minor: 0.04955
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer09
+  usd_path: beer/beer09.usd
+  local_bbox_size:
+  - 0.058785
+  - 0.058785
+  - 0.2
+  planar_centroid_local:
+  - 0.001196
+  - 0.000457
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.055581
+  planar_extent_minor: 0.055581
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer13
+  usd_path: beer/beer13.usd
+  local_bbox_size:
+  - 0.064448
+  - 0.064803
+  - 0.23
+  planar_centroid_local:
+  - -1.5e-05
+  - -3.0e-06
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.064803
+  planar_extent_minor: 0.064465
+  planar_aspect_ratio: 1.005237
+  yaw_relevant: false
+- category_id: beer
+  variant_id: beer19
+  usd_path: beer/beer19.usd
+  local_bbox_size:
+  - 0.056689
+  - 0.056689
+  - 0.21
+  planar_centroid_local:
+  - -0.000225
+  - 1.1e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.056671
+  planar_extent_minor: 0.056671
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: dbottle02
+  usd_path: bottle/dbottle02.usd
+  local_bbox_size:
+  - 0.042768
+  - 0.04269
+  - 0.148055
+  planar_centroid_local:
+  - -0.00026
+  - -0.000147
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.042797
+  planar_extent_minor: 0.042734
+  planar_aspect_ratio: 1.001472
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: dbottle04
+  usd_path: bottle/dbottle04.usd
+  local_bbox_size:
+  - 0.067544
+  - 0.066514
+  - 0.205
+  planar_centroid_local:
+  - 0.000505
+  - 0.000121
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.068415
+  planar_extent_minor: 0.066692
+  planar_aspect_ratio: 1.025849
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle01
+  usd_path: bottle/wbottle01.usd
+  local_bbox_size:
+  - 0.065088
+  - 0.065088
+  - 0.23
+  planar_centroid_local:
+  - -0.0
+  - 0.001033
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.065088
+  planar_extent_minor: 0.065088
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle02
+  usd_path: bottle/wbottle02.usd
+  local_bbox_size:
+  - 0.070959
+  - 0.070959
+  - 0.2
+  planar_centroid_local:
+  - 0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.070959
+  planar_extent_minor: 0.070959
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle07
+  usd_path: bottle/wbottle07.usd
+  local_bbox_size:
+  - 0.064458
+  - 0.064458
+  - 0.23
+  planar_centroid_local:
+  - -0.000237
+  - 0.000131
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.064406
+  planar_extent_minor: 0.064406
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle08
+  usd_path: bottle/wbottle08.usd
+  local_bbox_size:
+  - 0.061886
+  - 0.061886
+  - 0.2
+  planar_centroid_local:
+  - 1.1e-05
+  - -9.8e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.061844
+  planar_extent_minor: 0.061844
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle11
+  usd_path: bottle/wbottle11.usd
+  local_bbox_size:
+  - 0.055112
+  - 0.055108
+  - 0.2
+  planar_centroid_local:
+  - -0.00028
+  - 1.6e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.05517
+  planar_extent_minor: 0.054905
+  planar_aspect_ratio: 1.004828
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle12
+  usd_path: bottle/wbottle12.usd
+  local_bbox_size:
+  - 0.063171
+  - 0.063171
+  - 0.187769
+  planar_centroid_local:
+  - -0.000978
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.063171
+  planar_extent_minor: 0.063171
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle17
+  usd_path: bottle/wbottle17.usd
+  local_bbox_size:
+  - 0.061009
+  - 0.060883
+  - 0.215615
+  planar_centroid_local:
+  - 8.0e-06
+  - 0.000232
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.061006
+  planar_extent_minor: 0.060885
+  planar_aspect_ratio: 1.001987
+  yaw_relevant: false
+- category_id: bottle
+  variant_id: wbottle23
+  usd_path: bottle/wbottle23.usd
+  local_bbox_size:
+  - 0.06994
+  - 0.07093
+  - 0.2
+  planar_centroid_local:
+  - 6.0e-06
+  - 0.002333
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.070924
+  planar_extent_minor: 0.069934
+  planar_aspect_ratio: 1.01416
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl00
+  usd_path: bowl/bowl00.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.042472
+  planar_centroid_local:
+  - 0.0
+  - 0.001837
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl01
+  usd_path: bowl/bowl01.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.065715
+  planar_centroid_local:
+  - -0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149968
+  planar_extent_minor: 0.149968
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl02
+  usd_path: bowl/bowl02.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.063174
+  planar_centroid_local:
+  - -0.0
+  - 0.000305
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149889
+  planar_extent_minor: 0.149889
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl04
+  usd_path: bowl/bowl04.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.074634
+  planar_centroid_local:
+  - 0.000211
+  - -0.000106
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149999
+  planar_extent_minor: 0.149999
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl05
+  usd_path: bowl/bowl05.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.043627
+  planar_centroid_local:
+  - 0.000127
+  - -0.000149
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149855
+  planar_extent_minor: 0.149855
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl06
+  usd_path: bowl/bowl06.usd
+  local_bbox_size:
+  - 0.149885
+  - 0.15
+  - 0.061433
+  planar_centroid_local:
+  - 0.002395
+  - 0.001807
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.150179
+  planar_extent_minor: 0.149855
+  planar_aspect_ratio: 1.002163
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl07
+  usd_path: bowl/bowl07.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.049643
+  planar_centroid_local:
+  - 0.000416
+  - -0.000128
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149773
+  planar_extent_minor: 0.149773
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl08
+  usd_path: bowl/bowl08.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.061694
+  planar_centroid_local:
+  - -0.0011
+  - -0.000447
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149877
+  planar_extent_minor: 0.149877
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl09
+  usd_path: bowl/bowl09.usd
+  local_bbox_size:
+  - 0.15
+  - 0.149557
+  - 0.042892
+  planar_centroid_local:
+  - 5.0e-05
+  - -4.1e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149913
+  planar_extent_minor: 0.149909
+  planar_aspect_ratio: 1.000032
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl10
+  usd_path: bowl/bowl10.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.069907
+  planar_centroid_local:
+  - 1.2e-05
+  - -1.0e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149939
+  planar_extent_minor: 0.149939
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl11
+  usd_path: bowl/bowl11.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.077199
+  planar_centroid_local:
+  - -0.000126
+  - 0.000304
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl12
+  usd_path: bowl/bowl12.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.075979
+  planar_centroid_local:
+  - 0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl13
+  usd_path: bowl/bowl13.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.032598
+  planar_centroid_local:
+  - -0.00129
+  - 0.000216
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149994
+  planar_extent_minor: 0.149994
+  planar_aspect_ratio: 1.000003
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl14
+  usd_path: bowl/bowl14.usd
+  local_bbox_size:
+  - 0.15
+  - 0.149993
+  - 0.074033
+  planar_centroid_local:
+  - 0.001166
+  - 0.000176
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149972
+  planar_extent_minor: 0.149967
+  planar_aspect_ratio: 1.00004
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl15
+  usd_path: bowl/bowl15.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.039921
+  planar_centroid_local:
+  - 2.1e-05
+  - 9.3e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149639
+  planar_extent_minor: 0.149639
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl16
+  usd_path: bowl/bowl16.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.060438
+  planar_centroid_local:
+  - 0.001086
+  - 0.000352
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15006
+  planar_extent_minor: 0.150055
+  planar_aspect_ratio: 1.000029
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl17
+  usd_path: bowl/bowl17.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.05585
+  planar_centroid_local:
+  - -1.0e-06
+  - 0.000312
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl18
+  usd_path: bowl/bowl18.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.042472
+  planar_centroid_local:
+  - 0.0
+  - 0.001837
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: bowl
+  variant_id: bowl19
+  usd_path: bowl/bowl19.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.073503
+  planar_centroid_local:
+  - 9.8e-05
+  - -0.000193
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15002
+  planar_extent_minor: 0.15002
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: box
+  variant_id: box00
+  usd_path: box/box00.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box01
+  usd_path: box/box01.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box02
+  usd_path: box/box02.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box03
+  usd_path: box/box03.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box04
+  usd_path: box/box04.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box05
+  usd_path: box/box05.usd
+  local_bbox_size:
+  - 0.242279
+  - 0.122178
+  - 0.12
+  planar_centroid_local:
+  - -0.000248
+  - -2.6e-05
+  planar_major_axis_local:
+  - 1.0
+  - -2.0e-06
+  planar_minor_axis_local:
+  - 2.0e-06
+  - 1.0
+  planar_extent_major: 0.242279
+  planar_extent_minor: 0.122178
+  planar_aspect_ratio: 1.983
+  yaw_relevant: true
+- category_id: box
+  variant_id: box06
+  usd_path: box/box06.usd
+  local_bbox_size:
+  - 0.192765
+  - 0.129027
+  - 0.09025
+  planar_centroid_local:
+  - -4.7e-05
+  - 0.000161
+  planar_major_axis_local:
+  - 1.0
+  - -0.000331
+  planar_minor_axis_local:
+  - 0.000331
+  - 1.0
+  planar_extent_major: 0.192765
+  planar_extent_minor: 0.129091
+  planar_aspect_ratio: 1.493247
+  yaw_relevant: true
+- category_id: box
+  variant_id: box08
+  usd_path: box/box08.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box09
+  usd_path: box/box09.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box10
+  usd_path: box/box10.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box11
+  usd_path: box/box11.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box12
+  usd_path: box/box12.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box13
+  usd_path: box/box13.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box14
+  usd_path: box/box14.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: box
+  variant_id: box15
+  usd_path: box/box15.usd
+  local_bbox_size:
+  - 0.23622
+  - 0.167323
+  - 0.10127
+  planar_centroid_local:
+  - -0.003078
+  - -0.019179
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - -0.0
+  - 1.0
+  planar_extent_major: 0.23622
+  planar_extent_minor: 0.167323
+  planar_aspect_ratio: 1.411765
+  yaw_relevant: true
+- category_id: can
+  variant_id: can00
+  usd_path: can/can00.usd
+  local_bbox_size:
+  - 0.061836
+  - 0.061836
+  - 0.1
+  planar_centroid_local:
+  - -0.000647
+  - 3.9e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.061833
+  planar_extent_minor: 0.061833
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: can
+  variant_id: can02
+  usd_path: can/can02.usd
+  local_bbox_size:
+  - 0.075875
+  - 0.075878
+  - 0.1
+  planar_centroid_local:
+  - 0.000274
+  - 8.9e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.075878
+  planar_extent_minor: 0.075875
+  planar_aspect_ratio: 1.000033
+  yaw_relevant: false
+- category_id: can
+  variant_id: can03
+  usd_path: can/can03.usd
+  local_bbox_size:
+  - 0.053811
+  - 0.052031
+  - 0.1
+  planar_centroid_local:
+  - 1.4e-05
+  - -0.00082
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.053807
+  planar_extent_minor: 0.052027
+  planar_aspect_ratio: 1.034216
+  yaw_relevant: false
+- category_id: can
+  variant_id: can04
+  usd_path: can/can04.usd
+  local_bbox_size:
+  - 0.053865
+  - 0.053865
+  - 0.1
+  planar_centroid_local:
+  - 0.001589
+  - 0.000725
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.053964
+  planar_extent_minor: 0.053964
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: can11
+  usd_path: can/can11.usd
+  local_bbox_size:
+  - 0.04923
+  - 0.050901
+  - 0.1
+  planar_centroid_local:
+  - 0.000439
+  - 0.000252
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.050831
+  planar_extent_minor: 0.049274
+  planar_aspect_ratio: 1.031609
+  yaw_relevant: false
+- category_id: can
+  variant_id: can12
+  usd_path: can/can12.usd
+  local_bbox_size:
+  - 0.052963
+  - 0.052963
+  - 0.1
+  planar_centroid_local:
+  - 0.000845
+  - 0.000387
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.052931
+  planar_extent_minor: 0.052931
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: can13
+  usd_path: can/can13.usd
+  local_bbox_size:
+  - 0.06087
+  - 0.059343
+  - 0.1
+  planar_centroid_local:
+  - 0.000305
+  - -0.000143
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.060783
+  planar_extent_minor: 0.05998
+  planar_aspect_ratio: 1.013385
+  yaw_relevant: false
+- category_id: can
+  variant_id: can15
+  usd_path: can/can15.usd
+  local_bbox_size:
+  - 0.055518
+  - 0.055518
+  - 0.1
+  planar_centroid_local:
+  - -0.000339
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.055518
+  planar_extent_minor: 0.055518
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan01
+  usd_path: can/fcan01.usd
+  local_bbox_size:
+  - 0.053124
+  - 0.053124
+  - 0.075
+  planar_centroid_local:
+  - 0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.053124
+  planar_extent_minor: 0.053124
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan03
+  usd_path: can/fcan03.usd
+  local_bbox_size:
+  - 0.069491
+  - 0.069491
+  - 0.11
+  planar_centroid_local:
+  - 0.000535
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.069491
+  planar_extent_minor: 0.069491
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan04
+  usd_path: can/fcan04.usd
+  local_bbox_size:
+  - 0.067429
+  - 0.067429
+  - 0.1
+  planar_centroid_local:
+  - 0.000118
+  - 0.006301
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.067428
+  planar_extent_minor: 0.067428
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan05
+  usd_path: can/fcan05.usd
+  local_bbox_size:
+  - 0.081731
+  - 0.081732
+  - 0.114
+  planar_centroid_local:
+  - -5.7e-05
+  - -9.4e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.081768
+  planar_extent_minor: 0.081766
+  planar_aspect_ratio: 1.000016
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan08
+  usd_path: can/fcan08.usd
+  local_bbox_size:
+  - 0.07723
+  - 0.07723
+  - 0.095
+  planar_centroid_local:
+  - -0.008559
+  - -5.0e-06
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.07723
+  planar_extent_minor: 0.07723
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan11
+  usd_path: can/fcan11.usd
+  local_bbox_size:
+  - 0.072768
+  - 0.072768
+  - 0.11
+  planar_centroid_local:
+  - 0.000339
+  - 0.00011
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.072776
+  planar_extent_minor: 0.072776
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan15
+  usd_path: can/fcan15.usd
+  local_bbox_size:
+  - 0.075
+  - 0.075
+  - 0.1
+  planar_centroid_local:
+  - -0.0
+  - 0.000765
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.075
+  planar_extent_minor: 0.075
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan17
+  usd_path: can/fcan17.usd
+  local_bbox_size:
+  - 0.077063
+  - 0.077063
+  - 0.082
+  planar_centroid_local:
+  - 5.6e-05
+  - 0.000199
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.07706
+  planar_extent_minor: 0.07706
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: can
+  variant_id: fcan18
+  usd_path: can/fcan18.usd
+  local_bbox_size:
+  - 0.077063
+  - 0.077063
+  - 0.082
+  planar_centroid_local:
+  - 5.6e-05
+  - 0.000199
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.07706
+  planar_extent_minor: 0.07706
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup00
+  usd_path: cup/cup00.usd
+  local_bbox_size:
+  - 0.098243
+  - 0.098963
+  - 0.12
+  planar_centroid_local:
+  - -0.0
+  - 0.001192
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.098963
+  planar_extent_minor: 0.098243
+  planar_aspect_ratio: 1.007337
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup01
+  usd_path: cup/cup01.usd
+  local_bbox_size:
+  - 0.097091
+  - 0.097091
+  - 0.15
+  planar_centroid_local:
+  - -0.000994
+  - 0.000708
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.097095
+  planar_extent_minor: 0.097095
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup02
+  usd_path: cup/cup02.usd
+  local_bbox_size:
+  - 0.077672
+  - 0.077672
+  - 0.12
+  planar_centroid_local:
+  - -0.000795
+  - 0.000566
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077676
+  planar_extent_minor: 0.077676
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup03
+  usd_path: cup/cup03.usd
+  local_bbox_size:
+  - 0.077672
+  - 0.077672
+  - 0.12
+  planar_centroid_local:
+  - -0.000795
+  - 0.000566
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077676
+  planar_extent_minor: 0.077676
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup04
+  usd_path: cup/cup04.usd
+  local_bbox_size:
+  - 0.077672
+  - 0.077672
+  - 0.12
+  planar_centroid_local:
+  - -0.000795
+  - 0.000566
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077676
+  planar_extent_minor: 0.077676
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup05
+  usd_path: cup/cup05.usd
+  local_bbox_size:
+  - 0.08
+  - 0.08
+  - 0.08
+  planar_centroid_local:
+  - -2.5e-05
+  - -2.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.08
+  planar_extent_minor: 0.08
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup06
+  usd_path: cup/cup06.usd
+  local_bbox_size:
+  - 0.1
+  - 0.1
+  - 0.125
+  planar_centroid_local:
+  - -3.1e-05
+  - -3.1e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.099999
+  planar_extent_minor: 0.099999
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup07
+  usd_path: cup/cup07.usd
+  local_bbox_size:
+  - 0.08
+  - 0.08
+  - 0.1
+  planar_centroid_local:
+  - -2.5e-05
+  - -2.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.08
+  planar_extent_minor: 0.08
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup08
+  usd_path: cup/cup08.usd
+  local_bbox_size:
+  - 0.07
+  - 0.07
+  - 0.07
+  planar_centroid_local:
+  - -2.1e-05
+  - -2.1e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.07
+  planar_extent_minor: 0.07
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: cup
+  variant_id: cup09
+  usd_path: cup/cup09.usd
+  local_bbox_size:
+  - 0.08
+  - 0.08
+  - 0.12
+  planar_centroid_local:
+  - -2.5e-05
+  - -2.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.08
+  planar_extent_minor: 0.08
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg00
+  usd_path: egg/egg00.usd
+  local_bbox_size:
+  - 0.041244
+  - 0.041244
+  - 0.052
+  planar_centroid_local:
+  - -0.000374
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.041244
+  planar_extent_minor: 0.041244
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg03
+  usd_path: egg/egg03.usd
+  local_bbox_size:
+  - 0.037228
+  - 0.037228
+  - 0.05
+  planar_centroid_local:
+  - 0.00015
+  - -4.7e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.037221
+  planar_extent_minor: 0.037221
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg04
+  usd_path: egg/egg04.usd
+  local_bbox_size:
+  - 0.036168
+  - 0.036081
+  - 0.05
+  planar_centroid_local:
+  - -0.00013
+  - 1.8e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.036079
+  planar_extent_minor: 0.036079
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg05
+  usd_path: egg/egg05.usd
+  local_bbox_size:
+  - 0.044785
+  - 0.044794
+  - 0.058
+  planar_centroid_local:
+  - -0.00019
+  - -0.000269
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.044796
+  planar_extent_minor: 0.044783
+  planar_aspect_ratio: 1.000278
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg06
+  usd_path: egg/egg06.usd
+  local_bbox_size:
+  - 0.037472
+  - 0.037041
+  - 0.05
+  planar_centroid_local:
+  - 0.000376
+  - 0.002299
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.03748
+  planar_extent_minor: 0.037108
+  planar_aspect_ratio: 1.010038
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg07
+  usd_path: egg/egg07.usd
+  local_bbox_size:
+  - 0.040215
+  - 0.041914
+  - 0.05
+  planar_centroid_local:
+  - 0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.041914
+  planar_extent_minor: 0.040215
+  planar_aspect_ratio: 1.042252
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg09
+  usd_path: egg/egg09.usd
+  local_bbox_size:
+  - 0.041329
+  - 0.041329
+  - 0.06
+  planar_centroid_local:
+  - 0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.041337
+  planar_extent_minor: 0.041337
+  planar_aspect_ratio: 1.000002
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg10
+  usd_path: egg/egg10.usd
+  local_bbox_size:
+  - 0.042383
+  - 0.042405
+  - 0.065
+  planar_centroid_local:
+  - -0.000302
+  - -0.000319
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.042492
+  planar_extent_minor: 0.042373
+  planar_aspect_ratio: 1.002795
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg11
+  usd_path: egg/egg11.usd
+  local_bbox_size:
+  - 0.0418
+  - 0.041044
+  - 0.055
+  planar_centroid_local:
+  - -0.000371
+  - 0.000227
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.041799
+  planar_extent_minor: 0.041044
+  planar_aspect_ratio: 1.018405
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg12
+  usd_path: egg/egg12.usd
+  local_bbox_size:
+  - 0.040923
+  - 0.040923
+  - 0.052
+  planar_centroid_local:
+  - -4.5e-05
+  - 0.00011
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.040918
+  planar_extent_minor: 0.040918
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: egg
+  variant_id: egg13
+  usd_path: egg/egg13.usd
+  local_bbox_size:
+  - 0.042895
+  - 0.04287
+  - 0.055
+  planar_centroid_local:
+  - -1.9e-05
+  - -0.000308
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.042931
+  planar_extent_minor: 0.042814
+  planar_aspect_ratio: 1.002725
+  yaw_relevant: false
+- category_id: kiwi
+  variant_id: kiwi00
+  usd_path: kiwi/kiwi00.usd
+  local_bbox_size:
+  - 0.038793
+  - 0.043469
+  - 0.055
+  planar_centroid_local:
+  - 1.6e-05
+  - -0.0015
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.04351
+  planar_extent_minor: 0.040242
+  planar_aspect_ratio: 1.081215
+  yaw_relevant: false
+- category_id: kiwi
+  variant_id: kiwi05
+  usd_path: kiwi/kiwi05.usd
+  local_bbox_size:
+  - 0.048235
+  - 0.044998
+  - 0.061469
+  planar_centroid_local:
+  - 0.000566
+  - -0.000339
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.047521
+  planar_extent_minor: 0.044772
+  planar_aspect_ratio: 1.061381
+  yaw_relevant: false
+- category_id: kiwi
+  variant_id: kiwi07
+  usd_path: kiwi/kiwi07.usd
+  local_bbox_size:
+  - 0.04579
+  - 0.055493
+  - 0.06
+  planar_centroid_local:
+  - -0.000139
+  - 0.00199
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.055467
+  planar_extent_minor: 0.04587
+  planar_aspect_ratio: 1.209232
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon01
+  usd_path: lemon/lemon01.usd
+  local_bbox_size:
+  - 0.056114
+  - 0.056232
+  - 0.067
+  planar_centroid_local:
+  - 0.001777
+  - 0.000729
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.056903
+  planar_extent_minor: 0.056024
+  planar_aspect_ratio: 1.01568
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon02
+  usd_path: lemon/lemon02.usd
+  local_bbox_size:
+  - 0.045211
+  - 0.044115
+  - 0.06
+  planar_centroid_local:
+  - 0.000468
+  - 0.001378
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.045553
+  planar_extent_minor: 0.044134
+  planar_aspect_ratio: 1.032163
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon03
+  usd_path: lemon/lemon03.usd
+  local_bbox_size:
+  - 0.046312
+  - 0.04553
+  - 0.063
+  planar_centroid_local:
+  - 0.0004
+  - -0.000168
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.04573
+  planar_extent_minor: 0.045402
+  planar_aspect_ratio: 1.007235
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon04
+  usd_path: lemon/lemon04.usd
+  local_bbox_size:
+  - 0.041457
+  - 0.041542
+  - 0.06
+  planar_centroid_local:
+  - 0.000314
+  - -0.000485
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.041501
+  planar_extent_minor: 0.041425
+  planar_aspect_ratio: 1.001833
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon05
+  usd_path: lemon/lemon05.usd
+  local_bbox_size:
+  - 0.032509
+  - 0.032925
+  - 0.055
+  planar_centroid_local:
+  - -0.000142
+  - 0.002813
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.033261
+  planar_extent_minor: 0.033031
+  planar_aspect_ratio: 1.006944
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon06
+  usd_path: lemon/lemon06.usd
+  local_bbox_size:
+  - 0.037451
+  - 0.039519
+  - 0.062
+  planar_centroid_local:
+  - 0.000635
+  - -0.000386
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.039449
+  planar_extent_minor: 0.037688
+  planar_aspect_ratio: 1.046727
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon08
+  usd_path: lemon/lemon08.usd
+  local_bbox_size:
+  - 0.045769
+  - 0.045778
+  - 0.066
+  planar_centroid_local:
+  - -0.000815
+  - 0.000789
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.047354
+  planar_extent_minor: 0.044523
+  planar_aspect_ratio: 1.06359
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon09
+  usd_path: lemon/lemon09.usd
+  local_bbox_size:
+  - 0.046142
+  - 0.045546
+  - 0.07
+  planar_centroid_local:
+  - 0.001339
+  - 0.001526
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.046037
+  planar_extent_minor: 0.045286
+  planar_aspect_ratio: 1.016589
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon10
+  usd_path: lemon/lemon10.usd
+  local_bbox_size:
+  - 0.045021
+  - 0.043955
+  - 0.061
+  planar_centroid_local:
+  - 0.000922
+  - 0.001704
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.044462
+  planar_extent_minor: 0.044419
+  planar_aspect_ratio: 1.000976
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon12
+  usd_path: lemon/lemon12.usd
+  local_bbox_size:
+  - 0.041565
+  - 0.0416
+  - 0.06
+  planar_centroid_local:
+  - 0.001512
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.0416
+  planar_extent_minor: 0.041565
+  planar_aspect_ratio: 1.000854
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon13
+  usd_path: lemon/lemon13.usd
+  local_bbox_size:
+  - 0.042289
+  - 0.040807
+  - 0.057
+  planar_centroid_local:
+  - -0.001087
+  - -0.000226
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.042373
+  planar_extent_minor: 0.041243
+  planar_aspect_ratio: 1.027395
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon14
+  usd_path: lemon/lemon14.usd
+  local_bbox_size:
+  - 0.041787
+  - 0.042989
+  - 0.06
+  planar_centroid_local:
+  - 0.001507
+  - -7.6e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.043391
+  planar_extent_minor: 0.04232
+  planar_aspect_ratio: 1.025322
+  yaw_relevant: false
+- category_id: lemon
+  variant_id: lemon15
+  usd_path: lemon/lemon15.usd
+  local_bbox_size:
+  - 0.050713
+  - 0.050437
+  - 0.07
+  planar_centroid_local:
+  - -0.001168
+  - 0.000408
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.051291
+  planar_extent_minor: 0.050514
+  planar_aspect_ratio: 1.015377
+  yaw_relevant: false
+- category_id: lime
+  variant_id: lime00
+  usd_path: lime/lime00.usd
+  local_bbox_size:
+  - 0.057222
+  - 0.059394
+  - 0.07
+  planar_centroid_local:
+  - -0.001316
+  - -0.000802
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.059309
+  planar_extent_minor: 0.057224
+  planar_aspect_ratio: 1.036446
+  yaw_relevant: false
+- category_id: lime
+  variant_id: lime01
+  usd_path: lime/lime01.usd
+  local_bbox_size:
+  - 0.060952
+  - 0.056464
+  - 0.065
+  planar_centroid_local:
+  - 0.001432
+  - 0.002494
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.060735
+  planar_extent_minor: 0.056505
+  planar_aspect_ratio: 1.074848
+  yaw_relevant: false
+- category_id: lime
+  variant_id: lime02
+  usd_path: lime/lime02.usd
+  local_bbox_size:
+  - 0.054145
+  - 0.055288
+  - 0.068
+  planar_centroid_local:
+  - 0.001752
+  - 0.000474
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.056626
+  planar_extent_minor: 0.053199
+  planar_aspect_ratio: 1.06442
+  yaw_relevant: false
+- category_id: lime
+  variant_id: lime03
+  usd_path: lime/lime03.usd
+  local_bbox_size:
+  - 0.05599
+  - 0.05777
+  - 0.06418
+  planar_centroid_local:
+  - 0.000401
+  - 0.000232
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.057794
+  planar_extent_minor: 0.056249
+  planar_aspect_ratio: 1.02746
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion00
+  usd_path: onion/onion00.usd
+  local_bbox_size:
+  - 0.043643
+  - 0.043225
+  - 0.06
+  planar_centroid_local:
+  - 0.00144
+  - -0.000745
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.043942
+  planar_extent_minor: 0.043846
+  planar_aspect_ratio: 1.002206
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion02
+  usd_path: onion/onion02.usd
+  local_bbox_size:
+  - 0.0639
+  - 0.0639
+  - 0.07
+  planar_centroid_local:
+  - -4.7e-05
+  - -0.000506
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.0639
+  planar_extent_minor: 0.0639
+  planar_aspect_ratio: 1.000002
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion04
+  usd_path: onion/onion04.usd
+  local_bbox_size:
+  - 0.047472
+  - 0.047011
+  - 0.05
+  planar_centroid_local:
+  - -1.3e-05
+  - -4.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.047457
+  planar_extent_minor: 0.046726
+  planar_aspect_ratio: 1.015634
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion07
+  usd_path: onion/onion07.usd
+  local_bbox_size:
+  - 0.072676
+  - 0.07458
+  - 0.075
+  planar_centroid_local:
+  - -0.000793
+  - -0.000911
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.074749
+  planar_extent_minor: 0.072752
+  planar_aspect_ratio: 1.027452
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion08
+  usd_path: onion/onion08.usd
+  local_bbox_size:
+  - 0.04352
+  - 0.046198
+  - 0.055
+  planar_centroid_local:
+  - -0.00051
+  - 0.000222
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.046432
+  planar_extent_minor: 0.041182
+  planar_aspect_ratio: 1.127496
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion09
+  usd_path: onion/onion09.usd
+  local_bbox_size:
+  - 0.049224
+  - 0.049192
+  - 0.06
+  planar_centroid_local:
+  - 0.000409
+  - -0.000817
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.049249
+  planar_extent_minor: 0.04923
+  planar_aspect_ratio: 1.000391
+  yaw_relevant: false
+- category_id: onion
+  variant_id: onion10
+  usd_path: onion/onion10.usd
+  local_bbox_size:
+  - 0.030414
+  - 0.03088
+  - 0.05
+  planar_centroid_local:
+  - 0.000462
+  - -0.000337
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.03098
+  planar_extent_minor: 0.030069
+  planar_aspect_ratio: 1.030286
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange02
+  usd_path: orange/orange02.usd
+  local_bbox_size:
+  - 0.078996
+  - 0.08
+  - 0.076672
+  planar_centroid_local:
+  - 2.8e-05
+  - 9.0e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079884
+  planar_extent_minor: 0.078878
+  planar_aspect_ratio: 1.012754
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange03
+  usd_path: orange/orange03.usd
+  local_bbox_size:
+  - 0.070143
+  - 0.071766
+  - 0.072
+  planar_centroid_local:
+  - 0.007755
+  - 0.005638
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.070777
+  planar_extent_minor: 0.070623
+  planar_aspect_ratio: 1.002186
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange05
+  usd_path: orange/orange05.usd
+  local_bbox_size:
+  - 0.066858
+  - 0.065035
+  - 0.07
+  planar_centroid_local:
+  - -0.001113
+  - -0.000604
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.066668
+  planar_extent_minor: 0.065297
+  planar_aspect_ratio: 1.020996
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange09
+  usd_path: orange/orange09.usd
+  local_bbox_size:
+  - 0.070853
+  - 0.068938
+  - 0.076
+  planar_centroid_local:
+  - -0.007222
+  - -0.005344
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.071711
+  planar_extent_minor: 0.069726
+  planar_aspect_ratio: 1.028472
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange12
+  usd_path: orange/orange12.usd
+  local_bbox_size:
+  - 0.067271
+  - 0.064768
+  - 0.073
+  planar_centroid_local:
+  - -0.000276
+  - -0.000875
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.066957
+  planar_extent_minor: 0.064836
+  planar_aspect_ratio: 1.032709
+  yaw_relevant: false
+- category_id: orange
+  variant_id: orange13
+  usd_path: orange/orange13.usd
+  local_bbox_size:
+  - 0.07
+  - 0.06937
+  - 0.064885
+  planar_centroid_local:
+  - 0.00238
+  - -0.001533
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.069954
+  planar_extent_minor: 0.06955
+  planar_aspect_ratio: 1.005808
+  yaw_relevant: false
+- category_id: peach
+  variant_id: peach01
+  usd_path: peach/peach01.usd
+  local_bbox_size:
+  - 0.067394
+  - 0.07
+  - 0.061474
+  planar_centroid_local:
+  - 0.00059
+  - -0.002703
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.067812
+  planar_extent_minor: 0.066985
+  planar_aspect_ratio: 1.012347
+  yaw_relevant: false
+- category_id: peach
+  variant_id: peach02
+  usd_path: peach/peach02.usd
+  local_bbox_size:
+  - 0.074669
+  - 0.075
+  - 0.074867
+  planar_centroid_local:
+  - -0.000966
+  - -0.00098
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077852
+  planar_extent_minor: 0.073818
+  planar_aspect_ratio: 1.054652
+  yaw_relevant: false
+- category_id: peach
+  variant_id: peach03
+  usd_path: peach/peach03.usd
+  local_bbox_size:
+  - 0.065
+  - 0.056332
+  - 0.054182
+  planar_centroid_local:
+  - -0.000103
+  - 0.00129
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.065167
+  planar_extent_minor: 0.056365
+  planar_aspect_ratio: 1.156158
+  yaw_relevant: false
+- category_id: peach
+  variant_id: peach05
+  usd_path: peach/peach05.usd
+  local_bbox_size:
+  - 0.066949
+  - 0.07
+  - 0.066964
+  planar_centroid_local:
+  - 0.000739
+  - 0.00042
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.069865
+  planar_extent_minor: 0.067925
+  planar_aspect_ratio: 1.028556
+  yaw_relevant: false
+- category_id: peach
+  variant_id: peach06
+  usd_path: peach/peach06.usd
+  local_bbox_size:
+  - 0.058944
+  - 0.06
+  - 0.053447
+  planar_centroid_local:
+  - 0.000758
+  - 0.000182
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.060471
+  planar_extent_minor: 0.05982
+  planar_aspect_ratio: 1.01087
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat00
+  usd_path: placemat/placemat00.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat01
+  usd_path: placemat/placemat01.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat02
+  usd_path: placemat/placemat02.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat03
+  usd_path: placemat/placemat03.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat04
+  usd_path: placemat/placemat04.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: placemat
+  variant_id: placemat05
+  usd_path: placemat/placemat05.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.0002
+  planar_centroid_local:
+  - -0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate00
+  usd_path: plate/plate00.usd
+  local_bbox_size:
+  - 0.15
+  - 0.149998
+  - 0.013592
+  planar_centroid_local:
+  - -6.0e-06
+  - 1.2e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.149998
+  planar_aspect_ratio: 1.000015
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate01
+  usd_path: plate/plate01.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.008993
+  planar_centroid_local:
+  - 0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149973
+  planar_extent_minor: 0.149973
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate02
+  usd_path: plate/plate02.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.01189
+  planar_centroid_local:
+  - -0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate03
+  usd_path: plate/plate03.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.014913
+  planar_centroid_local:
+  - 0.0
+  - 1.0e-06
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.149999
+  planar_aspect_ratio: 1.000003
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate04
+  usd_path: plate/plate04.usd
+  local_bbox_size:
+  - 0.15
+  - 0.149197
+  - 0.023125
+  planar_centroid_local:
+  - 0.000558
+  - 0.001239
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149879
+  planar_extent_minor: 0.149688
+  planar_aspect_ratio: 1.001275
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate05
+  usd_path: plate/plate05.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.013963
+  planar_centroid_local:
+  - 0.001455
+  - -0.000456
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149998
+  planar_extent_minor: 0.149998
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate06
+  usd_path: plate/plate06.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.01292
+  planar_centroid_local:
+  - -0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149969
+  planar_extent_minor: 0.149969
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate07
+  usd_path: plate/plate07.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.007769
+  planar_centroid_local:
+  - -0.0
+  - -0.000165
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate08
+  usd_path: plate/plate08.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.010012
+  planar_centroid_local:
+  - 3.9e-05
+  - -7.3e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149282
+  planar_extent_minor: 0.149282
+  planar_aspect_ratio: 1.000002
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate09
+  usd_path: plate/plate09.usd
+  local_bbox_size:
+  - 0.149703
+  - 0.15
+  - 0.009371
+  planar_centroid_local:
+  - 0.0
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149989
+  planar_extent_minor: 0.149806
+  planar_aspect_ratio: 1.001222
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate10
+  usd_path: plate/plate10.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.013963
+  planar_centroid_local:
+  - 0.001455
+  - -0.000456
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149998
+  planar_extent_minor: 0.149998
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate12
+  usd_path: plate/plate12.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.016133
+  planar_centroid_local:
+  - -0.000456
+  - -7.4e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149994
+  planar_extent_minor: 0.149994
+  planar_aspect_ratio: 1.000001
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate13
+  usd_path: plate/plate13.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.010129
+  planar_centroid_local:
+  - -4.8e-05
+  - -0.000105
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.14999
+  planar_extent_minor: 0.14999
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate14
+  usd_path: plate/plate14.usd
+  local_bbox_size:
+  - 0.15
+  - 0.148998
+  - 0.013097
+  planar_centroid_local:
+  - 1.4e-05
+  - -3.7e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.149999
+  planar_extent_minor: 0.149032
+  planar_aspect_ratio: 1.006494
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate15
+  usd_path: plate/plate15.usd
+  local_bbox_size:
+  - 0.15
+  - 0.15
+  - 0.012566
+  planar_centroid_local:
+  - 0.001301
+  - 0.000423
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.15
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: plate
+  variant_id: plate16
+  usd_path: plate/plate16.usd
+  local_bbox_size:
+  - 0.143427
+  - 0.074588
+  - 0.15
+  planar_centroid_local:
+  - -2.3e-05
+  - 0.004634
+  planar_major_axis_local:
+  - 0.929309
+  - -0.369302
+  planar_minor_axis_local:
+  - 0.369302
+  - 0.929309
+  planar_extent_major: 0.154811
+  planar_extent_minor: 0.050665
+  planar_aspect_ratio: 3.055601
+  yaw_relevant: true
+- category_id: potato
+  variant_id: potato00
+  usd_path: potato/potato00.usd
+  local_bbox_size:
+  - 0.073422
+  - 0.071842
+  - 0.09
+  planar_centroid_local:
+  - -0.000798
+  - 0.002463
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.075477
+  planar_extent_minor: 0.072271
+  planar_aspect_ratio: 1.044365
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato02
+  usd_path: potato/potato02.usd
+  local_bbox_size:
+  - 0.070676
+  - 0.071784
+  - 0.09
+  planar_centroid_local:
+  - -0.001278
+  - 8.6e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.076344
+  planar_extent_minor: 0.06755
+  planar_aspect_ratio: 1.130175
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato03
+  usd_path: potato/potato03.usd
+  local_bbox_size:
+  - 0.05145
+  - 0.054382
+  - 0.1
+  planar_centroid_local:
+  - -0.0
+  - -0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.054382
+  planar_extent_minor: 0.05145
+  planar_aspect_ratio: 1.056999
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato06
+  usd_path: potato/potato06.usd
+  local_bbox_size:
+  - 0.042669
+  - 0.04315
+  - 0.1
+  planar_centroid_local:
+  - -0.00097
+  - -0.001473
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.045242
+  planar_extent_minor: 0.040761
+  planar_aspect_ratio: 1.109937
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato07
+  usd_path: potato/potato07.usd
+  local_bbox_size:
+  - 0.052185
+  - 0.051353
+  - 0.075
+  planar_centroid_local:
+  - -0.001004
+  - -0.000391
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.052542
+  planar_extent_minor: 0.051806
+  planar_aspect_ratio: 1.014201
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato10
+  usd_path: potato/potato10.usd
+  local_bbox_size:
+  - 0.059144
+  - 0.048759
+  - 0.08
+  planar_centroid_local:
+  - -0.001093
+  - -0.000621
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.059115
+  planar_extent_minor: 0.049199
+  planar_aspect_ratio: 1.201544
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato13
+  usd_path: potato/potato13.usd
+  local_bbox_size:
+  - 0.065431
+  - 0.061605
+  - 0.11
+  planar_centroid_local:
+  - 0.002058
+  - 0.003398
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.065699
+  planar_extent_minor: 0.060622
+  planar_aspect_ratio: 1.083755
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato14
+  usd_path: potato/potato14.usd
+  local_bbox_size:
+  - 0.056465
+  - 0.044784
+  - 0.1
+  planar_centroid_local:
+  - -0.000882
+  - -0.000249
+  planar_major_axis_local:
+  - 0.999786
+  - 0.020709
+  planar_minor_axis_local:
+  - -0.020709
+  - 0.999786
+  planar_extent_major: 0.05657
+  planar_extent_minor: 0.044821
+  planar_aspect_ratio: 1.262141
+  yaw_relevant: true
+- category_id: potato
+  variant_id: potato16
+  usd_path: potato/potato16.usd
+  local_bbox_size:
+  - 0.066499
+  - 0.066291
+  - 0.09
+  planar_centroid_local:
+  - -9.7e-05
+  - 0.000638
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.066501
+  planar_extent_minor: 0.066286
+  planar_aspect_ratio: 1.003246
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato17
+  usd_path: potato/potato17.usd
+  local_bbox_size:
+  - 0.073255
+  - 0.065905
+  - 0.08
+  planar_centroid_local:
+  - 0.000582
+  - -0.000302
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.073252
+  planar_extent_minor: 0.060647
+  planar_aspect_ratio: 1.207847
+  yaw_relevant: false
+- category_id: potato
+  variant_id: potato18
+  usd_path: potato/potato18.usd
+  local_bbox_size:
+  - 0.077272
+  - 0.066055
+  - 0.1
+  planar_centroid_local:
+  - -0.001532
+  - -4.5e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077419
+  planar_extent_minor: 0.065852
+  planar_aspect_ratio: 1.175646
+  yaw_relevant: false
+- category_id: tangerine
+  variant_id: tangerine00
+  usd_path: tangerine/tangerine00.usd
+  local_bbox_size:
+  - 0.08
+  - 0.078897
+  - 0.064489
+  planar_centroid_local:
+  - 0.000208
+  - 0.000643
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079876
+  planar_extent_minor: 0.079386
+  planar_aspect_ratio: 1.006173
+  yaw_relevant: false
+- category_id: tangerine
+  variant_id: tangerine03
+  usd_path: tangerine/tangerine03.usd
+  local_bbox_size:
+  - 0.082724
+  - 0.085
+  - 0.075159
+  planar_centroid_local:
+  - -0.000196
+  - 0.001365
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.087027
+  planar_extent_minor: 0.082307
+  planar_aspect_ratio: 1.057348
+  yaw_relevant: false
+- category_id: tangerine
+  variant_id: tangerine04
+  usd_path: tangerine/tangerine04.usd
+  local_bbox_size:
+  - 0.07
+  - 0.069719
+  - 0.060313
+  planar_centroid_local:
+  - 0.000245
+  - -4.8e-05
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.070843
+  planar_extent_minor: 0.070385
+  planar_aspect_ratio: 1.006508
+  yaw_relevant: false
+- category_id: tangerine
+  variant_id: tangerine05
+  usd_path: tangerine/tangerine05.usd
+  local_bbox_size:
+  - 0.08
+  - 0.074096
+  - 0.077909
+  planar_centroid_local:
+  - -0.000712
+  - 0.000332
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079875
+  planar_extent_minor: 0.074061
+  planar_aspect_ratio: 1.078499
+  yaw_relevant: false
+- category_id: tangerine
+  variant_id: tangerine06
+  usd_path: tangerine/tangerine06.usd
+  local_bbox_size:
+  - 0.06984
+  - 0.07
+  - 0.051056
+  planar_centroid_local:
+  - -0.000842
+  - -1.0e-06
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.069824
+  planar_extent_minor: 0.06847
+  planar_aspect_ratio: 1.019778
+  yaw_relevant: false
+- category_id: tomato
+  variant_id: tomato01
+  usd_path: tomato/tomato01.usd
+  local_bbox_size:
+  - 0.085
+  - 0.084994
+  - 0.076639
+  planar_centroid_local:
+  - -0.002356
+  - -0.00117
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.088562
+  planar_extent_minor: 0.086253
+  planar_aspect_ratio: 1.026768
+  yaw_relevant: false
+- category_id: tomato
+  variant_id: tomato02
+  usd_path: tomato/tomato02.usd
+  local_bbox_size:
+  - 0.08
+  - 0.08
+  - 0.071558
+  planar_centroid_local:
+  - 0.000221
+  - 0.0
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079927
+  planar_extent_minor: 0.079927
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: tomato
+  variant_id: tomato03
+  usd_path: tomato/tomato03.usd
+  local_bbox_size:
+  - 0.084122
+  - 0.085
+  - 0.084592
+  planar_centroid_local:
+  - 0.000753
+  - -0.000855
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.085672
+  planar_extent_minor: 0.08364
+  planar_aspect_ratio: 1.024299
+  yaw_relevant: false
+- category_id: tomato
+  variant_id: tomato07
+  usd_path: tomato/tomato07.usd
+  local_bbox_size:
+  - 0.02814
+  - 0.028276
+  - 0.049956
+  planar_centroid_local:
+  - -0.001397
+  - 0.000788
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.028281
+  planar_extent_minor: 0.027814
+  planar_aspect_ratio: 1.0168
+  yaw_relevant: false
+- category_id: tray
+  variant_id: tray04
+  usd_path: tray/tray04.usd
+  local_bbox_size:
+  - 0.25
+  - 0.15
+  - 0.0425
+  planar_centroid_local:
+  - 0.0
+  - 0.0
+  planar_major_axis_local:
+  - 1.0
+  - 0.0
+  planar_minor_axis_local:
+  - 0.0
+  - 1.0
+  planar_extent_major: 0.25
+  planar_extent_minor: 0.15
+  planar_aspect_ratio: 1.666667
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray05
+  usd_path: tray/tray05.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray06
+  usd_path: tray/tray06.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray07
+  usd_path: tray/tray07.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray08
+  usd_path: tray/tray08.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray09
+  usd_path: tray/tray09.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray10
+  usd_path: tray/tray10.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray11
+  usd_path: tray/tray11.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: tray
+  variant_id: tray12
+  usd_path: tray/tray12.usd
+  local_bbox_size:
+  - 0.2
+  - 0.118869
+  - 0.031726
+  planar_centroid_local:
+  - 0.000279
+  - 8.2e-05
+  planar_major_axis_local:
+  - 0.999995
+  - 0.003099
+  planar_minor_axis_local:
+  - -0.003099
+  - 0.999995
+  planar_extent_major: 0.199999
+  planar_extent_minor: 0.119338
+  planar_aspect_ratio: 1.6759
+  yaw_relevant: true
+- category_id: unseen_apple
+  variant_id: apple99
+  usd_path: unseen/apple99.usd
+  local_bbox_size:
+  - 0.074355
+  - 0.08
+  - 0.077436
+  planar_centroid_local:
+  - 0.000967
+  - -0.000635
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.079972
+  planar_extent_minor: 0.074297
+  planar_aspect_ratio: 1.076395
+  yaw_relevant: false
+- category_id: unseen_bottle
+  variant_id: dbottle99
+  usd_path: unseen/dbottle99.usd
+  local_bbox_size:
+  - 0.042768
+  - 0.04269
+  - 0.148055
+  planar_centroid_local:
+  - -0.00026
+  - -0.000147
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.042797
+  planar_extent_minor: 0.042734
+  planar_aspect_ratio: 1.001472
+  yaw_relevant: false
+- category_id: unseen_can
+  variant_id: can99
+  usd_path: unseen/can99.usd
+  local_bbox_size:
+  - 0.04923
+  - 0.050901
+  - 0.1
+  planar_centroid_local:
+  - 0.000439
+  - 0.000252
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.050831
+  planar_extent_minor: 0.049274
+  planar_aspect_ratio: 1.031609
+  yaw_relevant: false
+- category_id: unseen_cup
+  variant_id: cup99
+  usd_path: unseen/cup99.usd
+  local_bbox_size:
+  - 0.077672
+  - 0.077672
+  - 0.12
+  planar_centroid_local:
+  - -0.000795
+  - 0.000566
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.077676
+  planar_extent_minor: 0.077676
+  planar_aspect_ratio: 1.0
+  yaw_relevant: false
+- category_id: unseen_peach
+  variant_id: peach99
+  usd_path: unseen/peach99.usd
+  local_bbox_size:
+  - 0.058944
+  - 0.06
+  - 0.053447
+  planar_centroid_local:
+  - 0.000758
+  - 0.000182
+  planar_major_axis_local: null
+  planar_minor_axis_local: null
+  planar_extent_major: 0.060471
+  planar_extent_minor: 0.05982
+  planar_aspect_ratio: 1.01087
+  yaw_relevant: false
