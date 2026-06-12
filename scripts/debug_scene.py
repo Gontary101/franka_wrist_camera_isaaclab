@@ -235,6 +235,8 @@ def main() -> None:
             place_xy_offset=(0.0, 0.0),
             object_label=object_context.label,
             grasp_closing_axis_xy=grasp_closing_axis_xy,
+            object_local_bbox_min=object_context.geometry.local_bbox_min,
+            object_local_bbox_max=object_context.geometry.local_bbox_max,
         )
         policy = PickPlaceScriptedPolicy(spec=spec)
 

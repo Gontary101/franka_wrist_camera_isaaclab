@@ -14,6 +14,8 @@ from franka_wrist_camera_scene.objects.catalog import ObjectCatalog, load_object
 
 @dataclass(frozen=True, slots=True)
 class PlanarGeometry:
+    local_bbox_min: tuple[float, float, float]
+    local_bbox_max: tuple[float, float, float]
     local_bbox_size: tuple[float, float, float]
     planar_centroid_local: tuple[float, float]
     planar_major_axis_local: tuple[float, float] | None
@@ -134,6 +136,8 @@ def infer_planar_geometry_from_usd(
     yaw_relevant = bool(aspect_ratio >= aspect_threshold)
 
     return PlanarGeometry(
+        local_bbox_min=tuple(float(value) for value in min_xyz),
+        local_bbox_max=tuple(float(value) for value in max_xyz),
         local_bbox_size=tuple(float(value) for value in bbox_size),
         planar_centroid_local=(float(centroid[0]), float(centroid[1])),
         planar_major_axis_local=_canonical_axis(major_axis) if yaw_relevant else None,
@@ -177,6 +181,8 @@ def _rounded_list(values: tuple[float, ...], digits: int = 6) -> list[float]:
 
 def _geometry_to_dict(geometry: PlanarGeometry) -> dict:
     return {
+        "local_bbox_min": _rounded_list(geometry.local_bbox_min),
+        "local_bbox_max": _rounded_list(geometry.local_bbox_max),
         "local_bbox_size": _rounded_list(geometry.local_bbox_size),
         "planar_centroid_local": _rounded_list(geometry.planar_centroid_local),
         "planar_major_axis_local": (

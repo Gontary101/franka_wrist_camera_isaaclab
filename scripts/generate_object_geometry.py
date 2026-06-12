@@ -10,7 +10,8 @@ import sys
 REPO_SRC = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(REPO_SRC))
 
-from franka_wrist_camera_scene.objects.geometry import write_object_geometry
+from franka_wrist_camera_scene.app import launcher  # noqa: F401
+from isaaclab.app import AppLauncher  # noqa: E402
 from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 
 
@@ -34,17 +35,25 @@ def parse_args() -> argparse.Namespace:
         default=1.25,
         help="Planar aspect ratio above which object yaw is considered relevant.",
     )
+    # Add app launcher arguments
+    AppLauncher.add_app_launcher_args(parser)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    app_launcher = AppLauncher(args)
+    simulation_app = app_launcher.app
+
+    from franka_wrist_camera_scene.objects.geometry import write_object_geometry
+
     output_path = write_object_geometry(
         catalog_config=args.catalog_config,
         output_path=args.output,
         aspect_threshold=args.aspect_threshold,
     )
     print(f"[INFO] Saved object geometry metadata to: {output_path}", flush=True)
+    simulation_app.close()
 
 
 if __name__ == "__main__":

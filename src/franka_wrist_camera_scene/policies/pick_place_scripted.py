@@ -27,6 +27,15 @@ class PickPlaceScriptedPolicy:
 
         self.quat_wxyz = torch.tensor([0.0, 1.0, 0.0, 0.0])
 
+    def _object_top_tcp_target_w(self, obj_pos_w: torch.Tensor) -> torch.Tensor:
+        if self.spec.object_local_bbox_min is None or self.spec.object_local_bbox_max is None:
+            raise RuntimeError("Pick-place requires object bbox metadata for top grasp targeting.")
+
+        bbox_max_z = float(self.spec.object_local_bbox_max[2])
+        target = obj_pos_w.clone()
+        target[:, 2] = obj_pos_w[:, 2] + bbox_max_z - self.spec.top_grasp_depth_m
+        return target
+
     def bind(self, scene: InteractiveScene, robot: Articulation) -> None:
         """Bind simulation scene and get device reference."""
         if scene.num_envs != 1:
@@ -69,17 +78,21 @@ class PickPlaceScriptedPolicy:
         tcp_offset_local = torch.tensor([0.0, 0.0, 0.10], device=self._device).view(1, 3)
         tcp_offset_w = quat_apply(self.quat_wxyz.view(1, 4), tcp_offset_local).view(3)
 
-        obj_hand_pos = obj_pos - tcp_offset_w.view(1, 3)
-        place_hand_pos = place_pos - tcp_offset_w.view(1, 3)
+        obj_tcp_target = self._object_top_tcp_target_w(obj_pos)
+        obj_hand_pos = obj_tcp_target - tcp_offset_w.view(1, 3)
+
+        place_tcp_target = place_pos.clone()
+        place_tcp_target[:, 2] += self.spec.place_release_clearance_m
+        place_hand_pos = place_tcp_target - tcp_offset_w.view(1, 3)
 
         pregrasp_pos = obj_hand_pos.clone()
-        pregrasp_pos[:, 2] += self.spec.pregrasp_height_m
+        pregrasp_pos[:, 2] += self.spec.pregrasp_clearance_m
 
         lift_pos = obj_hand_pos.clone()
         lift_pos[:, 2] += self.spec.lift_height_m
 
         place_pre_pos = place_hand_pos.clone()
-        place_pre_pos[:, 2] += self.spec.lift_height_m
+        place_pre_pos[:, 2] += self.spec.pregrasp_clearance_m
 
         target_pos_w = ee_pos_w.clone()
         target_quat_w = self.quat_wxyz.repeat(num_envs, 1)

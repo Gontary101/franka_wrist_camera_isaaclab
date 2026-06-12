@@ -14,6 +14,8 @@ class ObjectPlanarGeometry:
     """Planar geometry in the authored USD object coordinate frame."""
 
     usd_path: str
+    local_bbox_min: tuple[float, float, float]
+    local_bbox_max: tuple[float, float, float]
     local_bbox_size: tuple[float, float, float]
     planar_centroid_local: tuple[float, float]
     planar_major_axis_local: tuple[float, float] | None
@@ -62,6 +64,8 @@ def load_object_geometry_registry(
 
         registry[key] = ObjectPlanarGeometry(
             usd_path=str(record["usd_path"]),
+            local_bbox_min=_tuple3(record["local_bbox_min"]),
+            local_bbox_max=_tuple3(record["local_bbox_max"]),
             local_bbox_size=_tuple3(record["local_bbox_size"]),
             planar_centroid_local=_tuple2(record["planar_centroid_local"]),
             planar_major_axis_local=_tuple2_or_none(record["planar_major_axis_local"]),
