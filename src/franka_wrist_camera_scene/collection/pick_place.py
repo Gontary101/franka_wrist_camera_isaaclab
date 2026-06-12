@@ -14,7 +14,7 @@ from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg
+from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg, CATALOG_OBJECT_LABEL
 from franka_wrist_camera_scene.settings import SIM_DT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
@@ -22,10 +22,8 @@ from franka_wrist_camera_scene.episode.manifest import write_collection_manifest
 from franka_wrist_camera_scene.tasks.sampling import (
     parse_xy_range,
     sample_pick_place_offsets,
-    parse_object_colors,
     parse_lighting_options,
 )
-from franka_wrist_camera_scene.scene.materials import set_target_cube_color
 from franka_wrist_camera_scene.scene.lighting import set_dome_light
 
 
@@ -173,9 +171,6 @@ def collect_pick_place_dataset(
     object_xy_range = parse_xy_range(pose_randomization["object_xy_range"])
     place_xy_range = parse_xy_range(pose_randomization["place_xy_range"])
 
-    appearance_randomization = collection_cfg["appearance_randomization"]
-    object_colors = parse_object_colors(appearance_randomization["object_colors"])
-
     lighting_randomization = collection_cfg["lighting_randomization"]
     lighting_options = parse_lighting_options(lighting_randomization)
 
@@ -197,14 +192,13 @@ def collect_pick_place_dataset(
             episode_id=episode_id,
             object_range=object_xy_range,
             place_range=place_xy_range,
-            object_colors=object_colors,
             lighting=lighting_options,
         )
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
-            object_label="apple",
+            object_label=CATALOG_OBJECT_LABEL,
         )
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
@@ -234,8 +228,6 @@ def collect_pick_place_dataset(
             seed=seed,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
-            object_color_name=sample.object_color_name,
-            object_color_rgb=sample.object_color_rgb,
             light_intensity=sample.light_intensity,
             light_color=sample.light_color,
         )

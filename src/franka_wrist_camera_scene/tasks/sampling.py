@@ -13,12 +13,6 @@ class XYRange:
 
 
 @dataclass(frozen=True, slots=True)
-class ObjectColor:
-    name: str
-    rgb: tuple[float, float, float]
-
-
-@dataclass(frozen=True, slots=True)
 class LightingOptions:
     intensity_range: tuple[float, float]
     color_options: tuple[tuple[float, float, float], ...]
@@ -28,8 +22,6 @@ class LightingOptions:
 class PickPlaceSample:
     object_xy_offset: tuple[float, float]
     place_xy_offset: tuple[float, float]
-    object_color_name: str
-    object_color_rgb: tuple[float, float, float]
     light_intensity: float
     light_color: tuple[float, float, float]
 
@@ -38,16 +30,6 @@ def parse_xy_range(config: dict) -> XYRange:
     return XYRange(
         x=(float(config["x"][0]), float(config["x"][1])),
         y=(float(config["y"][0]), float(config["y"][1])),
-    )
-
-
-def parse_object_colors(config: list[dict]) -> tuple[ObjectColor, ...]:
-    return tuple(
-        ObjectColor(
-            name=str(item["name"]),
-            rgb=tuple(float(x) for x in item["rgb"]),
-        )
-        for item in config
     )
 
 
@@ -63,7 +45,6 @@ def sample_pick_place_offsets(
     episode_id: int,
     object_range: XYRange,
     place_range: XYRange,
-    object_colors: tuple[ObjectColor, ...],
     lighting: LightingOptions,
 ) -> PickPlaceSample:
     rng = random.Random(seed + episode_id)
@@ -76,15 +57,12 @@ def sample_pick_place_offsets(
         rng.uniform(place_range.x[0], place_range.x[1]),
         rng.uniform(place_range.y[0], place_range.y[1]),
     )
-    object_color = object_colors[rng.randrange(len(object_colors))]
     light_intensity = rng.uniform(lighting.intensity_range[0], lighting.intensity_range[1])
     light_color = lighting.color_options[rng.randrange(len(lighting.color_options))]
 
     return PickPlaceSample(
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
-        object_color_name=object_color.name,
-        object_color_rgb=object_color.rgb,
         light_intensity=light_intensity,
         light_color=light_color,
     )

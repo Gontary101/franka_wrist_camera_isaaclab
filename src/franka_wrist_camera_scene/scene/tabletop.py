@@ -23,6 +23,7 @@ _catalog_category, _catalog_variant = find_variant(
     category_id=CATALOG_OBJECT_CATEGORY_ID,
     variant_id=CATALOG_OBJECT_VARIANT_ID,
 )
+CATALOG_OBJECT_LABEL = _catalog_category.label
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
 
