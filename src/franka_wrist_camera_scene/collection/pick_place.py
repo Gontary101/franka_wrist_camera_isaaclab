@@ -19,6 +19,7 @@ from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
+from franka_wrist_camera_scene.scene.clutter import sample_clutter_objects
 from franka_wrist_camera_scene.scene.lighting import set_dome_light
 from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext, load_catalog_object_context
 from franka_wrist_camera_scene.scene.tabletop import make_pick_place_tabletop_scene_cfg
@@ -86,6 +87,7 @@ def run_episode(
     placement_target_pos_local: tuple[float, float, float] | None = None,
     light_intensity: float | None = None,
     light_color: tuple[float, float, float] | None = None,
+    clutter_objects: list[dict] | None = None,
 ) -> Path:
     """Run one episode, record data, check success, and save."""
     robot: Articulation = scene["robot"]
@@ -128,6 +130,7 @@ def run_episode(
         placement_target_pos_local=placement_target_pos_local,
         light_intensity=light_intensity,
         light_color=light_color,
+        clutter_objects=clutter_objects,
     )
     recorder.validate_output_path()
 
@@ -264,25 +267,6 @@ def collect_pick_place_dataset(
                 bottom_clearance_m=spec.object_bottom_clearance_m,
             )
 
-            scene = InteractiveScene(
-                make_pick_place_tabletop_scene_cfg(
-                    object_context=object_context,
-                    placement_context=placement_context,
-                    placement_pos_local=placement_receptacle_pos_local,
-                    num_envs=1,
-                    env_spacing=2.5,
-                )
-            )
-            robot: Articulation = scene["robot"]
-
-            ik = CartesianIKController()
-            gripper = GripperController()
-
-            sim.reset()
-            sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
-            ik.bind(scene, robot)
-            gripper.bind(scene, robot)
-
             grasp_closing_axis_xy = (
                 object_context.geometry.planar_minor_axis_local
                 if object_context.geometry.yaw_relevant
@@ -301,6 +285,59 @@ def collect_pick_place_dataset(
                 placement_target_local_bbox_max=placement_context.geometry.local_bbox_max,
                 placement_label=placement_context.label,
             )
+
+            clutter_specs = sample_clutter_objects(
+                clutter_cfg=collection_cfg["clutter"],
+                seed=seed,
+                episode_id=episode_id,
+                support_surface_z_local=episode_spec.support_surface_z_local,
+                object_bottom_clearance_m=episode_spec.object_bottom_clearance_m,
+                target_object_context=object_context,
+                target_object_xy=(
+                    episode_spec.object_pos_local[0],
+                    episode_spec.object_pos_local[1],
+                ),
+                placement_target_context=placement_context,
+                placement_target_xy=(
+                    placement_receptacle_pos_local[0],
+                    placement_receptacle_pos_local[1],
+                ),
+            )
+            clutter_metadata = [
+                {
+                    "prim_name": clutter_spec.prim_name,
+                    "category_id": clutter_spec.context.category_id,
+                    "variant_id": clutter_spec.context.variant_id,
+                    "label": clutter_spec.context.label,
+                    "usd_path": _repo_relative_path(clutter_spec.context.usd_path),
+                    "grasp_strategy": clutter_spec.context.grasp_strategy,
+                    "pos_local": list(clutter_spec.pos_local),
+                    "local_bbox_min": list(clutter_spec.context.geometry.local_bbox_min),
+                    "local_bbox_max": list(clutter_spec.context.geometry.local_bbox_max),
+                    "footprint_radius_m": clutter_spec.footprint_radius_m,
+                }
+                for clutter_spec in clutter_specs
+            ]
+
+            scene = InteractiveScene(
+                make_pick_place_tabletop_scene_cfg(
+                    object_context=object_context,
+                    placement_context=placement_context,
+                    placement_pos_local=placement_receptacle_pos_local,
+                    clutter_specs=clutter_specs,
+                    num_envs=1,
+                    env_spacing=2.5,
+                )
+            )
+            robot: Articulation = scene["robot"]
+
+            ik = CartesianIKController()
+            gripper = GripperController()
+
+            sim.reset()
+            sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
+            ik.bind(scene, robot)
+            gripper.bind(scene, robot)
 
             policy = PickPlaceScriptedPolicy(spec=episode_spec)
             policy.bind(scene, robot)
@@ -346,6 +383,7 @@ def collect_pick_place_dataset(
                 placement_target_pos_local=placement_receptacle_pos_local,
                 light_intensity=sample.light_intensity,
                 light_color=sample.light_color,
+                clutter_objects=clutter_metadata,
             )
             saved_episode_dirs.append(saved_dir)
         finally:

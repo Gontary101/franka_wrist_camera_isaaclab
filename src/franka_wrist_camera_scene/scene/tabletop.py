@@ -11,7 +11,10 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab_assets import FRANKA_PANDA_HIGH_PD_CFG
 
 from ..settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
+from franka_wrist_camera_scene.scene.clutter import ClutterObjectSpec
 from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext
+
+PICK_PLACE_CLUTTER_SLOT_COUNT = 3
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
 
@@ -109,6 +112,33 @@ class PickPlaceTabletopFrankaSceneCfg(TabletopFrankaSceneCfg):
         init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.22, TABLE_HEIGHT_M + 0.05)),
     )
 
+    clutter_0 = AssetBaseCfg(
+        prim_path="{ENV_REGEX_NS}/ClutterObject0",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path="",
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.0)),
+    )
+
+    clutter_1 = AssetBaseCfg(
+        prim_path="{ENV_REGEX_NS}/ClutterObject1",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path="",
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.0)),
+    )
+
+    clutter_2 = AssetBaseCfg(
+        prim_path="{ENV_REGEX_NS}/ClutterObject2",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path="",
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.0)),
+    )
+
 
 def make_tabletop_scene_cfg(
     object_context: CatalogObjectContext,
@@ -125,12 +155,34 @@ def make_pick_place_tabletop_scene_cfg(
     object_context: CatalogObjectContext,
     placement_context: CatalogObjectContext,
     placement_pos_local: tuple[float, float, float],
+    clutter_specs: tuple[ClutterObjectSpec, ...],
     num_envs: int = 1,
     env_spacing: float = 2.5,
 ) -> PickPlaceTabletopFrankaSceneCfg:
     """Create a pick-place scene with a sampled target object and receptacle."""
+    if len(clutter_specs) != PICK_PLACE_CLUTTER_SLOT_COUNT:
+        raise ValueError(
+            f"Expected {PICK_PLACE_CLUTTER_SLOT_COUNT} clutter specs, "
+            f"got {len(clutter_specs)}."
+        )
+
     scene_cfg = PickPlaceTabletopFrankaSceneCfg(num_envs=num_envs, env_spacing=env_spacing)
     scene_cfg.target_cube.spawn.usd_path = str(object_context.usd_path)
     scene_cfg.place_receptacle.spawn.usd_path = str(placement_context.usd_path)
     scene_cfg.place_receptacle.init_state.pos = placement_pos_local
+
+    clutter_slots = (
+        scene_cfg.clutter_0,
+        scene_cfg.clutter_1,
+        scene_cfg.clutter_2,
+    )
+
+    for clutter_spec, clutter_slot in zip(clutter_specs, clutter_slots, strict=True):
+        clutter_slot.spawn.usd_path = str(clutter_spec.context.usd_path)
+        clutter_slot.init_state.pos = clutter_spec.pos_local
+
+    for clutter_slot in clutter_slots:
+        if not clutter_slot.spawn.usd_path:
+            raise RuntimeError("All clutter slots must be patched with concrete USD paths.")
+
     return scene_cfg

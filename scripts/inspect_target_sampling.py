@@ -26,7 +26,11 @@ from franka_wrist_camera_scene.utils.paths import load_yaml_config
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Inspect target variants eligible for sampling.")
     parser.add_argument("--collection-config", default="collection.yaml")
-    parser.add_argument("--config-block", default="target_object", choices=("target_object", "placement_target"))
+    parser.add_argument(
+        "--config-block",
+        default="target_object",
+        choices=("target_object", "placement_target", "clutter"),
+    )
     parser.add_argument("--only-yaw-relevant", action="store_true")
     parser.add_argument("--category")
     return parser.parse_args()
@@ -53,8 +57,13 @@ def main() -> None:
 
     print(f"collection_config: {args.collection_config}")
     print(f"config_block: {args.config_block}")
-    print(f"category_id: {sampling_cfg['category_id']}")
-    print(f"variant_id: {sampling_cfg['variant_id']}")
+    if args.config_block == "clutter":
+        print(f"count: {sampling_cfg['count']}")
+        print("category_id: sample")
+        print("variant_id: sample")
+    else:
+        print(f"category_id: {sampling_cfg['category_id']}")
+        print(f"variant_id: {sampling_cfg['variant_id']}")
     print(f"split: {split}")
     print(f"role: {role}")
     print(f"required_affordances: {', '.join(required_affordances)}")
@@ -108,6 +117,11 @@ def main() -> None:
             )
 
     print(f"\neligible_variants: {count}")
+    if args.config_block == "clutter" and count == 0:
+        raise RuntimeError(
+            "No clutter-role catalog variants match the configured filters. "
+            "Update catalog curation or clutter config."
+        )
 
 
 if __name__ == "__main__":

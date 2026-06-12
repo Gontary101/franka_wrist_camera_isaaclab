@@ -49,6 +49,7 @@ class EpisodeRecorder:
     placement_target_pos_local: tuple[float, float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
+    clutter_objects: list[dict] | None = None
 
     joint_pos: list[np.ndarray] = field(default_factory=list)
     joint_vel: list[np.ndarray] = field(default_factory=list)
@@ -179,6 +180,7 @@ class EpisodeRecorder:
             placement_target_pos_local=self.placement_target_pos_local,
             light_intensity=self.light_intensity,
             light_color=self.light_color,
+            clutter_objects=self.clutter_objects,
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir

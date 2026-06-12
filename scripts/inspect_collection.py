@@ -62,7 +62,18 @@ def load_episode_summary(episode_dir: Path) -> dict:
         ),
         "light_intensity": meta.get("light_intensity"),
         "light_color": tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
+        "clutter_objects": meta.get("clutter_objects"),
     }
+
+
+def format_clutter_summary(clutter_objects: list[dict] | None) -> str:
+    if clutter_objects is None:
+        return "missing"
+    labels = [
+        f"{item['category_id']}/{item['variant_id']}"
+        for item in clutter_objects
+    ]
+    return f"{len(clutter_objects)} [{', '.join(labels)}]"
 
 
 def main() -> None:
@@ -79,44 +90,27 @@ def main() -> None:
     summaries = [load_episode_summary(path) for path in episode_dirs]
     successes = sum(item["success"] for item in summaries)
 
+    if any(item.get("clutter_objects") is None for item in summaries):
+        print("[WARN] Some episodes are missing clutter_objects metadata.", flush=True)
+
     print(f"collection: {collection_dir}")
     print(f"episodes: {len(summaries)}")
     print(f"success: {successes}/{len(summaries)}")
     print()
-    print(
-        f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
-        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} "
-        f"{'object_variant':<20} {'placement_variant':<20} {'placement_label':<16} "
-        f"{'strategy':<12} {'yaw':<6} {'aspect':<8} {'minor_axis':<20} "
-        f"{'grasp_axis':<20} {'light':<24}"
-    )
-
     for item in summaries:
         episode_id = f"{item['episode_id']:06d}"
         success = str(item["success"]).lower()
-        record_depth = str(item["record_depth"]).lower()
-        variant_id = item.get("object_variant_id", "none") or "none"
-        placement_variant_id = item.get("placement_target_variant_id", "none") or "none"
-        placement_label = item.get("placement_target_label", "none") or "none"
-        strategy = item.get("object_grasp_strategy", "none") or "none"
-        light_str = "none"
-        if item["light_intensity"] is not None and item["light_color"] is not None:
-            light_color_str = f"({', '.join(f'{x:.2f}' for x in item['light_color'])})"
-            light_str = f"{item['light_intensity']:.1f} {light_color_str}"
-        yaw_relevant = str(item["object_yaw_relevant"]).lower()
-        aspect_ratio = item["object_planar_aspect_ratio"]
-        aspect_str = f"{aspect_ratio:.3f}" if aspect_ratio is not None else "none"
-        minor_axis = item["object_planar_minor_axis_local"]
-        minor_axis_str = str(minor_axis) if minor_axis is not None else "none"
-        grasp_axis = item["grasp_closing_axis_xy"]
-        grasp_axis_str = str(grasp_axis) if grasp_axis is not None else "none"
+        object_variant = item.get("object_variant_id", "none") or "none"
+        object_ref = f"{item.get('object_category_id', 'none')}/{object_variant}"
+        receptacle_ref = (
+            f"{item.get('placement_target_category_id', 'none')}/"
+            f"{item.get('placement_target_variant_id', 'none')}"
+        )
+        clutter_summary = format_clutter_summary(item.get("clutter_objects"))
         print(
-            f"{episode_id:<10} {success:<8} "
-            f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
-            f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
-            f"{record_depth:<6} {variant_id:<20} {placement_variant_id:<20} "
-            f"{placement_label:<16} {strategy:<12} {yaw_relevant:<6} {aspect_str:<8} "
-            f"{minor_axis_str:<20} {grasp_axis_str:<20} {light_str:<24}"
+            f"episode={episode_id} success={success} "
+            f"object={object_ref} receptacle={receptacle_ref} "
+            f"clutter={clutter_summary}"
         )
 
     print_pose_variant_summary(summaries)

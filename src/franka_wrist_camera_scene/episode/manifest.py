@@ -37,6 +37,7 @@ class EpisodeManifestEntry:
     placement_target_pos_local: tuple[float, float, float] | None
     light_intensity: float | None
     light_color: tuple[float, float, float] | None
+    clutter_objects: list[dict] | None
     trajectory_file: str
     metadata_file: str
 
@@ -115,6 +116,7 @@ def write_collection_manifest(
                 ),
                 light_intensity=meta.get("light_intensity"),
                 light_color=tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
+                clutter_objects=meta.get("clutter_objects"),
                 trajectory_file=(rel_dir / "trajectory.npz").as_posix(),
                 metadata_file=(rel_dir / "meta.json").as_posix(),
             )

@@ -76,6 +76,7 @@ def export_episode(
         "placement_target_pos_local": meta.get("placement_target_pos_local"),
         "light_intensity": meta.get("light_intensity"),
         "light_color": meta.get("light_color"),
+        "clutter_objects": meta.get("clutter_objects"),
     }
 
 

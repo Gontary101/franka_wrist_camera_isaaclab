@@ -43,6 +43,7 @@ class EpisodeMetadata:
     placement_target_pos_local: tuple[float, float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
+    clutter_objects: list[dict] | None = None
 
     def save(self, path: Path) -> None:
         path.write_text(json.dumps(asdict(self), indent=2), encoding="utf-8")

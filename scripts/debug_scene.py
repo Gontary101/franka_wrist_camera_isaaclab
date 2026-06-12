@@ -72,6 +72,7 @@ from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
 from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
 from franka_wrist_camera_scene.policies import PickPlaceScriptedPolicy, ReachingScriptedPolicy
+from franka_wrist_camera_scene.scene.clutter import sample_clutter_objects
 from franka_wrist_camera_scene.scene.tabletop import make_pick_place_tabletop_scene_cfg, make_tabletop_scene_cfg
 from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
@@ -248,13 +249,6 @@ def main() -> None:
             object_bbox_min_z=placement_context.geometry.local_bbox_min[2],
             bottom_clearance_m=base_spec.object_bottom_clearance_m,
         )
-        scene_cfg = make_pick_place_tabletop_scene_cfg(
-            object_context=object_context,
-            placement_context=placement_context,
-            placement_pos_local=placement_receptacle_pos_local,
-            num_envs=args_cli.num_envs,
-            env_spacing=2.5,
-        )
         grasp_closing_axis_xy = (
             object_context.geometry.planar_minor_axis_local
             if object_context.geometry.yaw_relevant
@@ -272,6 +266,28 @@ def main() -> None:
             placement_target_local_bbox_min=placement_context.geometry.local_bbox_min,
             placement_target_local_bbox_max=placement_context.geometry.local_bbox_max,
             placement_label=placement_context.label,
+        )
+        clutter_specs = sample_clutter_objects(
+            clutter_cfg=collection_cfg["clutter"],
+            seed=seed,
+            episode_id=0,
+            support_surface_z_local=spec.support_surface_z_local,
+            object_bottom_clearance_m=spec.object_bottom_clearance_m,
+            target_object_context=object_context,
+            target_object_xy=(spec.object_pos_local[0], spec.object_pos_local[1]),
+            placement_target_context=placement_context,
+            placement_target_xy=(
+                placement_receptacle_pos_local[0],
+                placement_receptacle_pos_local[1],
+            ),
+        )
+        scene_cfg = make_pick_place_tabletop_scene_cfg(
+            object_context=object_context,
+            placement_context=placement_context,
+            placement_pos_local=placement_receptacle_pos_local,
+            clutter_specs=clutter_specs,
+            num_envs=args_cli.num_envs,
+            env_spacing=2.5,
         )
         policy = PickPlaceScriptedPolicy(spec=spec)
 
