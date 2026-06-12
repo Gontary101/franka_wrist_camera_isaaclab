@@ -22,11 +22,12 @@ class PickPlaceTaskSpec(TaskSpec):
     object_local_bbox_min: tuple[float, float, float] | None = None
     object_local_bbox_max: tuple[float, float, float] | None = None
 
-    top_grasp_depth_m: float = 0.025
+    object_transit_clearance_m: float = 0.13
     pregrasp_clearance_m: float = 0.055
+    top_grasp_depth_m: float = 0.025
+    place_transit_clearance_m: float = 0.13
     place_release_clearance_m: float = 0.025
 
-    pregrasp_height_m: float = 0.16
     lift_height_m: float = 0.20
     open_finger_m: float = 0.04
     closed_finger_m: float = 0.0
@@ -92,10 +93,11 @@ def make_pick_place_episode_spec(
             if object_local_bbox_max is not None
             else base_spec.object_local_bbox_max
         ),
-        top_grasp_depth_m=base_spec.top_grasp_depth_m,
+        object_transit_clearance_m=base_spec.object_transit_clearance_m,
         pregrasp_clearance_m=base_spec.pregrasp_clearance_m,
+        top_grasp_depth_m=base_spec.top_grasp_depth_m,
+        place_transit_clearance_m=base_spec.place_transit_clearance_m,
         place_release_clearance_m=base_spec.place_release_clearance_m,
-        pregrasp_height_m=base_spec.pregrasp_height_m,
         lift_height_m=base_spec.lift_height_m,
         open_finger_m=base_spec.open_finger_m,
         closed_finger_m=base_spec.closed_finger_m,

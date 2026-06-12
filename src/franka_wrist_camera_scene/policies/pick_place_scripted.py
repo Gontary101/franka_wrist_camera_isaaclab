@@ -18,7 +18,7 @@ class PickPlaceScriptedPolicy:
 
     def __init__(self, spec: PickPlaceTaskSpec):
         self.spec = spec
-        self.state = "move_to_pregrasp"
+        self.state = "move_to_object_transit"
         self._scene = None
         self._device = None
         self._motion = None
@@ -27,14 +27,22 @@ class PickPlaceScriptedPolicy:
 
         self.quat_wxyz = torch.tensor([0.0, 1.0, 0.0, 0.0])
 
-    def _object_top_tcp_target_w(self, obj_pos_w: torch.Tensor) -> torch.Tensor:
+    def _object_top_tcp_targets_w(self, obj_pos_w: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         if self.spec.object_local_bbox_min is None or self.spec.object_local_bbox_max is None:
             raise RuntimeError("Pick-place requires object bbox metadata for top grasp targeting.")
 
         bbox_max_z = float(self.spec.object_local_bbox_max[2])
-        target = obj_pos_w.clone()
-        target[:, 2] = obj_pos_w[:, 2] + bbox_max_z - self.spec.top_grasp_depth_m
-        return target
+
+        grasp_tcp = obj_pos_w.clone()
+        grasp_tcp[:, 2] = obj_pos_w[:, 2] + bbox_max_z - self.spec.top_grasp_depth_m
+
+        pregrasp_tcp = grasp_tcp.clone()
+        pregrasp_tcp[:, 2] += self.spec.pregrasp_clearance_m
+
+        transit_tcp = grasp_tcp.clone()
+        transit_tcp[:, 2] += self.spec.object_transit_clearance_m
+
+        return grasp_tcp, pregrasp_tcp, transit_tcp
 
     def bind(self, scene: InteractiveScene, robot: Articulation) -> None:
         """Bind simulation scene and get device reference."""
@@ -53,7 +61,7 @@ class PickPlaceScriptedPolicy:
 
     def reset(self) -> None:
         """Reset the policy to the initial state."""
-        self.state = "move_to_pregrasp"
+        self.state = "move_to_object_transit"
         self._motion = None
         self._state_start_time = None
 
@@ -78,36 +86,59 @@ class PickPlaceScriptedPolicy:
         tcp_offset_local = torch.tensor([0.0, 0.0, 0.10], device=self._device).view(1, 3)
         tcp_offset_w = quat_apply(self.quat_wxyz.view(1, 4), tcp_offset_local).view(3)
 
-        obj_tcp_target = self._object_top_tcp_target_w(obj_pos)
-        obj_hand_pos = obj_tcp_target - tcp_offset_w.view(1, 3)
+        obj_grasp_tcp, obj_pregrasp_tcp, obj_transit_tcp = self._object_top_tcp_targets_w(obj_pos)
 
-        place_tcp_target = place_pos.clone()
-        place_tcp_target[:, 2] += self.spec.place_release_clearance_m
-        place_hand_pos = place_tcp_target - tcp_offset_w.view(1, 3)
+        obj_hand_pos = obj_grasp_tcp - tcp_offset_w.view(1, 3)
+        pregrasp_pos = obj_pregrasp_tcp - tcp_offset_w.view(1, 3)
+        object_transit_pos = obj_transit_tcp - tcp_offset_w.view(1, 3)
 
-        pregrasp_pos = obj_hand_pos.clone()
-        pregrasp_pos[:, 2] += self.spec.pregrasp_clearance_m
+        place_release_tcp = place_pos.clone()
+        place_release_tcp[:, 2] += self.spec.place_release_clearance_m
+
+        place_pre_tcp = place_release_tcp.clone()
+        place_pre_tcp[:, 2] += self.spec.pregrasp_clearance_m
+
+        place_transit_tcp = place_release_tcp.clone()
+        place_transit_tcp[:, 2] += self.spec.place_transit_clearance_m
+
+        place_hand_pos = place_release_tcp - tcp_offset_w.view(1, 3)
+        place_pre_pos = place_pre_tcp - tcp_offset_w.view(1, 3)
+        place_transit_pos = place_transit_tcp - tcp_offset_w.view(1, 3)
 
         lift_pos = obj_hand_pos.clone()
         lift_pos[:, 2] += self.spec.lift_height_m
-
-        place_pre_pos = place_hand_pos.clone()
-        place_pre_pos[:, 2] += self.spec.pregrasp_clearance_m
 
         target_pos_w = ee_pos_w.clone()
         target_quat_w = self.quat_wxyz.repeat(num_envs, 1)
         finger_opening = self.spec.open_finger_m
         done = False
 
-        if self.state == "move_to_pregrasp":
+        if self.state == "move_to_object_transit":
+            if self._motion is None:
+                self._motion = LinearPoseMotion.from_limits(
+                    start_pos_w=ee_pos_w,
+                    goal_pos_w=object_transit_pos,
+                    quat_w=target_quat_w,
+                    start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
+                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
+                )
+            pos, quat, finished = self._motion.sample(sim_time_s)
+            target_pos_w = pos
+            target_quat_w = quat
+            if finished:
+                self.state = "move_to_pregrasp"
+                self._motion = None
+
+        elif self.state == "move_to_pregrasp":
             if self._motion is None:
                 self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
                     goal_pos_w=pregrasp_pos,
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
-                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
+                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_accel_m_s2=self.spec.approach_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -156,6 +187,24 @@ class PickPlaceScriptedPolicy:
             target_pos_w = pos
             target_quat_w = quat
             if finished:
+                self.state = "move_to_place_transit"
+                self._motion = None
+
+        elif self.state == "move_to_place_transit":
+            finger_opening = self.spec.closed_finger_m
+            if self._motion is None:
+                self._motion = LinearPoseMotion.from_limits(
+                    start_pos_w=ee_pos_w,
+                    goal_pos_w=place_transit_pos,
+                    quat_w=target_quat_w,
+                    start_time_s=sim_time_s,
+                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
+                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
+                )
+            pos, quat, finished = self._motion.sample(sim_time_s)
+            target_pos_w = pos
+            target_quat_w = quat
+            if finished:
                 self.state = "move_to_place"
                 self._motion = None
 
@@ -167,8 +216,8 @@ class PickPlaceScriptedPolicy:
                     goal_pos_w=place_pre_pos,
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
-                    max_accel_m_s2=self.spec.free_space_max_accel_m_s2,
+                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_accel_m_s2=self.spec.approach_max_accel_m_s2,
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -208,7 +257,7 @@ class PickPlaceScriptedPolicy:
             if self._motion is None:
                 self._motion = LinearPoseMotion.from_limits(
                     start_pos_w=ee_pos_w,
-                    goal_pos_w=place_pre_pos,
+                    goal_pos_w=place_transit_pos,
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
                     max_speed_m_s=self.spec.retreat_max_speed_m_s,
@@ -222,7 +271,7 @@ class PickPlaceScriptedPolicy:
                 self._motion = None
 
         elif self.state == "done":
-            target_pos_w = place_pre_pos
+            target_pos_w = place_transit_pos
             finger_opening = self.spec.open_finger_m
             done = True
 
