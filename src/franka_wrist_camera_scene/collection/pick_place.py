@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gc
 from pathlib import Path
 
 import isaaclab.sim as sim_utils
@@ -302,6 +303,9 @@ def collect_pick_place_dataset(
             light_color=sample.light_color,
         )
         saved_episode_dirs.append(saved_dir)
+
+        del scene, robot, ik, gripper, policy
+        gc.collect()
 
     manifest_path = write_collection_manifest(
         output_dir=output_dir,
