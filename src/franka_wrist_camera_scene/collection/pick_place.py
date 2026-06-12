@@ -9,25 +9,26 @@ import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation
 from isaaclab.scene import InteractiveScene
 
+from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
+from franka_wrist_camera_scene.app.stage_lifecycle import delete_scene_prims
 from franka_wrist_camera_scene.control.gripper import GripperController
 from franka_wrist_camera_scene.control.ik import CartesianIKController
+from franka_wrist_camera_scene.episode.manifest import write_collection_manifest
+from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
-from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
+from franka_wrist_camera_scene.scene.lighting import set_dome_light
 from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
+from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
 from franka_wrist_camera_scene.settings import SIM_DT
-from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
-from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
-from franka_wrist_camera_scene.episode.manifest import write_collection_manifest
 from franka_wrist_camera_scene.tasks.sampling import (
+    parse_lighting_options,
     parse_xy_range,
     sample_pick_place_offsets,
-    parse_lighting_options,
 )
-from franka_wrist_camera_scene.scene.lighting import set_dome_light
+from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 
 
 def run_episode(
@@ -195,118 +196,115 @@ def collect_pick_place_dataset(
     saved_episode_dirs: list[Path] = []
 
     import random
-    import omni.usd
 
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
+        scene = None
+        robot = None
+        ik = None
+        gripper = None
+        policy = None
 
-        # 1. Deterministic target object sampling based on episode seed
-        episode_rng = random.Random(seed + episode_id)
-        object_context = load_catalog_object_context(
-            catalog_config=target_object_cfg["catalog_config"],
-            geometry_config=target_object_cfg["geometry_config"],
-            category_id=target_object_cfg["category_id"],
-            variant_id=target_object_cfg["variant_id"],
-            split=target_object_cfg["split"],
-            role=target_object_cfg["role"],
-            required_affordances=tuple(target_object_cfg["required_affordances"]),
-            required_grasp_strategy=target_object_cfg["required_grasp_strategy"],
-            rng=episode_rng,
-        )
-        durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
-
-        # 2. Stage cleanup: Remove previous prims to prevent conflicts
-        stage = omni.usd.get_context().get_stage()
-        for prim_path in ["/World/envs", "/World/Warehouse", "/World/Light"]:
-            if stage.GetPrimAtPath(prim_path):
-                stage.RemovePrim(prim_path)
-
-        # 3. Create the scene
-        scene = InteractiveScene(
-            make_tabletop_scene_cfg(
-                object_context=object_context,
-                num_envs=1,
-                env_spacing=2.5,
+        try:
+            # 1. Deterministic target object sampling based on episode seed
+            episode_rng = random.Random(seed + episode_id)
+            object_context = load_catalog_object_context(
+                catalog_config=target_object_cfg["catalog_config"],
+                geometry_config=target_object_cfg["geometry_config"],
+                category_id=target_object_cfg["category_id"],
+                variant_id=target_object_cfg["variant_id"],
+                split=target_object_cfg["split"],
+                role=target_object_cfg["role"],
+                required_affordances=tuple(target_object_cfg["required_affordances"]),
+                required_grasp_strategy=target_object_cfg["required_grasp_strategy"],
+                rng=episode_rng,
             )
-        )
-        robot: Articulation = scene["robot"]
+            durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
 
-        # Bind controllers
-        ik = CartesianIKController()
-        gripper = GripperController()
+            scene = InteractiveScene(
+                make_tabletop_scene_cfg(
+                    object_context=object_context,
+                    num_envs=1,
+                    env_spacing=2.5,
+                )
+            )
+            robot: Articulation = scene["robot"]
 
-        sim.reset()
-        sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
-        ik.bind(scene, robot)
-        gripper.bind(scene, robot)
+            ik = CartesianIKController()
+            gripper = GripperController()
 
-        spec = PickPlaceTaskSpec()
-        sample = sample_pick_place_offsets(
-            seed=seed,
-            episode_id=episode_id,
-            object_range=object_xy_range,
-            place_range=place_xy_range,
-            lighting=lighting_options,
-        )
-        grasp_closing_axis_xy = (
-            object_context.geometry.planar_minor_axis_local
-            if object_context.geometry.yaw_relevant
-            else None
-        )
-        episode_spec = make_pick_place_episode_spec(
-            base_spec=spec,
-            object_xy_offset=sample.object_xy_offset,
-            place_xy_offset=sample.place_xy_offset,
-            object_label=object_context.label,
-            grasp_closing_axis_xy=grasp_closing_axis_xy,
-            object_local_bbox_min=object_context.geometry.local_bbox_min,
-            object_local_bbox_max=object_context.geometry.local_bbox_max,
-        )
+            sim.reset()
+            sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
+            ik.bind(scene, robot)
+            gripper.bind(scene, robot)
 
-        policy = PickPlaceScriptedPolicy(spec=episode_spec)
-        policy.bind(scene, robot)
+            spec = PickPlaceTaskSpec()
+            sample = sample_pick_place_offsets(
+                seed=seed,
+                episode_id=episode_id,
+                object_range=object_xy_range,
+                place_range=place_xy_range,
+                lighting=lighting_options,
+            )
+            grasp_closing_axis_xy = (
+                object_context.geometry.planar_minor_axis_local
+                if object_context.geometry.yaw_relevant
+                else None
+            )
+            episode_spec = make_pick_place_episode_spec(
+                base_spec=spec,
+                object_xy_offset=sample.object_xy_offset,
+                place_xy_offset=sample.place_xy_offset,
+                object_label=object_context.label,
+                grasp_closing_axis_xy=grasp_closing_axis_xy,
+                object_local_bbox_min=object_context.geometry.local_bbox_min,
+                object_local_bbox_max=object_context.geometry.local_bbox_max,
+            )
 
-        reset_pick_place_episode(scene, episode_spec)
-        # USD catalog objects keep their authored materials.
-        set_dome_light(scene, sample.light_intensity, sample.light_color)
-        policy.reset()
-        ik.reset()
-        nudge_camera_prims(sim, scene)
+            policy = PickPlaceScriptedPolicy(spec=episode_spec)
+            policy.bind(scene, robot)
 
-        saved_dir = run_episode(
-            sim=sim,
-            scene=scene,
-            policy=policy,
-            ik=ik,
-            gripper=gripper,
-            output_dir=output_dir,
-            episode_id=episode_id,
-            max_steps=max_steps,
-            settle_time_s=settle_time_s,
-            record_cameras=record_cameras,
-            record_depth=record_depth,
-            camera_fps=camera_fps,
-            simulation_app=simulation_app,
-            seed=seed,
-            object_xy_offset=sample.object_xy_offset,
-            place_xy_offset=sample.place_xy_offset,
-            object_category_id=object_context.category_id,
-            object_variant_id=object_context.variant_id,
-            object_label=object_context.label,
-            object_usd_path=durable_usd_path,
-            object_grasp_strategy=object_context.grasp_strategy,
-            object_yaw_relevant=object_context.geometry.yaw_relevant,
-            object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
-            object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,
-            object_planar_major_axis_local=object_context.geometry.planar_major_axis_local,
-            grasp_closing_axis_xy=episode_spec.grasp_closing_axis_xy,
-            light_intensity=sample.light_intensity,
-            light_color=sample.light_color,
-        )
-        saved_episode_dirs.append(saved_dir)
+            reset_pick_place_episode(scene, episode_spec)
+            set_dome_light(scene, sample.light_intensity, sample.light_color)
+            policy.reset()
+            ik.reset()
+            nudge_camera_prims(sim, scene)
 
-        del scene, robot, ik, gripper, policy
-        gc.collect()
+            saved_dir = run_episode(
+                sim=sim,
+                scene=scene,
+                policy=policy,
+                ik=ik,
+                gripper=gripper,
+                output_dir=output_dir,
+                episode_id=episode_id,
+                max_steps=max_steps,
+                settle_time_s=settle_time_s,
+                record_cameras=record_cameras,
+                record_depth=record_depth,
+                camera_fps=camera_fps,
+                simulation_app=simulation_app,
+                seed=seed,
+                object_xy_offset=sample.object_xy_offset,
+                place_xy_offset=sample.place_xy_offset,
+                object_category_id=object_context.category_id,
+                object_variant_id=object_context.variant_id,
+                object_label=object_context.label,
+                object_usd_path=durable_usd_path,
+                object_grasp_strategy=object_context.grasp_strategy,
+                object_yaw_relevant=object_context.geometry.yaw_relevant,
+                object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
+                object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,
+                object_planar_major_axis_local=object_context.geometry.planar_major_axis_local,
+                grasp_closing_axis_xy=episode_spec.grasp_closing_axis_xy,
+                light_intensity=sample.light_intensity,
+                light_color=sample.light_color,
+            )
+            saved_episode_dirs.append(saved_dir)
+        finally:
+            del scene, robot, ik, gripper, policy
+            gc.collect()
+            delete_scene_prims(sim=sim, simulation_app=simulation_app)
 
     manifest_path = write_collection_manifest(
         output_dir=output_dir,
