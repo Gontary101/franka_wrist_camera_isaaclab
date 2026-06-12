@@ -10,6 +10,11 @@ record_depth: true
 
 seed: 123
 
+target_object:
+  catalog_config: object_catalog.generated.yaml
+  category_id: apple
+  variant_id: apple00
+
 pose_randomization:
   object_xy_range:
     x: [-0.05, 0.05]

@@ -11,20 +11,22 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab_assets import FRANKA_PANDA_HIGH_PD_CFG
 
 from ..settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
-from franka_wrist_camera_scene.objects.catalog import load_object_catalog
-from franka_wrist_camera_scene.objects.selection import find_variant
+from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext, load_catalog_object_context
 
-CATALOG_OBJECT_CATEGORY_ID = "apple"
-CATALOG_OBJECT_VARIANT_ID = "apple00"
-
-_catalog = load_object_catalog("object_catalog.generated.yaml")
-_catalog_category, _catalog_variant = find_variant(
-    _catalog,
-    category_id=CATALOG_OBJECT_CATEGORY_ID,
-    variant_id=CATALOG_OBJECT_VARIANT_ID,
+_SELECTED_OBJECT = load_catalog_object_context(
+    catalog_config="object_catalog.generated.yaml",
+    category_id="apple",
+    variant_id="apple00",
 )
-CATALOG_OBJECT_LABEL = _catalog_category.label
-CATALOG_OBJECT_USD_PATH = _catalog_variant.usd_path
+
+
+def configure_catalog_object(context: CatalogObjectContext) -> None:
+    global _SELECTED_OBJECT
+    _SELECTED_OBJECT = context
+
+
+def selected_catalog_object() -> CatalogObjectContext:
+    return _SELECTED_OBJECT
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
 
@@ -72,7 +74,7 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
     target_cube = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/TargetCube",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=str(_catalog_variant.usd_path),
+            usd_path=str(selected_catalog_object().usd_path),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),

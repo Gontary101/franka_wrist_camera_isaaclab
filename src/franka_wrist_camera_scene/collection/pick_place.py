@@ -14,14 +14,10 @@ from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import (
-    TabletopFrankaSceneCfg,
-    CATALOG_OBJECT_CATEGORY_ID,
-    CATALOG_OBJECT_VARIANT_ID,
-    CATALOG_OBJECT_LABEL,
-    CATALOG_OBJECT_USD_PATH,
-)
+from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg, configure_catalog_object, selected_catalog_object
+from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import SIM_DT
+from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
 from franka_wrist_camera_scene.episode.manifest import write_collection_manifest
@@ -164,7 +160,22 @@ def collect_pick_place_dataset(
     sim = sim_utils.SimulationContext(sim_cfg)
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
-    scene = InteractiveScene(TabletopFrankaSceneCfg(num_envs=1, env_spacing=2.5))
+    target_object_cfg = collection_cfg["target_object"]
+    object_context = load_catalog_object_context(
+        catalog_config=target_object_cfg["catalog_config"],
+        category_id=target_object_cfg["category_id"],
+        variant_id=target_object_cfg["variant_id"],
+    )
+    configure_catalog_object(object_context)
+
+    try:
+        durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        durable_usd_path = object_context.usd_path.as_posix()
+
+    scene_cfg = TabletopFrankaSceneCfg(num_envs=1, env_spacing=2.5)
+    scene_cfg.target_cube.spawn.usd_path = str(selected_catalog_object().usd_path)
+    scene = InteractiveScene(scene_cfg)
     robot: Articulation = scene["robot"]
 
     spec = PickPlaceTaskSpec()
@@ -208,7 +219,7 @@ def collect_pick_place_dataset(
             base_spec=spec,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
-            object_label=CATALOG_OBJECT_LABEL,
+            object_label=selected_catalog_object().label,
         )
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
@@ -238,10 +249,10 @@ def collect_pick_place_dataset(
             seed=seed,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
-            object_category_id=CATALOG_OBJECT_CATEGORY_ID,
-            object_variant_id=CATALOG_OBJECT_VARIANT_ID,
-            object_label=CATALOG_OBJECT_LABEL,
-            object_usd_path=str(CATALOG_OBJECT_USD_PATH),
+            object_category_id=selected_catalog_object().category_id,
+            object_variant_id=selected_catalog_object().variant_id,
+            object_label=selected_catalog_object().label,
+            object_usd_path=durable_usd_path,
             light_intensity=sample.light_intensity,
             light_color=sample.light_color,
         )
