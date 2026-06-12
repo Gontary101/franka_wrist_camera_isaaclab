@@ -41,7 +41,10 @@ def main() -> None:
     print(f"variants: {len(catalog.variants)}")
     print(f"missing files: {len(missing_paths)}")
     print()
-    print(f"{'category':<18} {'label':<12} {'split':<8} {'role':<10} {'affordances':<28} {'variants':<8}")
+    print(
+        f"{'category':<18} {'label':<12} {'split':<8} {'role':<10} "
+        f"{'strategy':<12} {'affordances':<28} {'variants':<8}"
+    )
 
     for category in catalog.categories:
         affordances = ",".join(category.affordances)
@@ -50,6 +53,7 @@ def main() -> None:
             f"{category.label:<12} "
             f"{category.split:<8} "
             f"{category.role:<10} "
+            f"{category.grasp_strategy:<12} "
             f"{affordances:<28} "
             f"{len(category.variants):<8}"
         )

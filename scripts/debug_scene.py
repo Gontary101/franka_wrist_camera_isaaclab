@@ -191,6 +191,7 @@ def main() -> None:
         split=target_object_cfg["split"],
         role=target_object_cfg["role"],
         required_affordances=tuple(target_object_cfg["required_affordances"]),
+        required_grasp_strategy=target_object_cfg["required_grasp_strategy"],
         rng=rng,
     )
 

@@ -15,6 +15,7 @@ class ObjectVariant:
     id: str
     usd_path: Path
     affordances: tuple[str, ...] | None = None
+    grasp_strategy: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,6 +27,7 @@ class ObjectCategory:
     split: str
     role: str
     affordances: tuple[str, ...]
+    grasp_strategy: str
     variants: tuple[ObjectVariant, ...]
 
 
@@ -64,6 +66,11 @@ def load_object_catalog(config_name: str = "object_catalog.yaml") -> ObjectCatal
                     if "affordances" in variant
                     else None
                 ),
+                grasp_strategy=(
+                    str(variant["grasp_strategy"])
+                    if "grasp_strategy" in variant
+                    else None
+                ),
             )
             for variant in item["variants"]
         )
@@ -75,6 +82,7 @@ def load_object_catalog(config_name: str = "object_catalog.yaml") -> ObjectCatal
                 split=str(item["split"]),
                 role=str(item["role"]),
                 affordances=tuple(str(value) for value in item["affordances"]),
+                grasp_strategy=str(item["grasp_strategy"]),
                 variants=variants,
             )
         )

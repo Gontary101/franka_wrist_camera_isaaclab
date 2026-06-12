@@ -50,6 +50,7 @@ def run_episode(
     object_variant_id: str | None = None,
     object_label: str | None = None,
     object_usd_path: str | None = None,
+    object_grasp_strategy: str | None = None,
     object_yaw_relevant: bool | None = None,
     object_planar_aspect_ratio: float | None = None,
     object_planar_minor_axis_local: tuple[float, float] | None = None,
@@ -85,6 +86,7 @@ def run_episode(
         object_variant_id=object_variant_id,
         object_label=object_label,
         object_usd_path=object_usd_path,
+        object_grasp_strategy=object_grasp_strategy,
         object_yaw_relevant=object_yaw_relevant,
         object_planar_aspect_ratio=object_planar_aspect_ratio,
         object_planar_minor_axis_local=object_planar_minor_axis_local,
@@ -207,6 +209,7 @@ def collect_pick_place_dataset(
             split=target_object_cfg["split"],
             role=target_object_cfg["role"],
             required_affordances=tuple(target_object_cfg["required_affordances"]),
+            required_grasp_strategy=target_object_cfg["required_grasp_strategy"],
             rng=episode_rng,
         )
         durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
@@ -289,6 +292,7 @@ def collect_pick_place_dataset(
             object_variant_id=object_context.variant_id,
             object_label=object_context.label,
             object_usd_path=durable_usd_path,
+            object_grasp_strategy=object_context.grasp_strategy,
             object_yaw_relevant=object_context.geometry.yaw_relevant,
             object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
             object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,

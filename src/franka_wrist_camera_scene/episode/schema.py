@@ -29,6 +29,7 @@ class EpisodeMetadata:
     object_variant_id: str | None = None
     object_label: str | None = None
     object_usd_path: str | None = None
+    object_grasp_strategy: str | None = None
     object_yaw_relevant: bool | None = None
     object_planar_aspect_ratio: float | None = None
     object_planar_minor_axis_local: tuple[float, float] | None = None

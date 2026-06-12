@@ -11,7 +11,7 @@ from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 
 SUPPORT_CATEGORIES = {"plate", "tray", "placemat"}
 HOLLOW_CATEGORIES = {"bowl", "cup"}
-CENTER_GRASPABLE_CATEGORIES = {
+CENTER_TOP_GRASP_CATEGORIES = {
     "apple",
     "avocado",
     "beer",
@@ -31,6 +31,9 @@ CENTER_GRASPABLE_CATEGORIES = {
 }
 VARIANT_AFFORDANCE_OVERRIDES = {
     ("box", "box00"): ["reachable", "container"],
+}
+VARIANT_GRASP_STRATEGY_OVERRIDES = {
+    ("box", "box00"): "unsupported",
 }
 IGNORED_DIRECTORY_NAMES = {"texture"}
 
@@ -53,8 +56,8 @@ def affordances_for_label(label: str) -> list[str]:
     if label in HOLLOW_CATEGORIES:
         return ["reachable", "container"]
 
-    if label in CENTER_GRASPABLE_CATEGORIES:
-        return ["pickable", "reachable", "center_graspable"]
+    if label in CENTER_TOP_GRASP_CATEGORIES:
+        return ["pickable", "reachable"]
 
     raise ValueError(f"No affordance policy defined for category label: {label}")
 
@@ -63,6 +66,16 @@ def role_for_label(label: str) -> str:
     if label in SUPPORT_CATEGORIES:
         return "clutter"
     return "target"
+
+
+def grasp_strategy_for_label(label: str) -> str:
+    if label in SUPPORT_CATEGORIES or label in HOLLOW_CATEGORIES:
+        return "unsupported"
+
+    if label in CENTER_TOP_GRASP_CATEGORIES:
+        return "center_top"
+
+    raise ValueError(f"No grasp strategy policy defined for category label: {label}")
 
 
 def category_entry(
@@ -78,6 +91,7 @@ def category_entry(
         "split": split,
         "role": role_for_label(label),
         "affordances": affordances_for_label(label),
+        "grasp_strategy": grasp_strategy_for_label(label),
         "variants": variants,
     }
 
@@ -95,6 +109,10 @@ def collect_category_variants(asset_root: Path, category_dir: Path) -> list[dict
         override = VARIANT_AFFORDANCE_OVERRIDES.get((category_dir.name, usd_path.stem))
         if override is not None:
             variant["affordances"] = override
+
+        strategy = VARIANT_GRASP_STRATEGY_OVERRIDES.get((category_dir.name, usd_path.stem))
+        if strategy is not None:
+            variant["grasp_strategy"] = strategy
 
         variants.append(variant)
 

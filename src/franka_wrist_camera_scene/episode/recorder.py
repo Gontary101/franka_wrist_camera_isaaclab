@@ -35,6 +35,7 @@ class EpisodeRecorder:
     object_variant_id: str | None = None
     object_label: str | None = None
     object_usd_path: str | None = None
+    object_grasp_strategy: str | None = None
     object_yaw_relevant: bool | None = None
     object_planar_aspect_ratio: float | None = None
     object_planar_minor_axis_local: tuple[float, float] | None = None
@@ -158,6 +159,7 @@ class EpisodeRecorder:
             object_variant_id=self.object_variant_id,
             object_label=self.object_label,
             object_usd_path=self.object_usd_path,
+            object_grasp_strategy=self.object_grasp_strategy,
             object_yaw_relevant=self.object_yaw_relevant,
             object_planar_aspect_ratio=self.object_planar_aspect_ratio,
             object_planar_minor_axis_local=self.object_planar_minor_axis_local,

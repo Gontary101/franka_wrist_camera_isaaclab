@@ -18,7 +18,8 @@ target_object:
   variant_id: sample
   split: train
   role: target
-  required_affordances: [pickable, center_graspable]
+  required_affordances: [pickable]
+  required_grasp_strategy: center_top
 
 
 pose_randomization:

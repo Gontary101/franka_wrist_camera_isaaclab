@@ -11,7 +11,7 @@ from franka_wrist_camera_scene.objects.geometry_registry import (
     get_object_geometry,
     load_object_geometry_registry,
 )
-from franka_wrist_camera_scene.objects.selection import sample_catalog_object
+from franka_wrist_camera_scene.objects.selection import sample_catalog_object, variant_grasp_strategy
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,6 +20,7 @@ class CatalogObjectContext:
     variant_id: str
     label: str
     usd_path: Path
+    grasp_strategy: str
     geometry: ObjectPlanarGeometry
 
 
@@ -58,6 +59,7 @@ def load_catalog_object_context(
     split: str,
     role: str,
     required_affordances: tuple[str, ...],
+    required_grasp_strategy: str,
     rng: random.Random | None = None,
 ) -> CatalogObjectContext:
     catalog = load_object_catalog(catalog_config)
@@ -74,6 +76,7 @@ def load_catalog_object_context(
         split=split,
         role=role,
         required_affordances=required_affordances,
+        required_grasp_strategy=required_grasp_strategy,
         rng=rng,
     )
     geometry = get_object_geometry(
@@ -93,5 +96,6 @@ def load_catalog_object_context(
         variant_id=variant.id,
         label=category.label,
         usd_path=variant.usd_path,
+        grasp_strategy=variant_grasp_strategy(category, variant),
         geometry=geometry,
     )

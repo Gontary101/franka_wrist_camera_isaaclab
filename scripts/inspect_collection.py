@@ -45,6 +45,7 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "object_variant_id": meta.get("object_variant_id"),
         "object_label": meta.get("object_label"),
         "object_usd_path": meta.get("object_usd_path"),
+        "object_grasp_strategy": meta.get("object_grasp_strategy"),
         "object_yaw_relevant": meta["object_yaw_relevant"],
         "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
         "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
@@ -75,7 +76,7 @@ def main() -> None:
     print(
         f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
         f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} "
-        f"{'object_variant':<20} {'yaw':<6} {'aspect':<8} "
+        f"{'object_variant':<20} {'strategy':<12} {'yaw':<6} {'aspect':<8} "
         f"{'minor_axis':<20} {'grasp_axis':<20} {'light':<24}"
     )
 
@@ -84,6 +85,7 @@ def main() -> None:
         success = str(item["success"]).lower()
         record_depth = str(item["record_depth"]).lower()
         variant_id = item.get("object_variant_id", "none") or "none"
+        strategy = item.get("object_grasp_strategy", "none") or "none"
         light_str = "none"
         if item["light_intensity"] is not None and item["light_color"] is not None:
             light_color_str = f"({', '.join(f'{x:.2f}' for x in item['light_color'])})"
@@ -99,7 +101,7 @@ def main() -> None:
             f"{episode_id:<10} {success:<8} "
             f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
-            f"{record_depth:<6} {variant_id:<20} {yaw_relevant:<6} "
+            f"{record_depth:<6} {variant_id:<20} {strategy:<12} {yaw_relevant:<6} "
             f"{aspect_str:<8} {minor_axis_str:<20} {grasp_axis_str:<20} {light_str:<24}"
         )
 

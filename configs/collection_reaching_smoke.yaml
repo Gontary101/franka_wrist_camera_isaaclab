@@ -19,6 +19,7 @@ target_object:
   split: train
   role: target
   required_affordances: [pickable]
+  required_grasp_strategy: center_top
 
 
 pose_randomization:

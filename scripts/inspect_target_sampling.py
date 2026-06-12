@@ -15,7 +15,11 @@ from franka_wrist_camera_scene.objects.geometry_registry import (
     get_object_geometry,
     load_object_geometry_registry,
 )
-from franka_wrist_camera_scene.objects.selection import variant_affordances, variant_matches
+from franka_wrist_camera_scene.objects.selection import (
+    variant_affordances,
+    variant_grasp_strategy,
+    variant_matches,
+)
 from franka_wrist_camera_scene.utils.paths import load_yaml_config
 
 
@@ -44,12 +48,14 @@ def main() -> None:
     split = str(target_cfg["split"])
     role = str(target_cfg["role"])
     required_affordances = tuple(str(value) for value in target_cfg["required_affordances"])
+    required_grasp_strategy = str(target_cfg["required_grasp_strategy"])
 
     print(f"collection_config: {args.collection_config}")
     print(
         f"{'category':<16} "
         f"{'variant':<16} "
         f"{'affordances':<44} "
+        f"{'strategy':<12} "
         f"{'yaw':<6} "
         f"{'aspect':<8} "
         f"usd_path"
@@ -63,7 +69,12 @@ def main() -> None:
             continue
 
         for variant in category.variants:
-            if not variant_matches(category, variant, required_affordances):
+            if not variant_matches(
+                category,
+                variant,
+                required_affordances,
+                required_grasp_strategy,
+            ):
                 continue
 
             geometry = get_object_geometry(geometry_registry, category.id, variant.id)
@@ -81,6 +92,7 @@ def main() -> None:
                 f"{category.id:<16} "
                 f"{variant.id:<16} "
                 f"{','.join(variant_affordances(category, variant)):<44} "
+                f"{variant_grasp_strategy(category, variant):<12} "
                 f"{str(geometry.yaw_relevant).lower():<6} "
                 f"{geometry.planar_aspect_ratio:<8.3f} "
                 f"{usd_path}"
