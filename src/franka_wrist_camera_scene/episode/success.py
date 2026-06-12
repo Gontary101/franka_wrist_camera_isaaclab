@@ -20,6 +20,19 @@ def pick_place_success(
     obj = scene[spec.object_name]
     obj_pos_w = obj.data.root_pos_w
 
+    if spec.placement_target_pos_local is not None:
+        if spec.object_local_bbox_min is None or spec.placement_target_local_bbox_max is None:
+            raise RuntimeError("Receptacle placement success requires object and placement target geometry.")
+
+        receptacle_pos_local = torch.tensor(spec.placement_target_pos_local, device=obj_pos_w.device).view(1, 3)
+        receptacle_pos_w = scene.env_origins + receptacle_pos_local
+        xy_error = torch.linalg.norm(obj_pos_w[:, :2] - receptacle_pos_w[:, :2], dim=-1)
+
+        object_bottom_z = obj_pos_w[:, 2] + float(spec.object_local_bbox_min[2])
+        receptacle_top_z = receptacle_pos_w[:, 2] + float(spec.placement_target_local_bbox_max[2])
+        vertical_ok = object_bottom_z <= receptacle_top_z + 0.05
+        return (xy_error <= xy_threshold_m) & vertical_ok
+
     target_pos_local = torch.tensor(spec.place_pos_local, device=obj_pos_w.device).view(1, 3)
     target_pos_w = scene.env_origins + target_pos_local
 

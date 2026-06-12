@@ -68,6 +68,12 @@ def export_episode(
         "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
         "object_planar_major_axis_local": meta["object_planar_major_axis_local"],
         "grasp_closing_axis_xy": meta["grasp_closing_axis_xy"],
+        "placement_target_category_id": meta.get("placement_target_category_id"),
+        "placement_target_variant_id": meta.get("placement_target_variant_id"),
+        "placement_target_label": meta.get("placement_target_label"),
+        "placement_target_usd_path": meta.get("placement_target_usd_path"),
+        "placement_target_grasp_strategy": meta.get("placement_target_grasp_strategy"),
+        "placement_target_pos_local": meta.get("placement_target_pos_local"),
         "light_intensity": meta.get("light_intensity"),
         "light_color": meta.get("light_color"),
     }

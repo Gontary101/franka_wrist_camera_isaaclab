@@ -35,6 +35,12 @@ class EpisodeMetadata:
     object_planar_minor_axis_local: tuple[float, float] | None = None
     object_planar_major_axis_local: tuple[float, float] | None = None
     grasp_closing_axis_xy: tuple[float, float] | None = None
+    placement_target_category_id: str | None = None
+    placement_target_variant_id: str | None = None
+    placement_target_label: str | None = None
+    placement_target_usd_path: str | None = None
+    placement_target_grasp_strategy: str | None = None
+    placement_target_pos_local: tuple[float, float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 

@@ -1,7 +1,10 @@
 from math import isclose
 from unittest import TestCase
 
-from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
+from franka_wrist_camera_scene.tasks.pick_place import (
+    PickPlaceTaskSpec,
+    make_pick_place_episode_spec,
+)
 
 
 class PickPlaceTaskTest(TestCase):
@@ -28,3 +31,34 @@ class PickPlaceTaskTest(TestCase):
         self.assertTrue(isclose(spec.object_pos_local[2], 1.08))
         self.assertEqual(spec.place_pos_local[:2], (0.52, 0.26))
         self.assertTrue(isclose(spec.place_pos_local[2], 1.08))
+
+    def test_make_pick_place_episode_spec_uses_receptacle_center_and_instruction(self) -> None:
+        spec = make_pick_place_episode_spec(
+            base_spec=PickPlaceTaskSpec(),
+            object_xy_offset=(0.0, 0.0),
+            place_xy_offset=(0.2, 0.2),
+            object_label="box",
+            object_local_bbox_min=(-0.02, -0.03, -0.024),
+            object_local_bbox_max=(0.02, 0.03, 0.04),
+            placement_target_pos_local=(0.60, 0.25, 1.07),
+            placement_target_local_bbox_min=(-0.07, -0.07, -0.02),
+            placement_target_local_bbox_max=(0.07, 0.07, 0.06),
+            placement_label="bowl",
+        )
+
+        self.assertEqual(spec.instruction, "pick up the box and place it in the bowl")
+        self.assertEqual(spec.place_pos_local[:2], (0.60, 0.25))
+        self.assertTrue(isclose(spec.place_pos_local[2], 1.08))
+        self.assertEqual(spec.placement_target_pos_local, (0.60, 0.25, 1.07))
+
+    def test_make_pick_place_episode_spec_requires_complete_receptacle_metadata(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Receptacle pick-place"):
+            make_pick_place_episode_spec(
+                base_spec=PickPlaceTaskSpec(),
+                object_xy_offset=(0.0, 0.0),
+                place_xy_offset=(0.0, 0.0),
+                object_label="box",
+                object_local_bbox_min=(-0.02, -0.03, -0.024),
+                object_local_bbox_max=(0.02, 0.03, 0.04),
+                placement_target_pos_local=(0.60, 0.25, 1.07),
+            )

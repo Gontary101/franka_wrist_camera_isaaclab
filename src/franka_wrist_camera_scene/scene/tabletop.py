@@ -66,15 +66,6 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
         init_state=RigidObjectCfg.InitialStateCfg(pos=(0.58, -0.16, TABLE_HEIGHT_M + 0.05)),
     )
 
-    place_target = AssetBaseCfg(
-        prim_path="{ENV_REGEX_NS}/PlaceTarget",
-        spawn=sim_utils.CuboidCfg(
-            size=(0.14, 0.14, 0.004),
-            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.10, 0.65, 0.20)),
-        ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.22, TABLE_HEIGHT_M + 0.002)),
-    )
-
     wrist_camera = CameraCfg(
         prim_path="{ENV_REGEX_NS}/Robot/panda_hand/wrist_rgbd_camera",
         update_period=0.0,
@@ -105,6 +96,20 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
     )
 
 
+@configclass
+class PickPlaceTabletopFrankaSceneCfg(TabletopFrankaSceneCfg):
+    """Tabletop scene with a sampled placement receptacle."""
+
+    place_receptacle = AssetBaseCfg(
+        prim_path="{ENV_REGEX_NS}/PlaceReceptacle",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path="",
+            collision_props=sim_utils.CollisionPropertiesCfg(),
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.22, TABLE_HEIGHT_M + 0.05)),
+    )
+
+
 def make_tabletop_scene_cfg(
     object_context: CatalogObjectContext,
     num_envs: int = 1,
@@ -113,4 +118,19 @@ def make_tabletop_scene_cfg(
     """Create a tabletop scene configuration with the specified target object."""
     scene_cfg = TabletopFrankaSceneCfg(num_envs=num_envs, env_spacing=env_spacing)
     scene_cfg.target_cube.spawn.usd_path = str(object_context.usd_path)
+    return scene_cfg
+
+
+def make_pick_place_tabletop_scene_cfg(
+    object_context: CatalogObjectContext,
+    placement_context: CatalogObjectContext,
+    placement_pos_local: tuple[float, float, float],
+    num_envs: int = 1,
+    env_spacing: float = 2.5,
+) -> PickPlaceTabletopFrankaSceneCfg:
+    """Create a pick-place scene with a sampled target object and receptacle."""
+    scene_cfg = PickPlaceTabletopFrankaSceneCfg(num_envs=num_envs, env_spacing=env_spacing)
+    scene_cfg.target_cube.spawn.usd_path = str(object_context.usd_path)
+    scene_cfg.place_receptacle.spawn.usd_path = str(placement_context.usd_path)
+    scene_cfg.place_receptacle.init_state.pos = placement_pos_local
     return scene_cfg

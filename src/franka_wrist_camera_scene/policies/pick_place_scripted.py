@@ -45,6 +45,19 @@ class PickPlaceScriptedPolicy:
         )
         return root_pos
 
+    def _object_root_above_receptacle_w(self, receptacle_root_w: torch.Tensor) -> torch.Tensor:
+        if self.spec.object_local_bbox_min is None or self.spec.placement_target_local_bbox_max is None:
+            raise RuntimeError("Receptacle placement requires object and placement target geometry.")
+
+        root_pos = receptacle_root_w.clone()
+        receptacle_top_z = receptacle_root_w[:, 2] + float(self.spec.placement_target_local_bbox_max[2])
+        root_pos[:, 2] = (
+            receptacle_top_z
+            - float(self.spec.object_local_bbox_min[2])
+            + self.spec.placement_receptacle_release_clearance_m
+        )
+        return root_pos
+
     def _object_top_tcp_targets_w(self, obj_pos_w: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         if self.spec.object_local_bbox_min is None or self.spec.object_local_bbox_max is None:
             raise RuntimeError("Pick-place requires object bbox metadata for top grasp targeting.")
@@ -123,7 +136,12 @@ class PickPlaceScriptedPolicy:
         place_transit_pos = None
 
         if self._grasp_tcp_offset_from_root_w is not None:
-            place_root_pos = self._object_root_on_support_w(place_pos)
+            if self.spec.placement_target_pos_local is None:
+                place_root_pos = self._object_root_on_support_w(place_pos)
+            else:
+                receptacle_local = torch.tensor(self.spec.placement_target_pos_local, device=self._device)
+                receptacle_root_w = self._scene.env_origins + receptacle_local.view(1, 3)
+                place_root_pos = self._object_root_above_receptacle_w(receptacle_root_w)
             place_release_tcp = place_root_pos + self._grasp_tcp_offset_from_root_w
 
             place_pre_tcp = place_release_tcp.clone()

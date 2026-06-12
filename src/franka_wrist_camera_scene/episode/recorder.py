@@ -41,6 +41,12 @@ class EpisodeRecorder:
     object_planar_minor_axis_local: tuple[float, float] | None = None
     object_planar_major_axis_local: tuple[float, float] | None = None
     grasp_closing_axis_xy: tuple[float, float] | None = None
+    placement_target_category_id: str | None = None
+    placement_target_variant_id: str | None = None
+    placement_target_label: str | None = None
+    placement_target_usd_path: str | None = None
+    placement_target_grasp_strategy: str | None = None
+    placement_target_pos_local: tuple[float, float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 
@@ -165,6 +171,12 @@ class EpisodeRecorder:
             object_planar_minor_axis_local=self.object_planar_minor_axis_local,
             object_planar_major_axis_local=self.object_planar_major_axis_local,
             grasp_closing_axis_xy=self.grasp_closing_axis_xy,
+            placement_target_category_id=self.placement_target_category_id,
+            placement_target_variant_id=self.placement_target_variant_id,
+            placement_target_label=self.placement_target_label,
+            placement_target_usd_path=self.placement_target_usd_path,
+            placement_target_grasp_strategy=self.placement_target_grasp_strategy,
+            placement_target_pos_local=self.placement_target_pos_local,
             light_intensity=self.light_intensity,
             light_color=self.light_color,
         )

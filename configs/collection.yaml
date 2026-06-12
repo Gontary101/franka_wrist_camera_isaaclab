@@ -21,6 +21,16 @@ target_object:
   required_affordances: [pickable]
   required_grasp_strategy: center_top
 
+placement_target:
+  catalog_config: object_catalog.generated.yaml
+  geometry_config: object_geometry.generated.yaml
+  category_id: sample
+  variant_id: sample
+  split: train
+  role: target
+  required_affordances: [container]
+  required_grasp_strategy: unsupported
+
 
 pose_randomization:
   object_xy_range:

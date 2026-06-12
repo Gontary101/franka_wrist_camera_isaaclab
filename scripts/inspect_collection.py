@@ -50,6 +50,16 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
         "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
         "grasp_closing_axis_xy": meta["grasp_closing_axis_xy"],
+        "placement_target_category_id": meta.get("placement_target_category_id"),
+        "placement_target_variant_id": meta.get("placement_target_variant_id"),
+        "placement_target_label": meta.get("placement_target_label"),
+        "placement_target_usd_path": meta.get("placement_target_usd_path"),
+        "placement_target_grasp_strategy": meta.get("placement_target_grasp_strategy"),
+        "placement_target_pos_local": (
+            tuple(meta["placement_target_pos_local"])
+            if meta.get("placement_target_pos_local") is not None
+            else None
+        ),
         "light_intensity": meta.get("light_intensity"),
         "light_color": tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
     }
@@ -76,8 +86,9 @@ def main() -> None:
     print(
         f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
         f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} "
-        f"{'object_variant':<20} {'strategy':<12} {'yaw':<6} {'aspect':<8} "
-        f"{'minor_axis':<20} {'grasp_axis':<20} {'light':<24}"
+        f"{'object_variant':<20} {'placement_variant':<20} {'placement_label':<16} "
+        f"{'strategy':<12} {'yaw':<6} {'aspect':<8} {'minor_axis':<20} "
+        f"{'grasp_axis':<20} {'light':<24}"
     )
 
     for item in summaries:
@@ -85,6 +96,8 @@ def main() -> None:
         success = str(item["success"]).lower()
         record_depth = str(item["record_depth"]).lower()
         variant_id = item.get("object_variant_id", "none") or "none"
+        placement_variant_id = item.get("placement_target_variant_id", "none") or "none"
+        placement_label = item.get("placement_target_label", "none") or "none"
         strategy = item.get("object_grasp_strategy", "none") or "none"
         light_str = "none"
         if item["light_intensity"] is not None and item["light_color"] is not None:
@@ -101,8 +114,9 @@ def main() -> None:
             f"{episode_id:<10} {success:<8} "
             f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
-            f"{record_depth:<6} {variant_id:<20} {strategy:<12} {yaw_relevant:<6} "
-            f"{aspect_str:<8} {minor_axis_str:<20} {grasp_axis_str:<20} {light_str:<24}"
+            f"{record_depth:<6} {variant_id:<20} {placement_variant_id:<20} "
+            f"{placement_label:<16} {strategy:<12} {yaw_relevant:<6} {aspect_str:<8} "
+            f"{minor_axis_str:<20} {grasp_axis_str:<20} {light_str:<24}"
         )
 
     print_pose_variant_summary(summaries)
@@ -110,9 +124,15 @@ def main() -> None:
 
 def pose_key(summary: dict) -> tuple:
     place_pos_local = summary["place_pos_local"]
+    placement_target_pos_local = summary["placement_target_pos_local"]
     return (
         tuple(round(float(x), 4) for x in summary["object_pos_local"]),
         tuple(round(float(x), 4) for x in place_pos_local) if place_pos_local is not None else None,
+        (
+            tuple(round(float(x), 4) for x in placement_target_pos_local)
+            if placement_target_pos_local is not None
+            else None
+        ),
     )
 
 
@@ -124,12 +144,12 @@ def print_pose_variant_summary(summaries: list[dict]) -> None:
 
     print()
     print("success by pose variant:")
-    print(f"{'object_pos_local':<26} {'place_pos_local':<26} {'success':<8}")
+    print(f"{'object_pos_local':<26} {'place_pos_local':<26} {'placement_pos_local':<26} {'success':<8}")
 
-    for (object_pos, place_pos), items in sorted(grouped.items()):
+    for (object_pos, place_pos, placement_pos), items in sorted(grouped.items()):
         successes = sum(item["success"] for item in items)
         total = len(items)
-        print(f"{str(object_pos):<26} {str(place_pos):<26} {successes}/{total:<8}")
+        print(f"{str(object_pos):<26} {str(place_pos):<26} {str(placement_pos):<26} {successes}/{total:<8}")
 
 
 if __name__ == "__main__":

@@ -72,9 +72,10 @@ from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
 from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
 from franka_wrist_camera_scene.policies import PickPlaceScriptedPolicy, ReachingScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
+from franka_wrist_camera_scene.scene.tabletop import make_pick_place_tabletop_scene_cfg, make_tabletop_scene_cfg
 from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
+from franka_wrist_camera_scene.tasks.placement_geometry import object_root_pose_on_support
 from franka_wrist_camera_scene.tasks import (
     PickPlaceTaskSpec,
     make_pick_place_episode_spec,
@@ -148,7 +149,11 @@ def run_simulator(
 
         if cmd.done:
             if not settling:
-                print(f"[INFO] Scripted policy completed execution. Settling for 1.0s ({max_settle_steps} steps)...", flush=True)
+                print(
+                    "[INFO] Scripted policy completed execution. "
+                    f"Settling for 1.0s ({max_settle_steps} steps)...",
+                    flush=True,
+                )
                 settling = True
             settle_steps += 1
             if settle_steps >= max_settle_steps:
@@ -195,18 +200,13 @@ def main() -> None:
         rng=rng,
     )
 
-
-    scene = InteractiveScene(
-        make_tabletop_scene_cfg(
+    spec = None
+    if args_cli.task == "circle":
+        scene_cfg = make_tabletop_scene_cfg(
             object_context=object_context,
             num_envs=args_cli.num_envs,
             env_spacing=2.5,
         )
-    )
-    robot: Articulation = scene["robot"]
-
-    # Choose policy based on selected task
-    if args_cli.task == "circle":
         trajectory_cfg = CircleTrajectoryCfg(
             center_local=CIRCLE_CENTER_LOCAL,
             diameter_m=args_cli.circle_diameter,
@@ -215,6 +215,11 @@ def main() -> None:
         )
         policy = CircleMotionPolicy(cfg=trajectory_cfg)
     elif args_cli.task == "reaching":
+        scene_cfg = make_tabletop_scene_cfg(
+            object_context=object_context,
+            num_envs=args_cli.num_envs,
+            env_spacing=2.5,
+        )
         base_spec = ReachingTaskSpec()
         spec = make_reaching_episode_spec(
             base_spec=base_spec,
@@ -223,7 +228,33 @@ def main() -> None:
         )
         policy = ReachingScriptedPolicy(spec=spec)
     else:  # pick_place
+        placement_target_cfg = collection_cfg["placement_target"]
+        placement_rng = random.Random(seed + 100_000)
+        placement_context = load_catalog_object_context(
+            catalog_config=placement_target_cfg["catalog_config"],
+            geometry_config=placement_target_cfg["geometry_config"],
+            category_id=placement_target_cfg["category_id"],
+            variant_id=placement_target_cfg["variant_id"],
+            split=placement_target_cfg["split"],
+            role=placement_target_cfg["role"],
+            required_affordances=tuple(placement_target_cfg["required_affordances"]),
+            required_grasp_strategy=placement_target_cfg["required_grasp_strategy"],
+            rng=placement_rng,
+        )
         base_spec = PickPlaceTaskSpec()
+        placement_receptacle_pos_local = object_root_pose_on_support(
+            xy_pos=base_spec.place_pos_local[:2],
+            support_surface_z=base_spec.support_surface_z_local,
+            object_bbox_min_z=placement_context.geometry.local_bbox_min[2],
+            bottom_clearance_m=base_spec.object_bottom_clearance_m,
+        )
+        scene_cfg = make_pick_place_tabletop_scene_cfg(
+            object_context=object_context,
+            placement_context=placement_context,
+            placement_pos_local=placement_receptacle_pos_local,
+            num_envs=args_cli.num_envs,
+            env_spacing=2.5,
+        )
         grasp_closing_axis_xy = (
             object_context.geometry.planar_minor_axis_local
             if object_context.geometry.yaw_relevant
@@ -237,8 +268,15 @@ def main() -> None:
             grasp_closing_axis_xy=grasp_closing_axis_xy,
             object_local_bbox_min=object_context.geometry.local_bbox_min,
             object_local_bbox_max=object_context.geometry.local_bbox_max,
+            placement_target_pos_local=placement_receptacle_pos_local,
+            placement_target_local_bbox_min=placement_context.geometry.local_bbox_min,
+            placement_target_local_bbox_max=placement_context.geometry.local_bbox_max,
+            placement_label=placement_context.label,
         )
         policy = PickPlaceScriptedPolicy(spec=spec)
+
+    scene = InteractiveScene(scene_cfg)
+    robot: Articulation = scene["robot"]
 
     ik = CartesianIKController()
     gripper = GripperController()

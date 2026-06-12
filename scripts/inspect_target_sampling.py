@@ -26,6 +26,7 @@ from franka_wrist_camera_scene.utils.paths import load_yaml_config
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Inspect target variants eligible for sampling.")
     parser.add_argument("--collection-config", default="collection.yaml")
+    parser.add_argument("--config-block", default="target_object", choices=("target_object", "placement_target"))
     parser.add_argument("--only-yaw-relevant", action="store_true")
     parser.add_argument("--category")
     return parser.parse_args()
@@ -33,10 +34,10 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    target_cfg = load_yaml_config(args.collection_config)["target_object"]
+    sampling_cfg = load_yaml_config(args.collection_config)[args.config_block]
 
-    catalog_config = str(target_cfg["catalog_config"])
-    geometry_config = str(target_cfg["geometry_config"])
+    catalog_config = str(sampling_cfg["catalog_config"])
+    geometry_config = str(sampling_cfg["geometry_config"])
     catalog = load_object_catalog(catalog_config)
     geometry_registry = load_object_geometry_registry(geometry_config)
     if geometry_registry.catalog_config != catalog_config:
@@ -45,12 +46,20 @@ def main() -> None:
             f"{geometry_registry.catalog_config}, not {catalog_config}."
         )
 
-    split = str(target_cfg["split"])
-    role = str(target_cfg["role"])
-    required_affordances = tuple(str(value) for value in target_cfg["required_affordances"])
-    required_grasp_strategy = str(target_cfg["required_grasp_strategy"])
+    split = str(sampling_cfg["split"])
+    role = str(sampling_cfg["role"])
+    required_affordances = tuple(str(value) for value in sampling_cfg["required_affordances"])
+    required_grasp_strategy = str(sampling_cfg["required_grasp_strategy"])
 
     print(f"collection_config: {args.collection_config}")
+    print(f"config_block: {args.config_block}")
+    print(f"category_id: {sampling_cfg['category_id']}")
+    print(f"variant_id: {sampling_cfg['variant_id']}")
+    print(f"split: {split}")
+    print(f"role: {role}")
+    print(f"required_affordances: {', '.join(required_affordances)}")
+    print(f"required_grasp_strategy: {required_grasp_strategy}")
+    print()
     print(
         f"{'category':<16} "
         f"{'variant':<16} "

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import gc
 from pathlib import Path
+import random
 
 import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation
@@ -19,9 +20,10 @@ from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
 from franka_wrist_camera_scene.scene.lighting import set_dome_light
-from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
-from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
+from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext, load_catalog_object_context
+from franka_wrist_camera_scene.scene.tabletop import make_pick_place_tabletop_scene_cfg
 from franka_wrist_camera_scene.settings import SIM_DT
+from franka_wrist_camera_scene.tasks.placement_geometry import object_root_pose_on_support
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
 from franka_wrist_camera_scene.tasks.sampling import (
     parse_lighting_options,
@@ -29,6 +31,24 @@ from franka_wrist_camera_scene.tasks.sampling import (
     sample_pick_place_offsets,
 )
 from franka_wrist_camera_scene.utils.paths import REPO_ROOT
+
+
+def _load_collection_object_context(sampling_cfg: dict, rng: random.Random) -> CatalogObjectContext:
+    return load_catalog_object_context(
+        catalog_config=sampling_cfg["catalog_config"],
+        geometry_config=sampling_cfg["geometry_config"],
+        category_id=sampling_cfg["category_id"],
+        variant_id=sampling_cfg["variant_id"],
+        split=sampling_cfg["split"],
+        role=sampling_cfg["role"],
+        required_affordances=tuple(sampling_cfg["required_affordances"]),
+        required_grasp_strategy=sampling_cfg["required_grasp_strategy"],
+        rng=rng,
+    )
+
+
+def _repo_relative_path(path: Path) -> str:
+    return path.relative_to(REPO_ROOT).as_posix()
 
 
 def run_episode(
@@ -58,6 +78,12 @@ def run_episode(
     object_planar_minor_axis_local: tuple[float, float] | None = None,
     object_planar_major_axis_local: tuple[float, float] | None = None,
     grasp_closing_axis_xy: tuple[float, float] | None = None,
+    placement_target_category_id: str | None = None,
+    placement_target_variant_id: str | None = None,
+    placement_target_label: str | None = None,
+    placement_target_usd_path: str | None = None,
+    placement_target_grasp_strategy: str | None = None,
+    placement_target_pos_local: tuple[float, float, float] | None = None,
     light_intensity: float | None = None,
     light_color: tuple[float, float, float] | None = None,
 ) -> Path:
@@ -94,6 +120,12 @@ def run_episode(
         object_planar_minor_axis_local=object_planar_minor_axis_local,
         object_planar_major_axis_local=object_planar_major_axis_local,
         grasp_closing_axis_xy=grasp_closing_axis_xy,
+        placement_target_category_id=placement_target_category_id,
+        placement_target_variant_id=placement_target_variant_id,
+        placement_target_label=placement_target_label,
+        placement_target_usd_path=placement_target_usd_path,
+        placement_target_grasp_strategy=placement_target_grasp_strategy,
+        placement_target_pos_local=placement_target_pos_local,
         light_intensity=light_intensity,
         light_color=light_color,
     )
@@ -132,7 +164,8 @@ def run_episode(
         if cmd.done:
             if not settling:
                 print(
-                    f"[INFO] Scripted policy completed execution. Settling for {settle_time_s}s ({max_settle_steps} steps)...",
+                    "[INFO] Scripted policy completed execution. "
+                    f"Settling for {settle_time_s}s ({max_settle_steps} steps)...",
                     flush=True,
                 )
                 settling = True
@@ -175,6 +208,7 @@ def collect_pick_place_dataset(
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
     target_object_cfg = collection_cfg["target_object"]
+    placement_target_cfg = collection_cfg["placement_target"]
 
     seed = int(collection_cfg["seed"])
     pose_randomization = collection_cfg["pose_randomization"]
@@ -195,8 +229,6 @@ def collect_pick_place_dataset(
 
     saved_episode_dirs: list[Path] = []
 
-    import random
-
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
         scene = None
@@ -206,24 +238,37 @@ def collect_pick_place_dataset(
         policy = None
 
         try:
-            # 1. Deterministic target object sampling based on episode seed
-            episode_rng = random.Random(seed + episode_id)
-            object_context = load_catalog_object_context(
-                catalog_config=target_object_cfg["catalog_config"],
-                geometry_config=target_object_cfg["geometry_config"],
-                category_id=target_object_cfg["category_id"],
-                variant_id=target_object_cfg["variant_id"],
-                split=target_object_cfg["split"],
-                role=target_object_cfg["role"],
-                required_affordances=tuple(target_object_cfg["required_affordances"]),
-                required_grasp_strategy=target_object_cfg["required_grasp_strategy"],
-                rng=episode_rng,
+            target_rng = random.Random(seed + episode_id)
+            placement_rng = random.Random(seed + 100_000 + episode_id)
+            object_context = _load_collection_object_context(target_object_cfg, target_rng)
+            placement_context = _load_collection_object_context(placement_target_cfg, placement_rng)
+            object_usd_path = _repo_relative_path(object_context.usd_path)
+            placement_usd_path = _repo_relative_path(placement_context.usd_path)
+
+            spec = PickPlaceTaskSpec()
+            sample = sample_pick_place_offsets(
+                seed=seed,
+                episode_id=episode_id,
+                object_range=object_xy_range,
+                place_range=place_xy_range,
+                lighting=lighting_options,
             )
-            durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
+            placement_xy = (
+                spec.place_pos_local[0] + sample.place_xy_offset[0],
+                spec.place_pos_local[1] + sample.place_xy_offset[1],
+            )
+            placement_receptacle_pos_local = object_root_pose_on_support(
+                xy_pos=placement_xy,
+                support_surface_z=spec.support_surface_z_local,
+                object_bbox_min_z=placement_context.geometry.local_bbox_min[2],
+                bottom_clearance_m=spec.object_bottom_clearance_m,
+            )
 
             scene = InteractiveScene(
-                make_tabletop_scene_cfg(
+                make_pick_place_tabletop_scene_cfg(
                     object_context=object_context,
+                    placement_context=placement_context,
+                    placement_pos_local=placement_receptacle_pos_local,
                     num_envs=1,
                     env_spacing=2.5,
                 )
@@ -238,14 +283,6 @@ def collect_pick_place_dataset(
             ik.bind(scene, robot)
             gripper.bind(scene, robot)
 
-            spec = PickPlaceTaskSpec()
-            sample = sample_pick_place_offsets(
-                seed=seed,
-                episode_id=episode_id,
-                object_range=object_xy_range,
-                place_range=place_xy_range,
-                lighting=lighting_options,
-            )
             grasp_closing_axis_xy = (
                 object_context.geometry.planar_minor_axis_local
                 if object_context.geometry.yaw_relevant
@@ -259,6 +296,10 @@ def collect_pick_place_dataset(
                 grasp_closing_axis_xy=grasp_closing_axis_xy,
                 object_local_bbox_min=object_context.geometry.local_bbox_min,
                 object_local_bbox_max=object_context.geometry.local_bbox_max,
+                placement_target_pos_local=placement_receptacle_pos_local,
+                placement_target_local_bbox_min=placement_context.geometry.local_bbox_min,
+                placement_target_local_bbox_max=placement_context.geometry.local_bbox_max,
+                placement_label=placement_context.label,
             )
 
             policy = PickPlaceScriptedPolicy(spec=episode_spec)
@@ -290,13 +331,19 @@ def collect_pick_place_dataset(
                 object_category_id=object_context.category_id,
                 object_variant_id=object_context.variant_id,
                 object_label=object_context.label,
-                object_usd_path=durable_usd_path,
+                object_usd_path=object_usd_path,
                 object_grasp_strategy=object_context.grasp_strategy,
                 object_yaw_relevant=object_context.geometry.yaw_relevant,
                 object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
                 object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,
                 object_planar_major_axis_local=object_context.geometry.planar_major_axis_local,
                 grasp_closing_axis_xy=episode_spec.grasp_closing_axis_xy,
+                placement_target_category_id=placement_context.category_id,
+                placement_target_variant_id=placement_context.variant_id,
+                placement_target_label=placement_context.label,
+                placement_target_usd_path=placement_usd_path,
+                placement_target_grasp_strategy=placement_context.grasp_strategy,
+                placement_target_pos_local=placement_receptacle_pos_local,
                 light_intensity=sample.light_intensity,
                 light_color=sample.light_color,
             )
