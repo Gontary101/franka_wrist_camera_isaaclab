@@ -57,13 +57,23 @@ def main() -> None:
     simulation_app = app_launcher.app
     launcher.patch_physx_schema()
 
-    from franka_wrist_camera_scene.collection.pick_place import collect_pick_place_dataset
-
-    collect_pick_place_dataset(
-        collection_cfg=collection_cfg,
-        device=args_cli.device,
-        simulation_app=simulation_app,
-    )
+    task = collection_cfg["task"]
+    if task == "reaching":
+        from franka_wrist_camera_scene.collection.reaching import collect_reaching_dataset
+        collect_reaching_dataset(
+            collection_cfg=collection_cfg,
+            device=args_cli.device,
+            simulation_app=simulation_app,
+        )
+    elif task == "pick_place":
+        from franka_wrist_camera_scene.collection.pick_place import collect_pick_place_dataset
+        collect_pick_place_dataset(
+            collection_cfg=collection_cfg,
+            device=args_cli.device,
+            simulation_app=simulation_app,
+        )
+    else:
+        raise ValueError(f"Unsupported collection task: {task!r}")
 
     simulation_app.close()
 

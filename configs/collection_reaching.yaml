@@ -1,5 +1,5 @@
-task: pick_place
-output_dir: data/raw/debug_pick_place
+task: reaching
+output_dir: data/raw/debug_reaching
 start_episode_id: 0
 num_episodes: 20
 max_steps: 2400

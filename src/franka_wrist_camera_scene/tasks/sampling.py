@@ -66,3 +66,33 @@ def sample_pick_place_offsets(
         light_intensity=light_intensity,
         light_color=light_color,
     )
+
+
+@dataclass(frozen=True, slots=True)
+class ReachingSample:
+    object_xy_offset: tuple[float, float]
+    light_intensity: float
+    light_color: tuple[float, float, float]
+
+
+def sample_reaching_offsets(
+    seed: int,
+    episode_id: int,
+    object_range: XYRange,
+    lighting: LightingOptions,
+) -> ReachingSample:
+    rng = random.Random(seed + episode_id)
+
+    object_xy_offset = (
+        rng.uniform(object_range.x[0], object_range.x[1]),
+        rng.uniform(object_range.y[0], object_range.y[1]),
+    )
+    light_intensity = rng.uniform(lighting.intensity_range[0], lighting.intensity_range[1])
+    light_color = lighting.color_options[rng.randrange(len(lighting.color_options))]
+
+    return ReachingSample(
+        object_xy_offset=object_xy_offset,
+        light_intensity=light_intensity,
+        light_color=light_color,
+    )
+

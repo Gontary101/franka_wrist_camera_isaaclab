@@ -25,7 +25,7 @@ def parse_args() -> argparse.Namespace:
         "--task",
         type=str,
         default="circle",
-        choices=["circle", "pick_place"],
+        choices=["circle", "pick_place", "reaching"],
         help="Task/policy to run.",
     )
     parser.add_argument(
@@ -71,21 +71,30 @@ from franka_wrist_camera_scene.debug.camera_probe import WristCameraProbe
 from franka_wrist_camera_scene.debug.video_recorder import VideoRecorder
 from franka_wrist_camera_scene.debug.visualization import CircleMotionMarkers
 from franka_wrist_camera_scene.policies.circle_policy import CircleMotionPolicy
-from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
+from franka_wrist_camera_scene.policies import PickPlaceScriptedPolicy, ReachingScriptedPolicy
 from franka_wrist_camera_scene.scene.tabletop import make_tabletop_scene_cfg
 from franka_wrist_camera_scene.scene.object_context import load_catalog_object_context
 from franka_wrist_camera_scene.settings import CIRCLE_CENTER_LOCAL, GRIPPER_DOWN_QUAT_WXYZ, SIM_DT
-from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
+from franka_wrist_camera_scene.tasks import (
+    PickPlaceTaskSpec,
+    make_pick_place_episode_spec,
+    ReachingTaskSpec,
+    make_reaching_episode_spec,
+)
 from franka_wrist_camera_scene.utils.paths import load_yaml_config
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
-from franka_wrist_camera_scene.episode.reset import reset_robot_to_default, reset_pick_place_episode
-from franka_wrist_camera_scene.episode.success import pick_place_success
+from franka_wrist_camera_scene.episode.reset import (
+    reset_robot_to_default,
+    reset_pick_place_episode,
+    reset_reaching_episode,
+)
+from franka_wrist_camera_scene.episode.success import pick_place_success, reaching_success
 
 
 def run_simulator(
     sim: sim_utils.SimulationContext,
     scene: InteractiveScene,
-    policy: CircleMotionPolicy | PickPlaceScriptedPolicy,
+    policy: CircleMotionPolicy | PickPlaceScriptedPolicy | ReachingScriptedPolicy,
     ik: CartesianIKController,
     gripper: GripperController,
     probe: WristCameraProbe,
@@ -146,6 +155,9 @@ def run_simulator(
                 if isinstance(policy, PickPlaceScriptedPolicy):
                     success = pick_place_success(scene, policy.spec)
                     print(f"[INFO] Pick-place success: {success.detach().cpu().tolist()}", flush=True)
+                elif isinstance(policy, ReachingScriptedPolicy):
+                    success = reaching_success(scene, policy.spec)
+                    print(f"[INFO] Reaching success: {success.detach().cpu().tolist()}", flush=True)
                 break
 
     video_recorder.close()
@@ -200,6 +212,14 @@ def main() -> None:
             orientation_wxyz=GRIPPER_DOWN_QUAT_WXYZ,
         )
         policy = CircleMotionPolicy(cfg=trajectory_cfg)
+    elif args_cli.task == "reaching":
+        base_spec = ReachingTaskSpec()
+        spec = make_reaching_episode_spec(
+            base_spec=base_spec,
+            object_xy_offset=(0.0, 0.0),
+            object_label=object_context.label,
+        )
+        policy = ReachingScriptedPolicy(spec=spec)
     else:  # pick_place
         base_spec = PickPlaceTaskSpec()
         spec = make_pick_place_episode_spec(
@@ -220,6 +240,8 @@ def main() -> None:
     gripper.bind(scene, robot)
     if args_cli.task == "pick_place":
         reset_pick_place_episode(scene, spec)
+    elif args_cli.task == "reaching":
+        reset_reaching_episode(scene, spec)
     else:
         reset_robot_to_default(scene)
         scene.reset()

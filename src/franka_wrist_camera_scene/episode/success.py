@@ -6,6 +6,7 @@ import torch
 from isaaclab.scene import InteractiveScene
 
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec
+from franka_wrist_camera_scene.tasks.reaching import ReachingTaskSpec
 
 
 def pick_place_success(
@@ -25,3 +26,21 @@ def pick_place_success(
     z_error = torch.abs(obj_pos_w[:, 2] - target_pos_w[:, 2])
 
     return (xy_error <= xy_threshold_m) & (z_error <= z_threshold_m)
+
+
+def reaching_success(
+    scene: InteractiveScene,
+    spec: ReachingTaskSpec,
+    threshold_m: float = 0.05,
+) -> torch.Tensor:
+    """Return per-env success if the robot end-effector is close to the target object."""
+    robot = scene["robot"]
+    ee_body_id = robot.find_bodies(spec.ee_body_name)[0][0]
+    ee_pos_w = robot.data.body_pos_w[:, ee_body_id]
+
+    obj = scene[spec.object_name]
+    obj_pos_w = obj.data.root_pos_w[:, :3]
+
+    distance = torch.linalg.norm(ee_pos_w - obj_pos_w, dim=-1)
+    return distance <= threshold_m
+
