@@ -13,6 +13,7 @@ from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 class ObjectPlanarGeometry:
     """Planar geometry in the authored USD object coordinate frame."""
 
+    usd_path: str
     local_bbox_size: tuple[float, float, float]
     planar_centroid_local: tuple[float, float]
     planar_major_axis_local: tuple[float, float] | None
@@ -21,6 +22,12 @@ class ObjectPlanarGeometry:
     planar_extent_minor: float
     planar_aspect_ratio: float
     yaw_relevant: bool
+
+
+@dataclass(frozen=True, slots=True)
+class ObjectGeometryRegistry:
+    catalog_config: str
+    records: dict[tuple[str, str], ObjectPlanarGeometry]
 
 
 def _tuple3(values: list[float]) -> tuple[float, float, float]:
@@ -39,7 +46,7 @@ def _tuple2_or_none(values: list[float] | None) -> tuple[float, float] | None:
 
 def load_object_geometry_registry(
     geometry_config: str = "object_geometry.generated.yaml",
-) -> dict[tuple[str, str], ObjectPlanarGeometry]:
+) -> ObjectGeometryRegistry:
     path = REPO_ROOT / "configs" / geometry_config
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
 
@@ -54,6 +61,7 @@ def load_object_geometry_registry(
             raise ValueError(f"Duplicate object geometry record: {key}")
 
         registry[key] = ObjectPlanarGeometry(
+            usd_path=str(record["usd_path"]),
             local_bbox_size=_tuple3(record["local_bbox_size"]),
             planar_centroid_local=_tuple2(record["planar_centroid_local"]),
             planar_major_axis_local=_tuple2_or_none(record["planar_major_axis_local"]),
@@ -64,15 +72,18 @@ def load_object_geometry_registry(
             yaw_relevant=bool(record["yaw_relevant"]),
         )
 
-    return registry
+    return ObjectGeometryRegistry(
+        catalog_config=str(data["catalog_config"]),
+        records=registry,
+    )
 
 
 def get_object_geometry(
-    registry: dict[tuple[str, str], ObjectPlanarGeometry],
+    registry: ObjectGeometryRegistry,
     category_id: str,
     variant_id: str,
 ) -> ObjectPlanarGeometry:
     key = (category_id, variant_id)
-    if key not in registry:
+    if key not in registry.records:
         raise KeyError(f"Missing object geometry record for {category_id}/{variant_id}")
-    return registry[key]
+    return registry.records[key]
