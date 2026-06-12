@@ -19,8 +19,10 @@ class EpisodeManifestEntry:
     seed: int | None
     object_xy_offset: tuple[float, float] | None
     place_xy_offset: tuple[float, float] | None
-    object_color_name: str | None
-    object_color_rgb: tuple[float, float, float] | None
+    object_category_id: str | None
+    object_variant_id: str | None
+    object_label: str | None
+    object_usd_path: str | None
     light_intensity: float | None
     light_color: tuple[float, float, float] | None
     trajectory_file: str
@@ -67,8 +69,10 @@ def write_collection_manifest(
                 seed=meta.get("seed"),
                 object_xy_offset=tuple(meta["object_xy_offset"]) if meta.get("object_xy_offset") is not None else None,
                 place_xy_offset=tuple(meta["place_xy_offset"]) if meta.get("place_xy_offset") is not None else None,
-                object_color_name=meta.get("object_color_name"),
-                object_color_rgb=tuple(meta["object_color_rgb"]) if meta.get("object_color_rgb") is not None else None,
+                object_category_id=meta.get("object_category_id"),
+                object_variant_id=meta.get("object_variant_id"),
+                object_label=meta.get("object_label"),
+                object_usd_path=meta.get("object_usd_path"),
                 light_intensity=meta.get("light_intensity"),
                 light_color=tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
                 trajectory_file=(rel_dir / "trajectory.npz").as_posix(),

@@ -58,8 +58,10 @@ def export_episode(
         "num_frames": int(arrays["timestamps_s"].shape[0]),
         "object_pos_local": meta["object_pos_local"],
         "place_pos_local": meta["place_pos_local"],
-        "object_color_name": meta.get("object_color_name"),
-        "object_color_rgb": meta.get("object_color_rgb"),
+        "object_category_id": meta.get("object_category_id"),
+        "object_variant_id": meta.get("object_variant_id"),
+        "object_label": meta.get("object_label"),
+        "object_usd_path": meta.get("object_usd_path"),
         "light_intensity": meta.get("light_intensity"),
         "light_color": meta.get("light_color"),
     }

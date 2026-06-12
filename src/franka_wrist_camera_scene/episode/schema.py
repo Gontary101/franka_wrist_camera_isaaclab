@@ -25,8 +25,10 @@ class EpisodeMetadata:
     place_pos_local: tuple[float, float, float] | None = None
     object_xy_offset: tuple[float, float] | None = None
     place_xy_offset: tuple[float, float] | None = None
-    object_color_name: str | None = None
-    object_color_rgb: tuple[float, float, float] | None = None
+    object_category_id: str | None = None
+    object_variant_id: str | None = None
+    object_label: str | None = None
+    object_usd_path: str | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 

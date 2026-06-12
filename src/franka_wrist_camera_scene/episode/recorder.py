@@ -31,8 +31,10 @@ class EpisodeRecorder:
     seed: int | None = None
     object_xy_offset: tuple[float, float] | None = None
     place_xy_offset: tuple[float, float] | None = None
-    object_color_name: str | None = None
-    object_color_rgb: tuple[float, float, float] | None = None
+    object_category_id: str | None = None
+    object_variant_id: str | None = None
+    object_label: str | None = None
+    object_usd_path: str | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 
@@ -147,8 +149,10 @@ class EpisodeRecorder:
             place_pos_local=self.place_pos_local,
             object_xy_offset=self.object_xy_offset,
             place_xy_offset=self.place_xy_offset,
-            object_color_name=self.object_color_name,
-            object_color_rgb=self.object_color_rgb,
+            object_category_id=self.object_category_id,
+            object_variant_id=self.object_variant_id,
+            object_label=self.object_label,
+            object_usd_path=self.object_usd_path,
             light_intensity=self.light_intensity,
             light_color=self.light_color,
         )

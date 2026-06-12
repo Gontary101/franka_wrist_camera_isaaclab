@@ -14,7 +14,13 @@ from franka_wrist_camera_scene.episode.reset import reset_pick_place_episode
 from franka_wrist_camera_scene.episode.success import pick_place_success
 from franka_wrist_camera_scene.episode.recorder import EpisodeRecorder
 from franka_wrist_camera_scene.policies.pick_place_scripted import PickPlaceScriptedPolicy
-from franka_wrist_camera_scene.scene.tabletop import TabletopFrankaSceneCfg, CATALOG_OBJECT_LABEL
+from franka_wrist_camera_scene.scene.tabletop import (
+    TabletopFrankaSceneCfg,
+    CATALOG_OBJECT_CATEGORY_ID,
+    CATALOG_OBJECT_VARIANT_ID,
+    CATALOG_OBJECT_LABEL,
+    CATALOG_OBJECT_USD_PATH,
+)
 from franka_wrist_camera_scene.settings import SIM_DT
 from franka_wrist_camera_scene.tasks.pick_place import PickPlaceTaskSpec, make_pick_place_episode_spec
 from franka_wrist_camera_scene.app.camera_warmup import nudge_camera_prims
@@ -44,8 +50,10 @@ def run_episode(
     seed: int | None = None,
     object_xy_offset: tuple[float, float] | None = None,
     place_xy_offset: tuple[float, float] | None = None,
-    object_color_name: str | None = None,
-    object_color_rgb: tuple[float, float, float] | None = None,
+    object_category_id: str | None = None,
+    object_variant_id: str | None = None,
+    object_label: str | None = None,
+    object_usd_path: str | None = None,
     light_intensity: float | None = None,
     light_color: tuple[float, float, float] | None = None,
 ) -> Path:
@@ -72,8 +80,10 @@ def run_episode(
         seed=seed,
         object_xy_offset=object_xy_offset,
         place_xy_offset=place_xy_offset,
-        object_color_name=object_color_name,
-        object_color_rgb=object_color_rgb,
+        object_category_id=object_category_id,
+        object_variant_id=object_variant_id,
+        object_label=object_label,
+        object_usd_path=object_usd_path,
         light_intensity=light_intensity,
         light_color=light_color,
     )
@@ -228,6 +238,10 @@ def collect_pick_place_dataset(
             seed=seed,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
+            object_category_id=CATALOG_OBJECT_CATEGORY_ID,
+            object_variant_id=CATALOG_OBJECT_VARIANT_ID,
+            object_label=CATALOG_OBJECT_LABEL,
+            object_usd_path=str(CATALOG_OBJECT_USD_PATH),
             light_intensity=sample.light_intensity,
             light_color=sample.light_color,
         )
