@@ -25,6 +25,7 @@ class PickPlaceScriptedPolicy:
         self._state_start_time = None
         self._ee_body_id = None
         self._grasp_tcp_offset_from_root_w = None
+        self._lift_pos_w = None
 
         self.quat_wxyz = torch.tensor([0.0, 1.0, 0.0, 0.0])
 
@@ -82,6 +83,7 @@ class PickPlaceScriptedPolicy:
         self._motion = None
         self._state_start_time = None
         self._grasp_tcp_offset_from_root_w = None
+        self._lift_pos_w = None
 
     def step(self, obs: dict | None, sim_time_s: float) -> PolicyCommand:
         """Compute the next command target according to the FSM state."""
@@ -110,8 +112,12 @@ class PickPlaceScriptedPolicy:
         pregrasp_pos = obj_pregrasp_tcp - tcp_offset_w.view(1, 3)
         object_transit_pos = obj_transit_tcp - tcp_offset_w.view(1, 3)
 
-        lift_pos = obj_hand_pos.clone()
-        lift_pos[:, 2] += self.spec.lift_height_m
+        lift_pos = None
+        if self._lift_pos_w is not None:
+            lift_pos = self._lift_pos_w
+        else:
+            lift_pos = obj_hand_pos.clone()
+            lift_pos[:, 2] += self.spec.lift_height_m
 
         place_hand_pos = None
         place_pre_pos = None
@@ -131,7 +137,7 @@ class PickPlaceScriptedPolicy:
             place_transit_pos[:, 2] = lift_pos[:, 2]
 
         if self.state in ["move_to_place_transit", "move_to_place", "lower", "open", "retreat", "done"]:
-            if place_hand_pos is None or place_pre_pos is None or place_transit_pos is None:
+            if place_hand_pos is None or place_pre_pos is None or place_transit_pos is None or lift_pos is None:
                 raise RuntimeError("Placement targets requested before grasp offset was latched.")
 
         target_pos_w = ee_pos_w.clone()
@@ -197,6 +203,8 @@ class PickPlaceScriptedPolicy:
             if sim_time_s - self._state_start_time >= self.spec.grasp_dwell_s:
                 actual_tcp_pos_w = self._actual_tcp_pos_w(ee_pos_w, tcp_offset_w)
                 self._grasp_tcp_offset_from_root_w = (actual_tcp_pos_w - obj_pos).clone()
+                self._lift_pos_w = obj_hand_pos.clone()
+                self._lift_pos_w[:, 2] += self.spec.lift_height_m
                 self.state = "lift"
                 self._state_start_time = None
 
