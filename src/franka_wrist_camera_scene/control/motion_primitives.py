@@ -7,6 +7,9 @@ from dataclasses import dataclass
 import torch
 
 
+MINIMUM_JERK_PEAK_VELOCITY_SCALE = 1.875
+
+
 @dataclass(slots=True)
 class MinimumJerkScalarProfile:
     """Minimum-jerk scalar progress profile with zero endpoint velocity and acceleration."""
@@ -51,7 +54,10 @@ class MinimumJerkPoseMotion:
             raise ValueError("max_speed_m_s must be positive.")
 
         distance_m = float(torch.linalg.norm(goal_pos_w - start_pos_w, dim=-1).max().item())
-        duration_s = max(distance_m / max_speed_m_s, 1e-6)
+        duration_s = max(
+            MINIMUM_JERK_PEAK_VELOCITY_SCALE * distance_m / max_speed_m_s,
+            1e-6,
+        )
 
         return cls(
             start_pos_w=start_pos_w,

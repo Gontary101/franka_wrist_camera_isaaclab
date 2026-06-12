@@ -9,15 +9,13 @@ from franka_wrist_camera_scene.control.motion_primitives import (
 
 class TestMotionPrimitives(TestCase):
     def test_minimum_jerk_scalar_profile(self) -> None:
-        # Invalid duration
         with self.assertRaises(ValueError):
             MinimumJerkScalarProfile(duration_s=0.0)
         with self.assertRaises(ValueError):
             MinimumJerkScalarProfile(duration_s=-1.0)
 
         profile = MinimumJerkScalarProfile(duration_s=2.0)
-        
-        # Test boundaries
+
         alpha, done = profile.sample(-1.0)
         self.assertEqual(alpha, 0.0)
         self.assertFalse(done)
@@ -42,8 +40,7 @@ class TestMotionPrimitives(TestCase):
         start_pos = torch.tensor([0.0, 0.0, 0.0])
         goal_pos = torch.tensor([1.0, 2.0, 3.0])
         quat = torch.tensor([1.0, 0.0, 0.0, 0.0])
-        
-        # Invalid speed
+
         with self.assertRaises(ValueError):
             MinimumJerkPoseMotion.from_speed(
                 start_pos_w=start_pos,
@@ -68,9 +65,23 @@ class TestMotionPrimitives(TestCase):
         self.assertTrue(torch.allclose(q, quat))
         self.assertFalse(done)
 
-        # Sample at the end of the duration
         end_time = 1.0 + motion.profile.duration_s
         pos, q, done = motion.sample(end_time)
         self.assertTrue(torch.allclose(pos, goal_pos))
         self.assertTrue(torch.allclose(q, quat))
         self.assertTrue(done)
+
+    def test_minimum_jerk_pose_motion_respects_peak_speed_bound(self) -> None:
+        start_pos = torch.tensor([0.0, 0.0, 0.0])
+        goal_pos = torch.tensor([1.0, 0.0, 0.0])
+        quat = torch.tensor([1.0, 0.0, 0.0, 0.0])
+
+        motion = MinimumJerkPoseMotion.from_speed(
+            start_pos_w=start_pos,
+            goal_pos_w=goal_pos,
+            quat_w=quat,
+            start_time_s=0.0,
+            max_speed_m_s=0.5,
+        )
+
+        self.assertAlmostEqual(motion.profile.duration_s, 3.75)
