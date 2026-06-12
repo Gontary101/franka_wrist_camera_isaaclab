@@ -223,11 +223,17 @@ def main() -> None:
         policy = ReachingScriptedPolicy(spec=spec)
     else:  # pick_place
         base_spec = PickPlaceTaskSpec()
+        grasp_closing_axis_xy = (
+            object_context.geometry.planar_minor_axis_local
+            if object_context.geometry.yaw_relevant
+            else None
+        )
         spec = make_pick_place_episode_spec(
             base_spec=base_spec,
             object_xy_offset=(0.0, 0.0),
             place_xy_offset=(0.0, 0.0),
             object_label=object_context.label,
+            grasp_closing_axis_xy=grasp_closing_axis_xy,
         )
         policy = PickPlaceScriptedPolicy(spec=spec)
 

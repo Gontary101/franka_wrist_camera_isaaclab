@@ -48,6 +48,7 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "object_yaw_relevant": meta["object_yaw_relevant"],
         "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
         "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
+        "grasp_closing_axis_xy": meta["grasp_closing_axis_xy"],
         "light_intensity": meta.get("light_intensity"),
         "light_color": tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
     }
@@ -74,7 +75,8 @@ def main() -> None:
     print(
         f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
         f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} "
-        f"{'object_variant':<20} {'yaw':<6} {'aspect':<8} {'minor_axis':<20} {'light':<24}"
+        f"{'object_variant':<20} {'yaw':<6} {'aspect':<8} "
+        f"{'minor_axis':<20} {'grasp_axis':<20} {'light':<24}"
     )
 
     for item in summaries:
@@ -91,12 +93,14 @@ def main() -> None:
         aspect_str = f"{aspect_ratio:.3f}" if aspect_ratio is not None else "none"
         minor_axis = item["object_planar_minor_axis_local"]
         minor_axis_str = str(minor_axis) if minor_axis is not None else "none"
+        grasp_axis = item["grasp_closing_axis_xy"]
+        grasp_axis_str = str(grasp_axis) if grasp_axis is not None else "none"
         print(
             f"{episode_id:<10} {success:<8} "
             f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
             f"{record_depth:<6} {variant_id:<20} {yaw_relevant:<6} "
-            f"{aspect_str:<8} {minor_axis_str:<20} {light_str:<24}"
+            f"{aspect_str:<8} {minor_axis_str:<20} {grasp_axis_str:<20} {light_str:<24}"
         )
 
     print_pose_variant_summary(summaries)

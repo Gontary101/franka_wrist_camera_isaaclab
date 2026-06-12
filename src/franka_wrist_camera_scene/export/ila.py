@@ -66,6 +66,7 @@ def export_episode(
         "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
         "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
         "object_planar_major_axis_local": meta["object_planar_major_axis_local"],
+        "grasp_closing_axis_xy": meta["grasp_closing_axis_xy"],
         "light_intensity": meta.get("light_intensity"),
         "light_color": meta.get("light_color"),
     }

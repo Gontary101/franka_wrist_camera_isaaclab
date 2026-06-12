@@ -27,6 +27,7 @@ class EpisodeManifestEntry:
     object_planar_aspect_ratio: float | None
     object_planar_minor_axis_local: tuple[float, float] | None
     object_planar_major_axis_local: tuple[float, float] | None
+    grasp_closing_axis_xy: tuple[float, float] | None
     light_intensity: float | None
     light_color: tuple[float, float, float] | None
     trajectory_file: str
@@ -87,6 +88,11 @@ def write_collection_manifest(
                 object_planar_major_axis_local=(
                     tuple(meta["object_planar_major_axis_local"])
                     if meta["object_planar_major_axis_local"] is not None
+                    else None
+                ),
+                grasp_closing_axis_xy=(
+                    tuple(meta["grasp_closing_axis_xy"])
+                    if meta["grasp_closing_axis_xy"] is not None
                     else None
                 ),
                 light_intensity=meta.get("light_intensity"),

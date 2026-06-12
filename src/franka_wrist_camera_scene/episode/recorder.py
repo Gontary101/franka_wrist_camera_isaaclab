@@ -39,6 +39,7 @@ class EpisodeRecorder:
     object_planar_aspect_ratio: float | None = None
     object_planar_minor_axis_local: tuple[float, float] | None = None
     object_planar_major_axis_local: tuple[float, float] | None = None
+    grasp_closing_axis_xy: tuple[float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 
@@ -161,9 +162,9 @@ class EpisodeRecorder:
             object_planar_aspect_ratio=self.object_planar_aspect_ratio,
             object_planar_minor_axis_local=self.object_planar_minor_axis_local,
             object_planar_major_axis_local=self.object_planar_major_axis_local,
+            grasp_closing_axis_xy=self.grasp_closing_axis_xy,
             light_intensity=self.light_intensity,
             light_color=self.light_color,
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir
-

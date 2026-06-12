@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 from .base import TaskSpec
 
 
@@ -16,6 +17,7 @@ class PickPlaceTaskSpec(TaskSpec):
 
     object_pos_local: tuple[float, float, float] = (0.58, -0.16, 1.08)
     place_pos_local: tuple[float, float, float] = (0.55, 0.22, 1.08)
+    grasp_closing_axis_xy: tuple[float, float] | None = None
 
     pregrasp_height_m: float = 0.16
     lift_height_m: float = 0.20
@@ -47,6 +49,7 @@ def make_pick_place_episode_spec(
     object_xy_offset: tuple[float, float],
     place_xy_offset: tuple[float, float],
     object_label: str,
+    grasp_closing_axis_xy: tuple[float, float] | None = None,
 ) -> PickPlaceTaskSpec:
     object_pos = (
         base_spec.object_pos_local[0] + object_xy_offset[0],
@@ -65,6 +68,11 @@ def make_pick_place_episode_spec(
         ee_body_name=base_spec.ee_body_name,
         object_pos_local=object_pos,
         place_pos_local=place_pos,
+        grasp_closing_axis_xy=(
+            grasp_closing_axis_xy
+            if grasp_closing_axis_xy is not None
+            else base_spec.grasp_closing_axis_xy
+        ),
         pregrasp_height_m=base_spec.pregrasp_height_m,
         lift_height_m=base_spec.lift_height_m,
         open_finger_m=base_spec.open_finger_m,
@@ -80,4 +88,3 @@ def make_pick_place_episode_spec(
         grasp_dwell_s=base_spec.grasp_dwell_s,
         release_dwell_s=base_spec.release_dwell_s,
     )
-

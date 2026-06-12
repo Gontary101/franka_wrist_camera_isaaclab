@@ -7,6 +7,7 @@ from isaaclab.assets import Articulation
 from isaaclab.scene import InteractiveScene
 from isaaclab.utils.math import quat_apply
 
+from ..control.grasp_orientation import downward_gripper_quat_for_closing_axis
 from ..control.motion_primitives import LinearPoseMotion
 from ..tasks.pick_place import PickPlaceTaskSpec
 from .scripted_base import PolicyCommand
@@ -24,7 +25,6 @@ class PickPlaceScriptedPolicy:
         self._state_start_time = None
         self._ee_body_id = None
 
-        # Gripper orientation (always pointing down)
         self.quat_wxyz = torch.tensor([0.0, 1.0, 0.0, 0.0])
 
     def bind(self, scene: InteractiveScene, robot: Articulation) -> None:
@@ -33,7 +33,13 @@ class PickPlaceScriptedPolicy:
             raise RuntimeError("PickPlaceScriptedPolicy currently supports only num_envs=1.")
         self._scene = scene
         self._device = robot.device
-        self.quat_wxyz = self.quat_wxyz.to(self._device)
+        if self.spec.grasp_closing_axis_xy is None:
+            self.quat_wxyz = self.quat_wxyz.to(self._device)
+        else:
+            self.quat_wxyz = downward_gripper_quat_for_closing_axis(
+                closing_axis_xy=self.spec.grasp_closing_axis_xy,
+                device=self._device,
+            )
         self._ee_body_id = robot.find_bodies(self.spec.ee_body_name)[0][0]
 
     def reset(self) -> None:

@@ -54,6 +54,7 @@ def run_episode(
     object_planar_aspect_ratio: float | None = None,
     object_planar_minor_axis_local: tuple[float, float] | None = None,
     object_planar_major_axis_local: tuple[float, float] | None = None,
+    grasp_closing_axis_xy: tuple[float, float] | None = None,
     light_intensity: float | None = None,
     light_color: tuple[float, float, float] | None = None,
 ) -> Path:
@@ -88,6 +89,7 @@ def run_episode(
         object_planar_aspect_ratio=object_planar_aspect_ratio,
         object_planar_minor_axis_local=object_planar_minor_axis_local,
         object_planar_major_axis_local=object_planar_major_axis_local,
+        grasp_closing_axis_xy=grasp_closing_axis_xy,
         light_intensity=light_intensity,
         light_color=light_color,
     )
@@ -242,11 +244,17 @@ def collect_pick_place_dataset(
             place_range=place_xy_range,
             lighting=lighting_options,
         )
+        grasp_closing_axis_xy = (
+            object_context.geometry.planar_minor_axis_local
+            if object_context.geometry.yaw_relevant
+            else None
+        )
         episode_spec = make_pick_place_episode_spec(
             base_spec=spec,
             object_xy_offset=sample.object_xy_offset,
             place_xy_offset=sample.place_xy_offset,
             object_label=object_context.label,
+            grasp_closing_axis_xy=grasp_closing_axis_xy,
         )
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
@@ -285,6 +293,7 @@ def collect_pick_place_dataset(
             object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
             object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,
             object_planar_major_axis_local=object_context.geometry.planar_major_axis_local,
+            grasp_closing_axis_xy=episode_spec.grasp_closing_axis_xy,
             light_intensity=sample.light_intensity,
             light_color=sample.light_color,
         )
