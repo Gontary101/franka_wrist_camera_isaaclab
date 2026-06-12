@@ -62,6 +62,10 @@ def export_episode(
         "object_variant_id": meta.get("object_variant_id"),
         "object_label": meta.get("object_label"),
         "object_usd_path": meta.get("object_usd_path"),
+        "object_yaw_relevant": meta["object_yaw_relevant"],
+        "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
+        "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
+        "object_planar_major_axis_local": meta["object_planar_major_axis_local"],
         "light_intensity": meta.get("light_intensity"),
         "light_color": meta.get("light_color"),
     }

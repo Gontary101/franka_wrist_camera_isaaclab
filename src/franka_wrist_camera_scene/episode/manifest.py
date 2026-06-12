@@ -23,6 +23,10 @@ class EpisodeManifestEntry:
     object_variant_id: str | None
     object_label: str | None
     object_usd_path: str | None
+    object_yaw_relevant: bool | None
+    object_planar_aspect_ratio: float | None
+    object_planar_minor_axis_local: tuple[float, float] | None
+    object_planar_major_axis_local: tuple[float, float] | None
     light_intensity: float | None
     light_color: tuple[float, float, float] | None
     trajectory_file: str
@@ -73,6 +77,18 @@ def write_collection_manifest(
                 object_variant_id=meta.get("object_variant_id"),
                 object_label=meta.get("object_label"),
                 object_usd_path=meta.get("object_usd_path"),
+                object_yaw_relevant=meta["object_yaw_relevant"],
+                object_planar_aspect_ratio=meta["object_planar_aspect_ratio"],
+                object_planar_minor_axis_local=(
+                    tuple(meta["object_planar_minor_axis_local"])
+                    if meta["object_planar_minor_axis_local"] is not None
+                    else None
+                ),
+                object_planar_major_axis_local=(
+                    tuple(meta["object_planar_major_axis_local"])
+                    if meta["object_planar_major_axis_local"] is not None
+                    else None
+                ),
                 light_intensity=meta.get("light_intensity"),
                 light_color=tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
                 trajectory_file=(rel_dir / "trajectory.npz").as_posix(),

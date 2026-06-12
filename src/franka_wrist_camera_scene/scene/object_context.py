@@ -5,6 +5,11 @@ from pathlib import Path
 import random
 
 from franka_wrist_camera_scene.objects.catalog import load_object_catalog
+from franka_wrist_camera_scene.objects.geometry_registry import (
+    ObjectPlanarGeometry,
+    get_object_geometry,
+    load_object_geometry_registry,
+)
 from franka_wrist_camera_scene.objects.selection import sample_catalog_object
 
 
@@ -14,10 +19,12 @@ class CatalogObjectContext:
     variant_id: str
     label: str
     usd_path: Path
+    geometry: ObjectPlanarGeometry
 
 
 def load_catalog_object_context(
     catalog_config: str,
+    geometry_config: str,
     category_id: str,
     variant_id: str,
     split: str,
@@ -26,6 +33,7 @@ def load_catalog_object_context(
     rng: random.Random | None = None,
 ) -> CatalogObjectContext:
     catalog = load_object_catalog(catalog_config)
+    geometry_registry = load_object_geometry_registry(geometry_config)
     category, variant = sample_catalog_object(
         catalog=catalog,
         category_id=category_id,
@@ -35,12 +43,16 @@ def load_catalog_object_context(
         required_affordances=required_affordances,
         rng=rng,
     )
+    geometry = get_object_geometry(
+        registry=geometry_registry,
+        category_id=category.id,
+        variant_id=variant.id,
+    )
 
     return CatalogObjectContext(
         category_id=category.id,
         variant_id=variant.id,
         label=category.label,
         usd_path=variant.usd_path,
+        geometry=geometry,
     )
-
-

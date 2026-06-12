@@ -40,11 +40,14 @@ def load_episode_summary(episode_dir: Path) -> dict:
         "trajectory_camera_frames": camera_frames,
         "record_depth": bool(meta.get("record_depth", False)),
         "object_pos_local": tuple(meta["object_pos_local"]),
-        "place_pos_local": tuple(meta["place_pos_local"]),
+        "place_pos_local": tuple(meta["place_pos_local"]) if meta["place_pos_local"] is not None else None,
         "object_category_id": meta.get("object_category_id"),
         "object_variant_id": meta.get("object_variant_id"),
         "object_label": meta.get("object_label"),
         "object_usd_path": meta.get("object_usd_path"),
+        "object_yaw_relevant": meta["object_yaw_relevant"],
+        "object_planar_aspect_ratio": meta["object_planar_aspect_ratio"],
+        "object_planar_minor_axis_local": meta["object_planar_minor_axis_local"],
         "light_intensity": meta.get("light_intensity"),
         "light_color": tuple(meta["light_color"]) if meta.get("light_color") is not None else None,
     }
@@ -70,7 +73,8 @@ def main() -> None:
     print()
     print(
         f"{'episode_id':<10} {'success':<8} {'meta_steps':<10} "
-        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} {'object_variant':<20} {'light':<24}"
+        f"{'traj_steps':<10} {'meta_cam':<9} {'traj_cam':<9} {'depth':<6} "
+        f"{'object_variant':<20} {'yaw':<6} {'aspect':<8} {'minor_axis':<20} {'light':<24}"
     )
 
     for item in summaries:
@@ -82,20 +86,27 @@ def main() -> None:
         if item["light_intensity"] is not None and item["light_color"] is not None:
             light_color_str = f"({', '.join(f'{x:.2f}' for x in item['light_color'])})"
             light_str = f"{item['light_intensity']:.1f} {light_color_str}"
+        yaw_relevant = str(item["object_yaw_relevant"]).lower()
+        aspect_ratio = item["object_planar_aspect_ratio"]
+        aspect_str = f"{aspect_ratio:.3f}" if aspect_ratio is not None else "none"
+        minor_axis = item["object_planar_minor_axis_local"]
+        minor_axis_str = str(minor_axis) if minor_axis is not None else "none"
         print(
             f"{episode_id:<10} {success:<8} "
             f"{item['num_steps']:<10} {item['trajectory_steps']:<10} "
             f"{item['num_camera_frames']:<9} {item['trajectory_camera_frames']:<9} "
-            f"{record_depth:<6} {variant_id:<20} {light_str:<24}"
+            f"{record_depth:<6} {variant_id:<20} {yaw_relevant:<6} "
+            f"{aspect_str:<8} {minor_axis_str:<20} {light_str:<24}"
         )
 
     print_pose_variant_summary(summaries)
 
 
 def pose_key(summary: dict) -> tuple:
+    place_pos_local = summary["place_pos_local"]
     return (
         tuple(round(float(x), 4) for x in summary["object_pos_local"]),
-        tuple(round(float(x), 4) for x in summary["place_pos_local"]),
+        tuple(round(float(x), 4) for x in place_pos_local) if place_pos_local is not None else None,
     )
 
 

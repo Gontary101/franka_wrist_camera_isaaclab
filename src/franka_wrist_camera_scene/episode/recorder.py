@@ -35,6 +35,10 @@ class EpisodeRecorder:
     object_variant_id: str | None = None
     object_label: str | None = None
     object_usd_path: str | None = None
+    object_yaw_relevant: bool | None = None
+    object_planar_aspect_ratio: float | None = None
+    object_planar_minor_axis_local: tuple[float, float] | None = None
+    object_planar_major_axis_local: tuple[float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 
@@ -153,10 +157,13 @@ class EpisodeRecorder:
             object_variant_id=self.object_variant_id,
             object_label=self.object_label,
             object_usd_path=self.object_usd_path,
+            object_yaw_relevant=self.object_yaw_relevant,
+            object_planar_aspect_ratio=self.object_planar_aspect_ratio,
+            object_planar_minor_axis_local=self.object_planar_minor_axis_local,
+            object_planar_major_axis_local=self.object_planar_major_axis_local,
             light_intensity=self.light_intensity,
             light_color=self.light_color,
         )
         meta.save(episode_dir / "meta.json")
         return episode_dir
-
 

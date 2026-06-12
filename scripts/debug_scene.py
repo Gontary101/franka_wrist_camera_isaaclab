@@ -185,6 +185,7 @@ def main() -> None:
 
     object_context = load_catalog_object_context(
         catalog_config=target_object_cfg["catalog_config"],
+        geometry_config=target_object_cfg["geometry_config"],
         category_id=target_object_cfg["category_id"],
         variant_id=target_object_cfg["variant_id"],
         split=target_object_cfg["split"],

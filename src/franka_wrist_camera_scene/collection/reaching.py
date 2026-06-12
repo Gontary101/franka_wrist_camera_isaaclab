@@ -49,6 +49,10 @@ def run_episode(
     object_variant_id: str | None = None,
     object_label: str | None = None,
     object_usd_path: str | None = None,
+    object_yaw_relevant: bool | None = None,
+    object_planar_aspect_ratio: float | None = None,
+    object_planar_minor_axis_local: tuple[float, float] | None = None,
+    object_planar_major_axis_local: tuple[float, float] | None = None,
     light_intensity: float | None = None,
     light_color: tuple[float, float, float] | None = None,
 ) -> Path:
@@ -77,6 +81,10 @@ def run_episode(
         object_variant_id=object_variant_id,
         object_label=object_label,
         object_usd_path=object_usd_path,
+        object_yaw_relevant=object_yaw_relevant,
+        object_planar_aspect_ratio=object_planar_aspect_ratio,
+        object_planar_minor_axis_local=object_planar_minor_axis_local,
+        object_planar_major_axis_local=object_planar_major_axis_local,
         light_intensity=light_intensity,
         light_color=light_color,
     )
@@ -187,6 +195,7 @@ def collect_reaching_dataset(
         episode_rng = random.Random(seed + episode_id)
         object_context = load_catalog_object_context(
             catalog_config=target_object_cfg["catalog_config"],
+            geometry_config=target_object_cfg["geometry_config"],
             category_id=target_object_cfg["category_id"],
             variant_id=target_object_cfg["variant_id"],
             split=target_object_cfg["split"],
@@ -267,6 +276,10 @@ def collect_reaching_dataset(
             object_variant_id=object_context.variant_id,
             object_label=object_context.label,
             object_usd_path=durable_usd_path,
+            object_yaw_relevant=object_context.geometry.yaw_relevant,
+            object_planar_aspect_ratio=object_context.geometry.planar_aspect_ratio,
+            object_planar_minor_axis_local=object_context.geometry.planar_minor_axis_local,
+            object_planar_major_axis_local=object_context.geometry.planar_major_axis_local,
             light_intensity=sample.light_intensity,
             light_color=sample.light_color,
         )

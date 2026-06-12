@@ -29,6 +29,10 @@ class EpisodeMetadata:
     object_variant_id: str | None = None
     object_label: str | None = None
     object_usd_path: str | None = None
+    object_yaw_relevant: bool | None = None
+    object_planar_aspect_ratio: float | None = None
+    object_planar_minor_axis_local: tuple[float, float] | None = None
+    object_planar_major_axis_local: tuple[float, float] | None = None
     light_intensity: float | None = None
     light_color: tuple[float, float, float] | None = None
 

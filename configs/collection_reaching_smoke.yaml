@@ -13,6 +13,7 @@ seed: 123
 
 target_object:
   catalog_config: object_catalog.generated.yaml
+  geometry_config: object_geometry.generated.yaml
   category_id: sample
   variant_id: sample
   split: train
