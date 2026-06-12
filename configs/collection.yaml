@@ -12,8 +12,9 @@ seed: 123
 
 target_object:
   catalog_config: object_catalog.generated.yaml
-  category_id: apple
-  variant_id: apple00
+  category_id: sample
+  variant_id: sample
+
 
 pose_randomization:
   object_xy_range:

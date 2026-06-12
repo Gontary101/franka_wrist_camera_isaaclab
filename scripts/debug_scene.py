@@ -167,11 +167,18 @@ def main() -> None:
     collection_cfg = load_yaml_config(args_cli.collection_config)
     target_object_cfg = collection_cfg["target_object"]
 
+    import random
+    seed = int(collection_cfg.get("seed", 123))
+    rng = random.Random(seed)
+
     object_context = load_catalog_object_context(
         catalog_config=target_object_cfg["catalog_config"],
         category_id=target_object_cfg["category_id"],
         variant_id=target_object_cfg["variant_id"],
+        split=target_object_cfg.get("split", "train"),
+        rng=rng,
     )
+
 
     scene = InteractiveScene(
         make_tabletop_scene_cfg(

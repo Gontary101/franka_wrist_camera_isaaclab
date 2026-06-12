@@ -161,31 +161,7 @@ def collect_pick_place_dataset(
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
     target_object_cfg = collection_cfg["target_object"]
-    object_context = load_catalog_object_context(
-        catalog_config=target_object_cfg["catalog_config"],
-        category_id=target_object_cfg["category_id"],
-        variant_id=target_object_cfg["variant_id"],
-    )
-
-    durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
-
-    scene = InteractiveScene(
-        make_tabletop_scene_cfg(
-            object_context=object_context,
-            num_envs=1,
-            env_spacing=2.5,
-        )
-    )
-    robot: Articulation = scene["robot"]
-
-    spec = PickPlaceTaskSpec()
-
-    ik = CartesianIKController()
-    gripper = GripperController()
-
-    sim.reset()
-    ik.bind(scene, robot)
-    gripper.bind(scene, robot)
+    split = target_object_cfg.get("split", "train")
 
     seed = int(collection_cfg["seed"])
     pose_randomization = collection_cfg["pose_randomization"]
@@ -206,8 +182,49 @@ def collect_pick_place_dataset(
 
     saved_episode_dirs: list[Path] = []
 
+    import random
+    import omni.usd
+
     for episode_id in range(start_episode_id, start_episode_id + num_episodes):
         print(f"[INFO] Starting episode {episode_id}", flush=True)
+
+        # 1. Deterministic target object sampling based on episode seed
+        episode_rng = random.Random(seed + episode_id)
+        object_context = load_catalog_object_context(
+            catalog_config=target_object_cfg["catalog_config"],
+            category_id=target_object_cfg["category_id"],
+            variant_id=target_object_cfg["variant_id"],
+            split=split,
+            rng=episode_rng,
+        )
+        durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
+
+        # 2. Stage cleanup: Remove previous prims to prevent conflicts
+        stage = omni.usd.get_context().get_stage()
+        for prim_path in ["/World/envs", "/World/Warehouse", "/World/Light"]:
+            if stage.GetPrimAtPath(prim_path):
+                stage.RemovePrim(prim_path)
+
+        # 3. Create the scene
+        scene = InteractiveScene(
+            make_tabletop_scene_cfg(
+                object_context=object_context,
+                num_envs=1,
+                env_spacing=2.5,
+            )
+        )
+        robot: Articulation = scene["robot"]
+
+        # Bind controllers
+        ik = CartesianIKController()
+        gripper = GripperController()
+
+        sim.reset()
+        sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
+        ik.bind(scene, robot)
+        gripper.bind(scene, robot)
+
+        spec = PickPlaceTaskSpec()
         sample = sample_pick_place_offsets(
             seed=seed,
             episode_id=episode_id,
@@ -224,6 +241,7 @@ def collect_pick_place_dataset(
 
         policy = PickPlaceScriptedPolicy(spec=episode_spec)
         policy.bind(scene, robot)
+
 
         reset_pick_place_episode(scene, episode_spec)
         # USD catalog objects keep their authored materials.
