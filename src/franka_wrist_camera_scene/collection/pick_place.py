@@ -167,10 +167,7 @@ def collect_pick_place_dataset(
         variant_id=target_object_cfg["variant_id"],
     )
 
-    try:
-        durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
-    except ValueError:
-        durable_usd_path = object_context.usd_path.as_posix()
+    durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
 
     scene = InteractiveScene(
         make_tabletop_scene_cfg(
