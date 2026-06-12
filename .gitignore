@@ -8,6 +8,7 @@ logs/
 runs/
 .cache/
 
+.thumbs/
 data/
 exports/
 
