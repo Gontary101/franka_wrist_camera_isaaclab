@@ -7,6 +7,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: apple00
     usd_path: apple/apple00.usd
@@ -55,6 +56,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: avocado00
     usd_path: avocado/avocado00.usd
@@ -77,6 +79,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: beer00
     usd_path: beer/beer00.usd
@@ -101,6 +104,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: dbottle02
     usd_path: bottle/dbottle02.usd
@@ -127,8 +131,8 @@ categories:
   split: train
   role: target
   affordances:
-  - pickable
   - reachable
+  - container
   variants:
   - id: bowl00
     usd_path: bowl/bowl00.usd
@@ -175,6 +179,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: box00
     usd_path: box/box00.usd
@@ -213,6 +218,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: can00
     usd_path: can/can00.usd
@@ -253,8 +259,8 @@ categories:
   split: train
   role: target
   affordances:
-  - pickable
   - reachable
+  - container
   variants:
   - id: cup00
     usd_path: cup/cup00.usd
@@ -283,6 +289,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: egg00
     usd_path: egg/egg00.usd
@@ -313,6 +320,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: kiwi00
     usd_path: kiwi/kiwi00.usd
@@ -327,6 +335,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: lemon01
     usd_path: lemon/lemon01.usd
@@ -361,6 +370,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: lime00
     usd_path: lime/lime00.usd
@@ -377,6 +387,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: onion00
     usd_path: onion/onion00.usd
@@ -399,6 +410,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: orange02
     usd_path: orange/orange02.usd
@@ -419,6 +431,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: peach01
     usd_path: peach/peach01.usd
@@ -497,6 +510,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: potato00
     usd_path: potato/potato00.usd
@@ -527,6 +541,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: tangerine00
     usd_path: tangerine/tangerine00.usd
@@ -545,6 +560,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: tomato01
     usd_path: tomato/tomato01.usd
@@ -587,6 +603,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: apple99
     usd_path: unseen/apple99.usd
@@ -597,6 +614,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: dbottle99
     usd_path: unseen/dbottle99.usd
@@ -607,6 +625,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: can99
     usd_path: unseen/can99.usd
@@ -615,8 +634,8 @@ categories:
   split: unseen
   role: target
   affordances:
-  - pickable
   - reachable
+  - container
   variants:
   - id: cup99
     usd_path: unseen/cup99.usd
@@ -627,6 +646,7 @@ categories:
   affordances:
   - pickable
   - reachable
+  - center_graspable
   variants:
   - id: peach99
     usd_path: unseen/peach99.usd

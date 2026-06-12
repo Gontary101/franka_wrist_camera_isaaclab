@@ -10,6 +10,25 @@ from franka_wrist_camera_scene.utils.paths import REPO_ROOT
 
 
 SUPPORT_CATEGORIES = {"plate", "tray", "placemat"}
+HOLLOW_CATEGORIES = {"bowl", "cup"}
+CENTER_GRASPABLE_CATEGORIES = {
+    "apple",
+    "avocado",
+    "beer",
+    "bottle",
+    "box",
+    "can",
+    "egg",
+    "kiwi",
+    "lemon",
+    "lime",
+    "onion",
+    "orange",
+    "peach",
+    "potato",
+    "tangerine",
+    "tomato",
+}
 IGNORED_DIRECTORY_NAMES = {"texture"}
 
 
@@ -24,6 +43,25 @@ def label_from_variant_stem(stem: str) -> str:
     return label.lower()
 
 
+def affordances_for_label(label: str) -> list[str]:
+    if label in SUPPORT_CATEGORIES:
+        return ["reachable", "support"]
+
+    if label in HOLLOW_CATEGORIES:
+        return ["reachable", "container"]
+
+    if label in CENTER_GRASPABLE_CATEGORIES:
+        return ["pickable", "reachable", "center_graspable"]
+
+    raise ValueError(f"No affordance policy defined for category label: {label}")
+
+
+def role_for_label(label: str) -> str:
+    if label in SUPPORT_CATEGORIES:
+        return "clutter"
+    return "target"
+
+
 def category_entry(
     category_id: str,
     label: str,
@@ -31,14 +69,12 @@ def category_entry(
     variants: list[dict],
 ) -> dict:
     """Create one catalog category entry."""
-    is_support = label in SUPPORT_CATEGORIES
-
     return {
         "id": category_id,
         "label": label,
         "split": split,
-        "role": "clutter" if is_support else "target",
-        "affordances": ["reachable", "support"] if is_support else ["pickable", "reachable"],
+        "role": role_for_label(label),
+        "affordances": affordances_for_label(label),
         "variants": variants,
     }
 
