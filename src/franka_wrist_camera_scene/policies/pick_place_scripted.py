@@ -9,6 +9,7 @@ from isaaclab.utils.math import quat_apply
 
 from ..control.grasp_orientation import downward_gripper_quat_for_closing_axis
 from ..control.motion_primitives import LinearPoseMotion
+from ..tasks.placement_geometry import object_root_z_on_support
 from ..tasks.pick_place import PickPlaceTaskSpec
 from .scripted_base import PolicyCommand
 
@@ -37,11 +38,10 @@ class PickPlaceScriptedPolicy:
             raise RuntimeError("Pick-place requires object bbox metadata for placement height.")
 
         root_pos = xy_pos_w.clone()
-        bbox_min_z = float(self.spec.object_local_bbox_min[2])
-        root_pos[:, 2] = (
-            self.spec.support_surface_z_local
-            - bbox_min_z
-            + self.spec.object_bottom_clearance_m
+        root_pos[:, 2] = object_root_z_on_support(
+            support_surface_z=self.spec.support_surface_z_local,
+            object_bbox_min_z=float(self.spec.object_local_bbox_min[2]),
+            bottom_clearance_m=self.spec.object_bottom_clearance_m,
         )
         return root_pos
 
@@ -102,8 +102,7 @@ class PickPlaceScriptedPolicy:
         # Convert env-local coordinates to world coordinates using env origins
         place_pos = self._scene.env_origins + place_local.view(1, 3)
 
-        # Subtract TCP offset (0.10m down in local coordinates) to get the hand position targets
-        tcp_offset_local = torch.tensor([0.0, 0.0, 0.10], device=self._device).view(1, 3)
+        tcp_offset_local = torch.tensor(self.spec.tcp_offset_local, device=self._device).view(1, 3)
         tcp_offset_w = quat_apply(self.quat_wxyz.view(1, 4), tcp_offset_local).view(3)
 
         obj_grasp_tcp, obj_pregrasp_tcp, obj_transit_tcp = self._object_top_tcp_targets_w(obj_pos)

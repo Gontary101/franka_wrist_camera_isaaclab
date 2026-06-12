@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .base import TaskSpec
+from .placement_geometry import object_root_pose_on_support
 
 
 @dataclass(frozen=True, slots=True)
@@ -17,6 +18,7 @@ class PickPlaceTaskSpec(TaskSpec):
 
     object_pos_local: tuple[float, float, float] = (0.58, -0.16, 1.08)
     place_pos_local: tuple[float, float, float] = (0.55, 0.22, 1.08)
+    tcp_offset_local: tuple[float, float, float] = (0.0, 0.0, 0.10)
     grasp_closing_axis_xy: tuple[float, float] | None = None
 
     object_local_bbox_min: tuple[float, float, float] | None = None
@@ -25,7 +27,6 @@ class PickPlaceTaskSpec(TaskSpec):
     object_transit_clearance_m: float = 0.13
     pregrasp_clearance_m: float = 0.055
     top_grasp_depth_m: float = 0.025
-    place_transit_clearance_m: float = 0.13
     support_surface_z_local: float = 1.05
     object_bottom_clearance_m: float = 0.006
     place_pregrasp_clearance_m: float = 0.055
@@ -68,25 +69,31 @@ def make_pick_place_episode_spec(
         if object_local_bbox_min is not None
         else base_spec.object_local_bbox_min
     )
+    object_xy = (
+        base_spec.object_pos_local[0] + object_xy_offset[0],
+        base_spec.object_pos_local[1] + object_xy_offset[1],
+    )
+    place_xy = (
+        base_spec.place_pos_local[0] + place_xy_offset[0],
+        base_spec.place_pos_local[1] + place_xy_offset[1],
+    )
     if resolved_bbox_min is not None:
-        object_root_z = (
-            base_spec.support_surface_z_local
-            - resolved_bbox_min[2]
-            + base_spec.object_bottom_clearance_m
+        object_pos = object_root_pose_on_support(
+            xy_pos=object_xy,
+            support_surface_z=base_spec.support_surface_z_local,
+            object_bbox_min_z=resolved_bbox_min[2],
+            bottom_clearance_m=base_spec.object_bottom_clearance_m,
+        )
+        place_pos = object_root_pose_on_support(
+            xy_pos=place_xy,
+            support_surface_z=base_spec.support_surface_z_local,
+            object_bbox_min_z=resolved_bbox_min[2],
+            bottom_clearance_m=base_spec.object_bottom_clearance_m,
         )
     else:
         object_root_z = base_spec.object_pos_local[2]
-
-    object_pos = (
-        base_spec.object_pos_local[0] + object_xy_offset[0],
-        base_spec.object_pos_local[1] + object_xy_offset[1],
-        object_root_z,
-    )
-    place_pos = (
-        base_spec.place_pos_local[0] + place_xy_offset[0],
-        base_spec.place_pos_local[1] + place_xy_offset[1],
-        object_root_z,
-    )
+        object_pos = (object_xy[0], object_xy[1], object_root_z)
+        place_pos = (place_xy[0], place_xy[1], object_root_z)
 
     return PickPlaceTaskSpec(
         instruction=instruction_for_object(object_label),
@@ -94,6 +101,7 @@ def make_pick_place_episode_spec(
         ee_body_name=base_spec.ee_body_name,
         object_pos_local=object_pos,
         place_pos_local=place_pos,
+        tcp_offset_local=base_spec.tcp_offset_local,
         grasp_closing_axis_xy=(
             grasp_closing_axis_xy
             if grasp_closing_axis_xy is not None
@@ -112,7 +120,6 @@ def make_pick_place_episode_spec(
         object_transit_clearance_m=base_spec.object_transit_clearance_m,
         pregrasp_clearance_m=base_spec.pregrasp_clearance_m,
         top_grasp_depth_m=base_spec.top_grasp_depth_m,
-        place_transit_clearance_m=base_spec.place_transit_clearance_m,
         support_surface_z_local=base_spec.support_surface_z_local,
         object_bottom_clearance_m=base_spec.object_bottom_clearance_m,
         place_pregrasp_clearance_m=base_spec.place_pregrasp_clearance_m,
