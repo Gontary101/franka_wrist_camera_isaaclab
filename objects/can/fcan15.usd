@@ -1,0 +1,289 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (-0.2952177382731435, 0.19854990083343094, -0.0005108310835391268)
+                double3 target = (-5.397761381198407e-7, 5.35883264013437e-7, 2.416629852144709e-7)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./fcan15.usd"
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "Object"
+    doc = """Generated from Composed Stage of root layer 
+
+
+Generated from Composed Stage of root layer D:\\Projects\\DynamicVLA\\objects-new\\objects-new\\can\\fcan15.usd
+"""
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "Object" (
+    apiSchemas = ["PhysicsRigidBodyAPI"]
+)
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (0.1, 0.1, 0.1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def Mesh "geometry" (
+        kind = "component"
+    )
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Mesh "mesh" (
+            apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform bool doubleSided = 1
+            float3[] extent = [(-0.37499994, -0.37500006, -0.5), (0.37499994, 0.37500006, 0.5)]
+            int[] faceVertexCounts = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+            int[] faceVertexIndices = [0, 1, 2, 3, 0, 2, 4, 5, 6, 2, 5, 4, 7, 6, 8, 0, 9, 10, 0, 3, 9, 4, 7, 11, 3, 2, 4, 6, 7, 4, 8, 12, 7, 12, 13, 14, 15, 12, 14, 16, 17, 18, 14, 16, 19, 18, 20, 16, 14, 19, 15, 15, 21, 12, 22, 20, 23, 22, 19, 16, 22, 16, 20, 12, 21, 7, 24, 25, 26, 26, 27, 24, 27, 26, 28, 28, 29, 27, 29, 28, 30, 30, 31, 29, 31, 30, 32, 32, 33, 31, 33, 32, 34, 34, 35, 33, 35, 34, 36, 36, 37, 35, 38, 39, 40, 40, 41, 38, 41, 40, 42, 42, 43, 41, 43, 42, 44, 44, 45, 43, 45, 44, 46, 46, 47, 45, 47, 46, 48, 48, 49, 47, 49, 48, 50, 50, 51, 49, 51, 50, 52, 52, 53, 51, 53, 52, 54, 54, 55, 53, 55, 54, 56, 56, 57, 55, 57, 56, 58, 58, 59, 57, 59, 58, 60, 60, 61, 59, 61, 60, 62, 62, 63, 61, 63, 62, 64, 64, 65, 63, 65, 64, 66, 66, 67, 65, 67, 66, 68, 68, 69, 67, 69, 68, 70, 70, 71, 69, 71, 70, 72, 72, 73, 71, 73, 72, 25, 25, 24, 73, 74, 75, 76, 77, 78, 74, 79, 78, 77, 79, 77, 80, 81, 79, 82, 83, 78, 84, 83, 75, 74, 78, 83, 74, 79, 81, 78, 82, 85, 81, 82, 86, 85, 87, 86, 88, 89, 90, 87, 89, 91, 92, 91, 89, 93, 91, 94, 95, 90, 92, 96, 90, 86, 87, 91, 95, 92, 92, 90, 89, 95, 94, 97, 88, 86, 82]
+            point3f[] points = [(0.18749997, 0.32475927, -0.5), (0.26516557, 0.26516554, -0.49999997), (0.3247593, 0.18749993, -0.49999997), (-0.0970578, 0.36222175, -0.5), (-0.18749997, 0.32475927, -0.5), (0.3622218, 0.09705774, -0.49999997), (0.37499994, -7e-8, -0.49999994), (-0.3247593, 0.18749993, -0.49999997), (0.3622218, -0.09705788, -0.49999994), (0, 0.37499994, -0.5), (0.0970578, 0.36222175, -0.5), (-0.26516557, 0.26516554, -0.49999997), (0.3247593, -0.18750007, -0.4999999), (0.26516557, -0.2651657, -0.4999999), (0.18749997, -0.32475942, -0.4999999), (-0.37499994, -7e-8, -0.49999994), (0.09705623, -0.3622219, -0.4999999), (0, -0.37500006, -0.4999999), (-0.0970578, -0.3622219, -0.4999999), (-0.3622218, -0.09705632, -0.49999994), (-0.18749997, -0.32475942, -0.4999999), (-0.3622218, 0.09705774, -0.49999997), (-0.3247593, -0.18750007, -0.4999999), (-0.26516557, -0.2651657, -0.4999999), (0.37499994, 7e-8, 0.5), (0.37499994, -7e-8, -0.49999994), (0.3622218, 0.09705774, -0.49999997), (0.3622218, 0.09705787, 0.5), (0.3247593, 0.18749993, -0.49999997), (0.3247593, 0.18750004, 0.5), (0.26516557, 0.26516554, -0.49999997), (0.26516557, 0.2651657, 0.5), (0.18749997, 0.32475927, -0.5), (0.18749997, 0.32475942, 0.5), (0.0970578, 0.36222175, -0.5), (0.0970578, 0.3622219, 0.5), (0, 0.37499994, -0.5), (0, 0.37500006, 0.5), (0, 0.37500006, 0.5), (0, 0.37499994, -0.5), (-0.0970578, 0.36222175, -0.5), (-0.0970578, 0.3622219, 0.5), (-0.18749997, 0.32475927, -0.5), (-0.18749997, 0.32475942, 0.5), (-0.26516557, 0.26516554, -0.49999997), (-0.26516557, 0.2651657, 0.5), (-0.3247593, 0.18749993, -0.49999997), (-0.3247593, 0.18750004, 0.5), (-0.3622218, 0.09705774, -0.49999997), (-0.3622218, 0.09705787, 0.5), (-0.37499994, -7e-8, -0.49999994), (-0.37499994, 7e-8, 0.5), (-0.3622218, -0.09705632, -0.49999994), (-0.3622218, -0.09705618, 0.5), (-0.3247593, -0.18750007, -0.4999999), (-0.3247593, -0.18749993, 0.5), (-0.26516557, -0.2651657, -0.4999999), (-0.26516557, -0.2651655, 0.5), (-0.18749997, -0.32475942, -0.4999999), (-0.18749997, -0.32475927, 0.5), (-0.0970578, -0.3622219, -0.4999999), (-0.0970578, -0.36222175, 0.5), (0, -0.37500006, -0.4999999), (0, -0.3749999, 0.5), (0.09705623, -0.3622219, -0.4999999), (0.09705623, -0.36222175, 0.5), (0.18749997, -0.32475942, -0.4999999), (0.18749997, -0.32475927, 0.5), (0.26516557, -0.2651657, -0.4999999), (0.26516557, -0.2651655, 0.5), (0.3247593, -0.18750007, -0.4999999), (0.3247593, -0.18749993, 0.5), (0.3622218, -0.09705788, -0.49999994), (0.3622218, -0.09705774, 0.5), (0.09705623, -0.36222175, 0.5), (-0.0970578, -0.36222175, 0.5), (0, -0.3749999, 0.5), (0.18749997, -0.32475927, 0.5), (-0.3247593, -0.18749993, 0.5), (0.3247593, -0.18749993, 0.5), (0.26516557, -0.2651655, 0.5), (-0.3622218, -0.09705618, 0.5), (0.3622218, -0.09705774, 0.5), (-0.18749997, -0.32475927, 0.5), (-0.26516557, -0.2651655, 0.5), (-0.37499994, 7e-8, 0.5), (-0.3622218, 0.09705787, 0.5), (0.3622218, 0.09705787, 0.5), (0.37499994, 7e-8, 0.5), (0.3247593, 0.18750004, 0.5), (-0.3247593, 0.18750004, 0.5), (0.18749997, 0.32475942, 0.5), (-0.18749997, 0.32475942, 0.5), (0.26516557, 0.2651657, 0.5), (0.0970578, 0.3622219, 0.5), (-0.0970578, 0.3622219, 0.5), (-0.26516557, 0.2651657, 0.5), (0, 0.37500006, 0.5)]
+            texCoord2f[] primvars:st = [(0.3053, 0.2743), (0.3275, 0.2368), (0.3391, 0.1948), (0.1941, 0.3373), (0.1505, 0.3369), (0.3395, 0.1512), (0.3286, 0.1089), (0.0709, 0.3031), (0.3071, 0.071), (0.2363, 0.3264), (0.2742, 0.3049), (0.1085, 0.3252), (0.2765, 0.0399), (0.239, 0.0178), (0.197, 0.0061), (0.0189, 0.2341), (0.1534, 0.0057), (0.1112, 0.0167), (0.0732, 0.0381), (0.0079, 0.1919), (0.0421, 0.0687), (0.0403, 0.272), (0.0083, 0.1483), (0.02, 0.1063), (0.498, 0.341), (0.498, 0.9907), (0.5251, 0.9907), (0.5251, 0.341), (0.5522, 0.9907), (0.5522, 0.341), (0.5792, 0.9907), (0.5792, 0.341), (0.6063, 0.9907), (0.6063, 0.341), (0.6334, 0.9907), (0.6334, 0.341), (0.6604, 0.9907), (0.6604, 0.341), (0.0107, 0.341), (0.0107, 0.9907), (0.0378, 0.9907), (0.0378, 0.341), (0.0649, 0.9907), (0.0649, 0.341), (0.0919, 0.9907), (0.0919, 0.341), (0.119, 0.9907), (0.119, 0.341), (0.1461, 0.9907), (0.1461, 0.341), (0.1732, 0.9907), (0.1732, 0.341), (0.2002, 0.9907), (0.2002, 0.341), (0.2273, 0.9907), (0.2273, 0.341), (0.2544, 0.9907), (0.2544, 0.341), (0.2814, 0.9907), (0.2814, 0.341), (0.3085, 0.9907), (0.3085, 0.341), (0.3356, 0.9907), (0.3356, 0.341), (0.3627, 0.9907), (0.3627, 0.341), (0.3897, 0.9907), (0.3897, 0.341), (0.4168, 0.9907), (0.4168, 0.341), (0.4439, 0.9907), (0.4439, 0.341), (0.4709, 0.9907), (0.4709, 0.341), (0.5809, 0.323), (0.4953, 0.335), (0.5389, 0.3346), (0.6185, 0.3009), (0.3841, 0.2721), (0.6705, 0.2318), (0.6491, 0.2698), (0.362, 0.2345), (0.6815, 0.1896), (0.4531, 0.3241), (0.4152, 0.3026), (0.3503, 0.1925), (0.3499, 0.1489), (0.6694, 0.104), (0.6811, 0.146), (0.6473, 0.0664), (0.3608, 0.1067), (0.5783, 0.0144), (0.4129, 0.0377), (0.6162, 0.0359), (0.536, 0.0035), (0.4504, 0.0155), (0.3823, 0.0688), (0.4924, 0.0039)] (
+                customData = {
+                    dictionary Maya = {
+                        token name = "map1"
+                    }
+                }
+                interpolation = "faceVarying"
+            )
+            int[] primvars:st:indices = [0, 1, 2, 3, 0, 2, 4, 5, 6, 2, 5, 4, 7, 6, 8, 0, 9, 10, 0, 3, 9, 4, 7, 11, 3, 2, 4, 6, 7, 4, 8, 12, 7, 12, 13, 14, 15, 12, 14, 16, 17, 18, 14, 16, 19, 18, 20, 16, 14, 19, 15, 15, 21, 12, 22, 20, 23, 22, 19, 16, 22, 16, 20, 12, 21, 7, 24, 25, 26, 26, 27, 24, 27, 26, 28, 28, 29, 27, 29, 28, 30, 30, 31, 29, 31, 30, 32, 32, 33, 31, 33, 32, 34, 34, 35, 33, 35, 34, 36, 36, 37, 35, 38, 39, 40, 40, 41, 38, 41, 40, 42, 42, 43, 41, 43, 42, 44, 44, 45, 43, 45, 44, 46, 46, 47, 45, 47, 46, 48, 48, 49, 47, 49, 48, 50, 50, 51, 49, 51, 50, 52, 52, 53, 51, 53, 52, 54, 54, 55, 53, 55, 54, 56, 56, 57, 55, 57, 56, 58, 58, 59, 57, 59, 58, 60, 60, 61, 59, 61, 60, 62, 62, 63, 61, 63, 62, 64, 64, 65, 63, 65, 64, 66, 66, 67, 65, 67, 66, 68, 68, 69, 67, 69, 68, 70, 70, 71, 69, 71, 70, 72, 72, 73, 71, 73, 72, 25, 25, 24, 73, 74, 75, 76, 77, 78, 74, 79, 78, 77, 79, 77, 80, 81, 79, 82, 83, 78, 84, 83, 75, 74, 78, 83, 74, 79, 81, 78, 82, 85, 81, 82, 86, 85, 87, 86, 88, 89, 90, 87, 89, 91, 92, 91, 89, 93, 91, 94, 95, 90, 92, 96, 90, 86, 87, 91, 95, 92, 92, 90, 89, 95, 94, 97, 88, 86, 82]
+            uniform token subsetFamily:materialBind:familyType = "partition"
+
+            def GeomSubset "material_0" (
+                apiSchemas = ["MaterialBindingAPI"]
+                customData = {
+                    dictionary Maya = {
+                        bool generated = 1
+                    }
+                }
+            )
+            {
+                uniform token elementType = "face"
+                uniform token familyName = "materialBind"
+                int[] indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+                rel material:binding = </Object/geometry/mtl/material_0>
+            }
+        }
+
+        def Scope "mtl"
+        {
+            def Material "material_0"
+            {
+                string inputs:material_1F:varname = "st"
+                token outputs:surface.connect = </Object/geometry/mtl/material_0/material_1.outputs:surface>
+
+                def Shader "material_1"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor.connect = </Object/geometry/mtl/material_0/material_1F.outputs:rgb>
+                    normal3f inputs:normal = (1, 1, 1)
+                    float inputs:roughness = 0.5
+                    color3f inputs:specularColor = (0.50196075, 0.50196075, 0.50196075)
+                    int inputs:useSpecularWorkflow = 0
+                    token outputs:displacement
+                    token outputs:surface
+                }
+
+                def Shader "material_1F"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    float4 inputs:fallback = (0.5, 0.5, 0.5, 1)
+                    asset inputs:file = @./texture/canned_food15.jpg@ (
+                        colorSpace = "sRGB"
+                    )
+                    token inputs:sourceColorSpace = "sRGB"
+                    float2 inputs:st.connect = </Object/geometry/mtl/material_0/material_1P2D.outputs:result>
+                    token inputs:wrapS = "repeat"
+                    token inputs:wrapT = "repeat"
+                    float3 outputs:rgb
+                }
+
+                def Shader "material_1P2D"
+                {
+                    uniform token info:id = "UsdPrimvarReader_float2"
+                    string inputs:varname.connect = </Object/geometry/mtl/material_0.inputs:material_1F:varname>
+                    float2 outputs:result
+                }
+            }
+        }
+    }
+
+    def Cylinder "collider" (
+        apiSchemas = ["PhysicsCollisionAPI", "PhysicsMassAPI"]
+    )
+    {
+        float physics:mass = 0.5
+        token visibility = "invisible"
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (0.39, 0.39, 0.49)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
+def Camera "OmniverseKit_Persp" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (0.01, 10000000)
+    float focalLength = 18.147562
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -0.3557742343198661)
+    float3 xformOp:rotateXYZ = (90.082306, -3.180555e-14, -123.92294)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (-0.2952177382731435, 0.19854990083343094, -0.0005108310835391268)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def Camera "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (5, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def Camera "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 5)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def Camera "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 50
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -5)
+    token projection = "orthographic"
+    float verticalAperture = 50
+    float3 xformOp:rotateXYZ = (90, 7.06225e-31, -1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -5, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1280, 720)
+                custom uint64 viewPickingId = 17646628595750813094
+                custom int viewportHandle = 0
+            }
+        }
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+}
+

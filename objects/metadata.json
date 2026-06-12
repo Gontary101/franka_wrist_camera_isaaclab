@@ -1,0 +1,1534 @@
+{
+    "apple00.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple01.usd": {
+        "tags": [
+            "apple",
+            "round apple"
+        ]
+    },
+    "apple02.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple03.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple04.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple05.usd": {
+        "tags": [
+            "apple",
+            "green apple",
+            "round apple",
+            "green round apple"
+        ]
+    },
+    "apple06.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple07.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple08.usd": {
+        "tags": [
+            "apple",
+            "brown apple",
+            "cone-shaped apple",
+            "brown cone-shaped apple"
+        ]
+    },
+    "apple09.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple10.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple12.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple13.usd": {
+        "tags": [
+            "apple",
+            "yellow-green apple",
+            "round apple",
+            "yellow-green round apple"
+        ]
+    },
+    "apple14.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple15.usd": {
+        "tags": [
+            "apple",
+            "half-ripe red apple",
+            "round apple",
+            "half-ripe red round apple"
+        ]
+    },
+    "apple18.usd": {
+        "tags": [
+            "apple",
+            "half-ripe red apple",
+            "round apple",
+            "half-ripe red round apple"
+        ]
+    },
+    "apple19.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "apple20.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "cone-shaped apple",
+            "red cone-shaped apple"
+        ]
+    },
+    "apple22.usd": {
+        "tags": [
+            "apple",
+            "red apple",
+            "round apple",
+            "red round apple"
+        ]
+    },
+    "avocado00.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "fusiform avocado",
+            "green fusiform avocado"
+        ]
+    },
+    "avocado01.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "long fusiform avocado",
+            "green long fusiform avocado"
+        ]
+    },
+    "avocado02.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "pear-shaped long avocado",
+            "green pear-shaped long avocado"
+        ]
+    },
+    "avocado04.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "pear-shaped long avocado",
+            "green pear-shaped long avocado"
+        ]
+    },
+    "avocado05.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "pear-shaped avocado",
+            "green pear-shaped avocado"
+        ]
+    },
+    "avocado06.usd": {
+        "tags": [
+            "avocado",
+            "green avocado",
+            "pear-shaped long avocado",
+            "green pear-shaped long avocado"
+        ]
+    },
+    "avocado08.usd": {
+        "tags": [
+            "avocado",
+            "dark-green avocado",
+            "pear-shaped long avocado",
+            "dark-green pear-shaped long avocado"
+        ]
+    },
+    "beer00.usd": {
+        "tags": [
+            "beer bottle",
+            "dark color beer bottle",
+            "beer bottle with blue Genevra IPA sticker",
+            "dark color beer bottle with blue Genevra IPA sticker"
+        ]
+    },
+    "beer01.usd": {
+        "tags": [
+            "beer bottle",
+            "light color beer bottle",
+            "beer bottle with green Heineken sticker",
+            "light color beer bottle with green Heineken sticker"
+        ]
+    },
+    "beer03.usd": {
+        "tags": [
+            "beer bottle",
+            "light color beer bottle",
+            "beer bottle with Heineken carvings",
+            "light color beer bottle with Heineken carvings"
+        ]
+    },
+    "beer05.usd": {
+        "tags": [
+            "beer bottle",
+            "dark color beer bottle",
+            "beer bottle with white Asahi sticker",
+            "dark color beer bottle with white Asahi sticker"
+        ]
+    },
+    "beer07.usd": {
+        "tags": [
+            "beer bottle",
+            "light color beer bottle",
+            "beer bottle with golden Warsteiner sticker",
+            "light color beer bottle with golden Warsteiner sticker"
+        ]
+    },
+    "beer09.usd": {
+        "tags": [
+            "beer bottle",
+            "dark color beer bottle",
+            "beer bottle with red Estrella sticker",
+            "dark color beer bottle with red Estrella sticker"
+        ]
+    },
+    "beer13.usd": {
+        "tags": [
+            "beer bottle",
+            "dark color beer bottle",
+            "beer bottle with yellow Sunset sticker",
+            "dark color beer bottle with yellow Sunset sticker"
+        ]
+    },
+    "beer19.usd": {
+        "tags": [
+            "beer bottle",
+            "green beer bottle",
+            "beer bottle with no sticker",
+            "green beer bottle with no sticker"
+        ]
+    },
+    "dbottle02.usd": {
+        "tags": [
+            "drink bottle",
+            "pink and yellow drink bottle",
+            "cylinder drink bottle",
+            "drink bottle saying enjoi raspberry lemonade",
+            "pink and yellow cylinder drink bottle",
+            "pink and yellow drink bottle saying enjoi raspberry lemonade",
+            "cylinder drink bottle saying enjoi raspberry lemonade",
+            "pink and yellow cylinder drink bottle saying enjoi raspberry lemonade"
+        ]
+    },
+    "dbottle04.usd": {
+        "tags": [
+            "drink bottle",
+            "transparent plastic drink bottle",
+            "drink bottle saying wilkinson lemon",
+            "transparent plastic drink bottle saying wilkinson lemon"
+        ]
+    },
+    "wbottle01.usd": {
+        "tags": [
+            "drink bottle",
+            "green plastic drink bottle",
+            "long drink bottle",
+            "green plastic long drink bottle"
+        ]
+    },
+    "wbottle02.usd": {
+        "tags": [
+            "drink bottle",
+            "grey plastic drink bottle",
+            "drink bottle with blue lid",
+            "drink bottle with blue sticker saying most water",
+            "grey plastic drink bottle with blue lid",
+            "grey plastic drink bottle with blue sticker saying most water",
+            "drink bottle with blue lid and blue sticker saying most water",
+            "grey plastic drink bottle with blue lid and blue sticker saying most water"
+        ]
+    },
+    "wbottle07.usd": {
+        "tags": [
+            "water bottle",
+            "white water bottle",
+            "cylinder water bottle",
+            "water bottle with black lid",
+            "white cylinder water bottle",
+            "white water bottle with black lid",
+            "cylinder water bottle with black lid",
+            "white cylinder water bottle with black lid"
+        ]
+    },
+    "wbottle08.usd": {
+        "tags": [
+            "water bottle",
+            "blue water bottle",
+            "cylinder water bottle",
+            "water bottle with grey lid",
+            "blue cylinder water bottle",
+            "blue water bottle with grey lid",
+            "cylinder water bottle with grey lid",
+            "blue cylinder water bottle with grey lid"
+        ]
+    },
+    "wbottle11.usd": {
+        "tags": [
+            "drink bottle",
+            "grey plastic drink bottle",
+            "tall drink bottle",
+            "drink bottle with blue lid",
+            "drink bottle with white sticker",
+            "grey plastic tall drink bottle",
+            "grey plastic drink bottle with blue lid",
+            "grey plastic drink bottle with white sticker",
+            "tall drink bottle with blue lid",
+            "tall drink bottle with white sticker",
+            "drink bottle with blue lid and white sticker",
+            "grey plastic tall drink bottle with blue lid",
+            "grey plastic tall drink bottle with white sticker",
+            "grey plastic drink bottle with blue lid and white sticker",
+            "tall drink bottle with blue lid and white sticker",
+            "grey plastic tall drink bottle with blue lid and white sticker"
+        ]
+    },
+    "wbottle12.usd": {
+        "tags": [
+            "drink bottle",
+            "white plastic drink bottle",
+            "fat drink bottle",
+            "white plastic fat drink bottle"
+        ]
+    },
+    "wbottle17.usd": {
+        "tags": [
+            "drink bottle",
+            "blue plastic drink bottle",
+            "tall drink bottle",
+            "drink bottle with black lid",
+            "blue plastic tall drink bottle",
+            "blue plastic drink bottle with black lid",
+            "tall drink bottle with black lid",
+            "blue plastic tall drink bottle with black lid"
+        ]
+    },
+    "wbottle23.usd": {
+        "tags": [
+            "water bottle",
+            "black water bottle",
+            "cylinder water bottle",
+            "water bottle with grey and orange lid",
+            "black cylinder water bottle",
+            "black water bottle with grey and orange lid",
+            "cylinder water bottle with grey and orange lid",
+            "black cylinder water bottle with grey and orange lid"
+        ]
+    },
+    "bowl00.usd": {
+        "tags": [
+            "bowl",
+            "pure red bowl"
+        ]
+    },
+    "bowl01.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "bowl with enameled gold rim",
+            "ceramic bowl with enameled gold rim"
+        ]
+    },
+    "bowl02.usd": {
+        "tags": [
+            "bowl",
+            "orange bowl",
+            "bowl with black saw-shaped stripes",
+            "orange bowl with black saw-shaped stripes"
+        ]
+    },
+    "bowl04.usd": {
+        "tags": [
+            "bowl",
+            "white bowl",
+            "deep bowl",
+            "white deep bowl"
+        ]
+    },
+    "bowl05.usd": {
+        "tags": [
+            "bowl",
+            "grey bowl",
+            "shallow bowl",
+            "bowl with large bottom surface",
+            "grey shallow bowl",
+            "grey bowl with large bottom surface",
+            "shallow bowl with large bottom surface",
+            "grey shallow bowl with large bottom surface"
+        ]
+    },
+    "bowl06.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "deep bowl",
+            "bowl with black stripes",
+            "ceramic deep bowl",
+            "ceramic bowl with black stripes",
+            "deep bowl with black stripes",
+            "ceramic deep bowl with black stripes"
+        ]
+    },
+    "bowl07.usd": {
+        "tags": [
+            "bowl",
+            "dark brown bowl",
+            "wooden bowl",
+            "dark brown wooden bowl",
+            "shallow bowl",
+            "wooden shallow bowl"
+        ]
+    },
+    "bowl08.usd": {
+        "tags": [
+            "bowl",
+            "dark brown bowl",
+            "wooden bowl",
+            "dark brown wooden bowl",
+            "deep bowl",
+            "wooden deep bowl"
+        ]
+    },
+    "bowl09.usd": {
+        "tags": [
+            "bowl",
+            "dark brown bowl",
+            "wooden bowl",
+            "light brown wooden bowl",
+            "shallow bowl",
+            "wooden shallow bowl"
+        ]
+    },
+    "bowl10.usd": {
+        "tags": [
+            "bowl",
+            "wooden bowl",
+            "deep bowl",
+            "wooden deep bowl"
+        ]
+    },
+    "bowl11.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "deep bowl",
+            "bowl with cyan patterns",
+            "ceramic deep bowl",
+            "ceramic bowl with cyan patterns",
+            "deep bowl with cyan patterns",
+            "ceramic deep bowl with cyan patterns"
+        ]
+    },
+    "bowl12.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "deep bowl",
+            "bowl with floral patterns",
+            "ceramic deep bowl",
+            "ceramic bowl with floral patterns",
+            "deep bowl with floral patterns",
+            "ceramic deep bowl with floral patterns"
+        ]
+    },
+    "bowl13.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "shallow bowl",
+            "bowl with floral patterns",
+            "ceramic shallow bowl",
+            "ceramic bowl with floral patterns",
+            "shallow bowl with floral patterns",
+            "ceramic shallow bowl with floral patterns"
+        ]
+    },
+    "bowl14.usd": {
+        "tags": [
+            "bowl",
+            "marble bowl",
+            "deep bowl",
+            "marble deep bowl"
+        ]
+    },
+    "bowl15.usd": {
+        "tags": [
+            "bowl",
+            "wooden bowl",
+            "shallow bowl",
+            "wooden shallow bowl"
+        ]
+    },
+    "bowl16.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "deep bowl",
+            "bowl with bird patterns",
+            "ceramic deep bowl",
+            "ceramic bowl with bird patterns",
+            "deep bowl with bird patterns",
+            "ceramic deep bowl with bird patterns"
+        ]
+    },
+    "bowl17.usd": {
+        "tags": [
+            "bowl",
+            "ceramic bowl",
+            "deep bowl",
+            "bowl with pink floral patterns",
+            "ceramic deep bowl",
+            "ceramic bowl with pink floral patterns",
+            "deep bowl with pink floral patterns",
+            "ceramic deep bowl with pink floral patterns"
+        ]
+    },
+    "bowl18.usd": {
+        "tags": [
+            "bowl",
+            "grey bowl",
+            "shallow bowl",
+            "grey shallow bowl"
+        ]
+    },
+    "bowl19.usd": {
+        "tags": [
+            "bowl",
+            "yellow bowl",
+            "bowl saying puffo pops",
+            "yellow bowl saying puffo pops"
+        ]
+    },
+    "box00.usd": {
+        "tags": [
+            "box",
+            "black box",
+            "plastic box",
+            "black plastic box"
+        ]
+    },
+    "box01.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "white plastic box"
+        ]
+    },
+    "box02.usd": {
+        "tags": [
+            "box",
+            "pink box",
+            "plastic box",
+            "pink plastic box"
+        ]
+    },
+    "box03.usd": {
+        "tags": [
+            "box",
+            "green box",
+            "plastic box",
+            "green plastic box"
+        ]
+    },
+    "box04.usd": {
+        "tags": [
+            "box",
+            "yellow box",
+            "plastic box",
+            "yellow plastic box"
+        ]
+    },
+    "box05.usd": {
+        "tags": [
+            "box",
+            "blue box",
+            "plastic box",
+            "blue plastic box"
+        ]
+    },
+    "box06.usd": {
+        "tags": [
+            "box",
+            "paper box"
+        ]
+    },
+    "box08.usd": {
+        "tags": [
+            "box",
+            "red box",
+            "plastic box",
+            "box with MMLab At NTU words",
+            "red box with MMLab At NTU words"
+        ]
+    },
+    "box09.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with Microsoft Logo",
+            "white box with Microsoft Logo"
+        ]
+    },
+    "box10.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with Google Logo",
+            "white box with Google Logo"
+        ]
+    },
+    "box11.usd": {
+        "tags": [
+            "box",
+            "black box",
+            "plastic box",
+            "box with Apple Logo",
+            "black box with Apple Logo"
+        ]
+    },
+    "box12.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with Tencent Logo",
+            "white box with Tencent Logo"
+        ]
+    },
+    "box13.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with OpenAI Logo",
+            "white box with OpenAI Logo"
+        ]
+    },
+    "box14.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with Nvidia Logo",
+            "white box with Nvidia Logo"
+        ]
+    },
+    "box15.usd": {
+        "tags": [
+            "box",
+            "white box",
+            "plastic box",
+            "box with Tesla Logo",
+            "white box with Tesla Logo"
+        ]
+    },
+    "can00.usd": {
+        "tags": [
+            "drink can",
+            "red drink can",
+            "drink can with blue ColaCa words",
+            "red drink can with blue ColaCa words"
+        ]
+    },
+    "can02.usd": {
+        "tags": [
+            "drink can",
+            "red drink can",
+            "drink can with white COLA words",
+            "red drink can with white COLA words"
+        ]
+    },
+    "can03.usd": {
+        "tags": [
+            "drink can",
+            "blue drink can",
+            "drink can with Pepsi logo",
+            "blue drink can with Pepsi logo"
+        ]
+    },
+    "can04.usd": {
+        "tags": [
+            "drink can",
+            "red drink can",
+            "drink can with Coke logo",
+            "red drink can with Coke logo"
+        ]
+    },
+    "can11.usd": {
+        "tags": [
+            "drink can",
+            "red drink can",
+            "drink can with CocaCola Logo",
+            "red drink can with CocaCola Logo"
+        ]
+    },
+    "can12.usd": {
+        "tags": [
+            "drink can",
+            "red drink can"
+        ]
+    },
+    "can13.usd": {
+        "tags": [
+            "drink can",
+            "purple and yellow drink can",
+            "drink can with flower",
+            "purple and yellow drink can with flower"
+        ]
+    },
+    "can15.usd": {
+        "tags": [
+            "drink can",
+            "red drink can",
+            "drink can with CocaCola Logo",
+            "red drink can with CocaCola Logo"
+        ]
+    },
+    "fcan01.usd": {
+        "tags": [
+            "food can"
+        ]
+    },
+    "fcan03.usd": {
+        "tags": [
+            "food can",
+            "red food can",
+            "food can with Campbells Cream of Chicken words",
+            "red food can with Campbells Cream of Chicken words"
+        ]
+    },
+    "fcan04.usd": {
+        "tags": [
+            "food can",
+            "red food can",
+            "food can with Chef Royardee Beef Goodaroni words",
+            "red food can with Chef Royardee Beef Goodaroni words"
+        ]
+    },
+    "fcan05.usd": {
+        "tags": [
+            "food can",
+            "orange food can",
+            "food can with Falls Salmon words",
+            "orange food can with Falls Salmon words"
+        ]
+    },
+    "fcan08.usd": {
+        "tags": [
+            "food can",
+            "red food can",
+            "food can with Granny Beryls Tomato Soup words",
+            "red food can with Granny Beryls Tomato Soup words"
+        ]
+    },
+    "fcan11.usd": {
+        "tags": [
+            "food can",
+            "blue food can",
+            "food can with Heinz Beanz words",
+            "blue food can with Heinz Beanz words"
+        ]
+    },
+    "fcan15.usd": {
+        "tags": [
+            "food can",
+            "red food can",
+            "food can with Campbells Tomato Soup words",
+            "red food can with Campbells Tomato Soup words"
+        ]
+    },
+    "fcan17.usd": {
+        "tags": [
+            "food can",
+            "yellow and red food can",
+            "food can with golden bull logo",
+            "yellow and red food can with golden bull logo"
+        ]
+    },
+    "fcan18.usd": {
+        "tags": [
+            "food can",
+            "blue food can"
+        ]
+    },
+    "cup00.usd": {
+        "tags": [
+            "cup",
+            "tall cup",
+            "cone-shaped cup",
+            "tall cone-shaped cup"
+        ]
+    },
+    "cup01.usd": {
+        "tags": [
+            "cup",
+            "yellow cup",
+            "tall cup",
+            "cup with red flower",
+            "yellow tall cup",
+            "yellow cup with red flower",
+            "tall cup with red flower",
+            "yellow tall cup with red flower"
+        ]
+    },
+    "cup02.usd": {
+        "tags": [
+            "cup",
+            "yellow cup",
+            "tall cup",
+            "cup with red watermelon",
+            "yellow tall cup",
+            "yellow cup with red watermelon",
+            "tall cup with red watermelon",
+            "yellow tall cup with red watermelon"
+        ]
+    },
+    "cup03.usd": {
+        "tags": [
+            "cup",
+            "blue cup",
+            "tall cup",
+            "cup with NTU Singapore logo",
+            "blue tall cup",
+            "blue cup with NTU Singapore logo",
+            "tall cup with NTU Singapore logo",
+            "blue tall cup with NTU Singapore logo"
+        ]
+    },
+    "cup04.usd": {
+        "tags": [
+            "cup",
+            "red cup",
+            "tall cup",
+            "cup with MMLab at NTU logo",
+            "red tall cup",
+            "red cup with MMLab at NTU logo",
+            "tall cup with MMLab at NTU logo",
+            "red tall cup with MMLab at NTU logo"
+        ]
+    },
+    "cup05.usd": {
+        "tags": [
+            "cup",
+            "white cup",
+            "short cup",
+            "white short cup"
+        ]
+    },
+    "cup06.usd": {
+        "tags": [
+            "cup",
+            "white cup",
+            "tall cup",
+            "white tall cup"
+        ]
+    },
+    "cup07.usd": {
+        "tags": [
+            "cup",
+            "yellow cup",
+            "tall cup",
+            "yellow tall cup"
+        ]
+    },
+    "cup08.usd": {
+        "tags": [
+            "cup",
+            "red cup",
+            "tall cup",
+            "red tall cup"
+        ]
+    },
+    "cup09.usd": {
+        "tags": [
+            "cup",
+            "black cup",
+            "tall cup",
+            "black tall cup"
+        ]
+    },
+    "egg00.usd": {
+        "tags": [
+            "egg",
+            "white egg"
+        ]
+    },
+    "egg03.usd": {
+        "tags": [
+            "egg",
+            "light-brown egg"
+        ]
+    },
+    "egg04.usd": {
+        "tags": [
+            "egg",
+            "white egg",
+            "white egg woth subtle speckling"
+        ]
+    },
+    "egg05.usd": {
+        "tags": [
+            "egg",
+            "orange egg"
+        ]
+    },
+    "egg06.usd": {
+        "tags": [
+            "egg",
+            "brown egg"
+        ]
+    },
+    "egg07.usd": {
+        "tags": [
+            "egg",
+            "light-yellow egg"
+        ]
+    },
+    "egg09.usd": {
+        "tags": [
+            "egg",
+            "white egg"
+        ]
+    },
+    "egg10.usd": {
+        "tags": [
+            "egg",
+            "white egg",
+            "egg with scattered dark spots",
+            "white egg with scattered dark spots"
+        ]
+    },
+    "egg11.usd": {
+        "tags": [
+            "egg",
+            "brown egg"
+        ]
+    },
+    "egg12.usd": {
+        "tags": [
+            "egg",
+            "white egg"
+        ]
+    },
+    "egg13.usd": {
+        "tags": [
+            "egg",
+            "brown egg"
+        ]
+    },
+    "kiwi07.usd": {
+        "tags": [
+            "kiwi",
+            "light-green kiwi"
+        ]
+    },
+    "lime00.usd": {
+        "tags": [
+            "lime",
+            "dark green lime"
+        ]
+    },
+    "lime01.usd": {
+        "tags": [
+            "lime",
+            "light green lime"
+        ]
+    },
+    "lime02.usd": {
+        "tags": [
+            "lime",
+            "light green lime"
+        ]
+    },
+    "lime03.usd": {
+        "tags": [
+            "lime",
+            "dark green lime"
+        ]
+    },
+    "onion00.usd": {
+        "tags": [
+            "onion",
+            "red onion"
+        ]
+    },
+    "onion02.usd": {
+        "tags": [
+            "onion",
+            "white onion",
+            "smooth onion",
+            "white smooth onion"
+        ]
+    },
+    "onion04.usd": {
+        "tags": [
+            "onion",
+            "white onion",
+            "rough onion",
+            "white rough onion"
+        ]
+    },
+    "onion07.usd": {
+        "tags": [
+            "onion",
+            "red onion",
+            "round onion",
+            "red round onion"
+        ]
+    },
+    "onion08.usd": {
+        "tags": [
+            "onion",
+            "purple onion"
+        ]
+    },
+    "onion09.usd": {
+        "tags": [
+            "onion",
+            "white onion",
+            "round onion",
+            "onion with long stem",
+            "white round onion",
+            "white onion with long stem",
+            "round onion with long stem",
+            "white round onion with long stem"
+        ]
+    },
+    "onion10.usd": {
+        "tags": [
+            "onion",
+            "purple onion",
+            "round onion",
+            "onion with long stem",
+            "purple round onion",
+            "purple onion with long stem",
+            "round onion with long stem",
+            "purple round onion with long stem"
+        ]
+    },
+    "orange02.usd": {
+        "tags": [
+            "orange",
+            "red orange",
+            "smooth orange",
+            "red smooth orange"
+        ]
+    },
+    "orange03.usd": {
+        "tags": [
+            "orange",
+            "round orange"
+        ]
+    },
+    "orange05.usd": {
+        "tags": [
+            "orange",
+            "yellow orange"
+        ]
+    },
+    "orange09.usd": {
+        "tags": [
+            "orange",
+            "yellow orange",
+            "wrinkled orange",
+            "yellow wrinkled orange"
+        ]
+    },
+    "orange12.usd": {
+        "tags": [
+            "orange",
+            "yellow orange",
+            "smooth orange",
+            "yellow smooth orange"
+        ]
+    },
+    "orange13.usd": {
+        "tags": [
+            "orange",
+            "wrinkled orange"
+        ]
+    },
+    "peach01.usd": {
+        "tags": [
+            "peach",
+            "pink-white peach"
+        ]
+    },
+    "peach02.usd": {
+        "tags": [
+            "peach",
+            "pink-white peach"
+        ]
+    },
+    "peach03.usd": {
+        "tags": [
+            "peach",
+            "red peach"
+        ]
+    },
+    "peach05.usd": {
+        "tags": [
+            "peach",
+            "pink-white peach"
+        ]
+    },
+    "peach06.usd": {
+        "tags": [
+            "peach",
+            "white peach"
+        ]
+    },
+    "placemat00.usd": {
+        "tags": [
+            "square placemat",
+            "floral-patterned square placemat",
+            "white big-flower patterned square placemat",
+            "square mat with minimal large-floral design"
+        ]
+    },
+    "placemat01.usd": {
+        "tags": [
+            "square placemat",
+            "square placemat with Google logo"
+        ]
+    },
+    "placemat02.usd": {
+        "tags": [
+            "woven mat",
+            "square woven mat",
+            "woven rattan mat",
+            "woven mat with natural rattan texture",
+            "square mat with straw texture texture"
+        ]
+    },
+    "placemat03.usd": {
+        "tags": [
+            "square placemat",
+            "floral-patterned square placemat",
+            "square mat with green dense-floral pattern"
+        ]
+    },
+    "placemat04.usd": {
+        "tags": [
+            "square placemat",
+            "green square placemat"
+        ]
+    },
+    "placemat05.usd": {
+        "tags": [
+            "square placemat",
+            "square placemat with yellow background",
+            "square placemat features a bold, stylized illustration of a tui",
+            "Square placemat with a bold, stylized tui"
+        ]
+    },
+    "plate00.usd": {
+        "tags": [
+            "plate",
+            "yellow plate",
+            "plate with red square patterns",
+            "yellow plate with red square patterns"
+        ]
+    },
+    "plate01.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate02.usd": {
+        "tags": [
+            "plate",
+            "ceramic plate",
+            "plate with blue floral patterns",
+            "ceramic plate with blue floral patterns"
+        ]
+    },
+    "plate03.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate04.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate05.usd": {
+        "tags": [
+            "plate",
+            "yellow and red plate",
+            "plate with floral patterns",
+            "yellow and red plate with floral patterns"
+        ]
+    },
+    "plate06.usd": {
+        "tags": [
+            "plate",
+            "white plate",
+            "plate with grey edge",
+            "plate with black line patterns",
+            "white plate with grey edge",
+            "white plate with black line patterns",
+            "plate with grey edge and black line patterns",
+            "white plate with grey edge and black line patterns"
+        ]
+    },
+    "plate07.usd": {
+        "tags": [
+            "plate",
+            "yellow plate",
+            "plate with white edge",
+            "yellow plate with white edge"
+        ]
+    },
+    "plate08.usd": {
+        "tags": [
+            "plate",
+            "wooden plate"
+        ]
+    },
+    "plate09.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate10.usd": {
+        "tags": [
+            "plate",
+            "yellow and red plate",
+            "plate with floral patterns",
+            "yellow and red plate with floral patterns"
+        ]
+    },
+    "plate12.usd": {
+        "tags": [
+            "plate",
+            "blue plate"
+        ]
+    },
+    "plate13.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate14.usd": {
+        "tags": [
+            "plate",
+            "white plate",
+            "plate with black edge",
+            "plate with dragon patterns",
+            "white plate with black edge",
+            "white plate with dragon patterns",
+            "plate with black edge and dragon patterns",
+            "white plate with black edge and dragon patterns"
+        ]
+    },
+    "plate15.usd": {
+        "tags": [
+            "plate",
+            "white plate"
+        ]
+    },
+    "plate16.usd": {
+        "tags": [
+            "plate",
+            "plate with dart patterns"
+        ]
+    },
+    "potato00.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "pitted potato",
+            "light color pitted potato"
+        ]
+    },
+    "potato02.usd": {
+        "tags": [
+            "potato",
+            "dark color potato"
+        ]
+    },
+    "potato03.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "long potato",
+            "light color long potato"
+        ]
+    },
+    "potato06.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "pitted potato",
+            "long potato",
+            "light color pitted potato",
+            "light color long potato",
+            "pitted long potato",
+            "light color pitted long potato"
+        ]
+    },
+    "potato07.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "fat potato",
+            "light color fat potato"
+        ]
+    },
+    "potato10.usd": {
+        "tags": [
+            "potato",
+            "grey color potato",
+            "pitted potato",
+            "grey color pitted potato"
+        ]
+    },
+    "potato13.usd": {
+        "tags": [
+            "potato",
+            "yellow-black color potato"
+        ]
+    },
+    "potato14.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "long potato",
+            "pitted potato",
+            "light color long potato",
+            "light color pitted potato",
+            "long pitted potato",
+            "light color long pitted potato"
+        ]
+    },
+    "potato16.usd": {
+        "tags": [
+            "potato",
+            "light color potato"
+        ]
+    },
+    "potato17.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "round potato",
+            "light color round potato"
+        ]
+    },
+    "potato18.usd": {
+        "tags": [
+            "potato",
+            "light color potato",
+            "pitted potato",
+            "light color pitted potato"
+        ]
+    },
+    "tomato01.usd": {
+        "tags": [
+            "tomato",
+            "red tomato"
+        ]
+    },
+    "tomato02.usd": {
+        "tags": [
+            "tomato",
+            "red tomato",
+            "round tomato",
+            "red round tomato"
+        ]
+    },
+    "tomato03.usd": {
+        "tags": [
+            "tomato",
+            "red tomato"
+        ]
+    },
+    "tomato07.usd": {
+        "tags": [
+            "tomato",
+            "red tomato",
+            "small tomato",
+            "red small tomato"
+        ]
+    },
+    "tray00.usd": {
+        "tags": [
+            "tray",
+            "dark color tray",
+            "wooden tray",
+            "dark color wooden tray"
+        ]
+    },
+    "tray01.usd": {
+        "tags": [
+            "tray",
+            "white tray"
+        ]
+    },
+    "tray02.usd": {
+        "tags": [
+            "tray",
+            "red patterned tray"
+        ]
+    },
+    "tray03.usd": {
+        "tags": [
+            "tray",
+            "yellow tray",
+            "tray with painting",
+            "yellow tray with painting"
+        ]
+    },
+    "tray04.usd": {
+        "tags": [
+            "tray",
+            "light color tray",
+            "wooden tray",
+            "light color wooden tray"
+        ]
+    },
+    "tray05.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with Bytedance logo",
+            "white tray with Bytedance logo"
+        ]
+    },
+    "tray06.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with NTU logo",
+            "white tray with NTU logo"
+        ]
+    },
+    "tray07.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with Meta logo",
+            "white tray with Meta logo"
+        ]
+    },
+    "tray08.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with CapitaLand logo",
+            "white tray with CapitaLand logo"
+        ]
+    },
+    "tray09.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with HSBC logo",
+            "white tray with HSBC logo"
+        ]
+    },
+    "tray10.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with Don Don Donki logo",
+            "white tray with Don Don Donki logo"
+        ]
+    },
+    "tray11.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with Shell logo",
+            "white tray with Shell logo"
+        ]
+    },
+    "tray12.usd": {
+        "tags": [
+            "tray",
+            "white tray",
+            "tray with Mastercard logo",
+            "white tray with Mastercard logo"
+        ]
+    }
+}

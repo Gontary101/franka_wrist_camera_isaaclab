@@ -11,22 +11,7 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab_assets import FRANKA_PANDA_HIGH_PD_CFG
 
 from ..settings import ROBOT_BASE_POS, TABLE_HEIGHT_M, TABLE_SIZE
-from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext, load_catalog_object_context
-
-_SELECTED_OBJECT = load_catalog_object_context(
-    catalog_config="object_catalog.generated.yaml",
-    category_id="apple",
-    variant_id="apple00",
-)
-
-
-def configure_catalog_object(context: CatalogObjectContext) -> None:
-    global _SELECTED_OBJECT
-    _SELECTED_OBJECT = context
-
-
-def selected_catalog_object() -> CatalogObjectContext:
-    return _SELECTED_OBJECT
+from franka_wrist_camera_scene.scene.object_context import CatalogObjectContext
 
 WAREHOUSE_USD = f"{ISAAC_NUCLEUS_DIR}/Environments/Simple_Warehouse/warehouse_multiple_shelves.usd"
 
@@ -74,7 +59,7 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
     target_cube = RigidObjectCfg(
         prim_path="{ENV_REGEX_NS}/TargetCube",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=str(selected_catalog_object().usd_path),
+            usd_path="",
             rigid_props=sim_utils.RigidBodyPropertiesCfg(),
             collision_props=sim_utils.CollisionPropertiesCfg(),
         ),
@@ -118,3 +103,14 @@ class TabletopFrankaSceneCfg(InteractiveSceneCfg):
             convention="world",
         ),
     )
+
+
+def make_tabletop_scene_cfg(
+    object_context: CatalogObjectContext,
+    num_envs: int = 1,
+    env_spacing: float = 2.5,
+) -> TabletopFrankaSceneCfg:
+    """Create a tabletop scene configuration with the specified target object."""
+    scene_cfg = TabletopFrankaSceneCfg(num_envs=num_envs, env_spacing=env_spacing)
+    scene_cfg.target_cube.spawn.usd_path = str(object_context.usd_path)
+    return scene_cfg
