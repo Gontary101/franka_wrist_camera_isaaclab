@@ -14,6 +14,9 @@ target_object:
   catalog_config: object_catalog.generated.yaml
   category_id: sample
   variant_id: sample
+  split: train
+  role: target
+  required_affordances: [pickable]
 
 
 pose_randomization:

@@ -161,7 +161,6 @@ def collect_pick_place_dataset(
     sim.set_camera_view(eye=[2.2, -2.2, 1.9], target=[0.55, 0.0, 1.20])
 
     target_object_cfg = collection_cfg["target_object"]
-    split = target_object_cfg.get("split", "train")
 
     seed = int(collection_cfg["seed"])
     pose_randomization = collection_cfg["pose_randomization"]
@@ -194,7 +193,9 @@ def collect_pick_place_dataset(
             catalog_config=target_object_cfg["catalog_config"],
             category_id=target_object_cfg["category_id"],
             variant_id=target_object_cfg["variant_id"],
-            split=split,
+            split=target_object_cfg["split"],
+            role=target_object_cfg["role"],
+            required_affordances=tuple(target_object_cfg["required_affordances"]),
             rng=episode_rng,
         )
         durable_usd_path = object_context.usd_path.relative_to(REPO_ROOT).as_posix()
