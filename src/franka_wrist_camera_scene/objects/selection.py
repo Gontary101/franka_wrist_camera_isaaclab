@@ -7,16 +7,6 @@ import random
 from franka_wrist_camera_scene.objects.catalog import ObjectCatalog, ObjectCategory, ObjectVariant
 
 
-def category_matches(
-    category: ObjectCategory,
-    split: str,
-    role: str,
-) -> bool:
-    if category.split != split:
-        return False
-    return category.role == role
-
-
 def variant_affordances(category: ObjectCategory, variant: ObjectVariant) -> tuple[str, ...]:
     if variant.affordances is not None:
         return variant.affordances
@@ -55,11 +45,7 @@ def filtered_categories(
     categories = tuple(
         category
         for category in catalog.categories
-        if category_matches(
-            category=category,
-            split=split,
-            role=role,
-        )
+        if category.split == split and category.role == role
     )
 
     if not categories:
