@@ -8,7 +8,7 @@ from isaaclab.scene import InteractiveScene
 from isaaclab.utils.math import quat_apply
 
 from ..control.grasp_orientation import downward_gripper_quat_for_closing_axis
-from ..control.motion_primitives import MinimumJerkPoseMotion
+from ..control.motion_primitives import MinimumJerkWaypointMotion
 from ..tasks.placement_geometry import object_root_z_on_support
 from ..tasks.pick_place import PickPlaceTaskSpec
 from .scripted_base import PolicyCommand
@@ -19,7 +19,7 @@ class PickPlaceScriptedPolicy:
 
     def __init__(self, spec: PickPlaceTaskSpec):
         self.spec = spec
-        self.state = "move_to_object_transit"
+        self.state = "approach_object"
         self._scene = None
         self._device = None
         self._motion = None
@@ -79,7 +79,7 @@ class PickPlaceScriptedPolicy:
 
     def reset(self) -> None:
         """Reset the policy to the initial state."""
-        self.state = "move_to_object_transit"
+        self.state = "approach_object"
         self._motion = None
         self._state_start_time = None
         self._grasp_tcp_offset_from_root_w = None
@@ -135,7 +135,7 @@ class PickPlaceScriptedPolicy:
             place_transit_pos = place_pre_pos.clone()
             place_transit_pos[:, 2] = lift_pos[:, 2]
 
-        if self.state in ["move_to_place_transit", "move_to_place", "lower", "open", "retreat", "done"]:
+        if self.state in ["carry_to_place", "open", "retreat", "done"]:
             if place_hand_pos is None or place_pre_pos is None or place_transit_pos is None or lift_pos is None:
                 raise RuntimeError("Placement targets requested before grasp offset was latched.")
 
@@ -144,46 +144,17 @@ class PickPlaceScriptedPolicy:
         finger_opening = self.spec.open_finger_m
         done = False
 
-        if self.state == "move_to_object_transit":
+        if self.state == "approach_object":
             if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=object_transit_pos,
+                self._motion = MinimumJerkWaypointMotion.from_segment_speeds(
+                    waypoints_w=(ee_pos_w, object_transit_pos, pregrasp_pos, obj_hand_pos),
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
-                )
-            pos, quat, finished = self._motion.sample(sim_time_s)
-            target_pos_w = pos
-            target_quat_w = quat
-            if finished:
-                self.state = "move_to_pregrasp"
-                self._motion = None
-
-        elif self.state == "move_to_pregrasp":
-            if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=pregrasp_pos,
-                    quat_w=target_quat_w,
-                    start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.approach_max_speed_m_s,
-                )
-            pos, quat, finished = self._motion.sample(sim_time_s)
-            target_pos_w = pos
-            target_quat_w = quat
-            if finished:
-                self.state = "move_to_grasp"
-                self._motion = None
-
-        elif self.state == "move_to_grasp":
-            if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=obj_hand_pos,
-                    quat_w=target_quat_w,
-                    start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_speed_m_s=(
+                        self.spec.free_space_max_speed_m_s,
+                        self.spec.approach_max_speed_m_s,
+                        self.spec.approach_max_speed_m_s,
+                    ),
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -201,69 +172,22 @@ class PickPlaceScriptedPolicy:
                 self._grasp_tcp_offset_from_root_w = (actual_tcp_pos_w - obj_pos).clone()
                 self._lift_pos_w = obj_hand_pos.clone()
                 self._lift_pos_w[:, 2] += self.spec.lift_height_m
-                self.state = "lift"
+                self.state = "carry_to_place"
                 self._state_start_time = None
 
-        elif self.state == "lift":
+        elif self.state == "carry_to_place":
             finger_opening = self.spec.closed_finger_m
             if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=lift_pos,
+                self._motion = MinimumJerkWaypointMotion.from_segment_speeds(
+                    waypoints_w=(ee_pos_w, lift_pos, place_transit_pos, place_pre_pos, place_hand_pos),
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.lift_max_speed_m_s,
-                )
-            pos, quat, finished = self._motion.sample(sim_time_s)
-            target_pos_w = pos
-            target_quat_w = quat
-            if finished:
-                self.state = "move_to_place_transit"
-                self._motion = None
-
-        elif self.state == "move_to_place_transit":
-            finger_opening = self.spec.closed_finger_m
-            if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=place_transit_pos,
-                    quat_w=target_quat_w,
-                    start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.free_space_max_speed_m_s,
-                )
-            pos, quat, finished = self._motion.sample(sim_time_s)
-            target_pos_w = pos
-            target_quat_w = quat
-            if finished:
-                self.state = "move_to_place"
-                self._motion = None
-
-        elif self.state == "move_to_place":
-            finger_opening = self.spec.closed_finger_m
-            if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=place_pre_pos,
-                    quat_w=target_quat_w,
-                    start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.approach_max_speed_m_s,
-                )
-            pos, quat, finished = self._motion.sample(sim_time_s)
-            target_pos_w = pos
-            target_quat_w = quat
-            if finished:
-                self.state = "lower"
-                self._motion = None
-
-        elif self.state == "lower":
-            finger_opening = self.spec.closed_finger_m
-            if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=place_hand_pos,
-                    quat_w=target_quat_w,
-                    start_time_s=sim_time_s,
-                    max_speed_m_s=self.spec.approach_max_speed_m_s,
+                    max_speed_m_s=(
+                        self.spec.lift_max_speed_m_s,
+                        self.spec.free_space_max_speed_m_s,
+                        self.spec.approach_max_speed_m_s,
+                        self.spec.approach_max_speed_m_s,
+                    ),
                 )
             pos, quat, finished = self._motion.sample(sim_time_s)
             target_pos_w = pos
@@ -283,9 +207,8 @@ class PickPlaceScriptedPolicy:
         elif self.state == "retreat":
             finger_opening = self.spec.open_finger_m
             if self._motion is None:
-                self._motion = MinimumJerkPoseMotion.from_speed(
-                    start_pos_w=ee_pos_w,
-                    goal_pos_w=place_transit_pos,
+                self._motion = MinimumJerkWaypointMotion.from_speed(
+                    waypoints_w=(ee_pos_w, place_transit_pos),
                     quat_w=target_quat_w,
                     start_time_s=sim_time_s,
                     max_speed_m_s=self.spec.retreat_max_speed_m_s,

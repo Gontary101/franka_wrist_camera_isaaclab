@@ -1,9 +1,11 @@
 from unittest import TestCase
+
 import torch
 
 from franka_wrist_camera_scene.control.motion_primitives import (
     MinimumJerkScalarProfile,
     MinimumJerkPoseMotion,
+    MinimumJerkWaypointMotion,
 )
 
 
@@ -85,3 +87,77 @@ class TestMotionPrimitives(TestCase):
         )
 
         self.assertAlmostEqual(motion.profile.duration_s, 3.75)
+
+    def test_minimum_jerk_waypoint_motion_validates_inputs(self) -> None:
+        point = torch.tensor([0.0, 0.0, 0.0])
+        quat = torch.tensor([1.0, 0.0, 0.0, 0.0])
+
+        with self.assertRaises(ValueError):
+            MinimumJerkWaypointMotion.from_speed(
+                waypoints_w=(point,),
+                quat_w=quat,
+                start_time_s=0.0,
+                max_speed_m_s=1.0,
+            )
+        with self.assertRaises(ValueError):
+            MinimumJerkWaypointMotion.from_segment_speeds(
+                waypoints_w=(point, point.clone(), point.clone()),
+                quat_w=quat,
+                start_time_s=0.0,
+                max_speed_m_s=(1.0,),
+            )
+        with self.assertRaises(ValueError):
+            MinimumJerkWaypointMotion.from_speed(
+                waypoints_w=(point, point.clone()),
+                quat_w=quat,
+                start_time_s=0.0,
+                max_speed_m_s=0.0,
+            )
+
+    def test_minimum_jerk_waypoint_motion_samples_through_waypoints(self) -> None:
+        start_pos = torch.tensor([0.0, 0.0, 0.0])
+        middle_pos = torch.tensor([1.0, 0.0, 0.0])
+        goal_pos = torch.tensor([2.0, 0.0, 0.0])
+        quat = torch.tensor([1.0, 0.0, 0.0, 0.0])
+
+        motion = MinimumJerkWaypointMotion.from_speed(
+            waypoints_w=(start_pos, middle_pos, goal_pos),
+            quat_w=quat,
+            start_time_s=1.0,
+            max_speed_m_s=0.5,
+        )
+
+        self.assertAlmostEqual(motion.profile.duration_s, 7.5)
+
+        pos, q, done = motion.sample(1.0)
+        self.assertTrue(torch.allclose(pos, start_pos))
+        self.assertTrue(torch.allclose(q, quat))
+        self.assertFalse(done)
+
+        midpoint_time_s = 1.0 + 0.5 * motion.profile.duration_s
+        pos, _, done = motion.sample(midpoint_time_s)
+        self.assertTrue(torch.allclose(pos, middle_pos))
+        self.assertFalse(done)
+
+        pos, q, done = motion.sample(1.0 + motion.profile.duration_s)
+        self.assertTrue(torch.allclose(pos, goal_pos))
+        self.assertTrue(torch.allclose(q, quat))
+        self.assertTrue(done)
+
+    def test_minimum_jerk_waypoint_motion_respects_segment_speed_limits(self) -> None:
+        start_pos = torch.tensor([0.0, 0.0, 0.0])
+        middle_pos = torch.tensor([1.0, 0.0, 0.0])
+        goal_pos = torch.tensor([2.0, 0.0, 0.0])
+        quat = torch.tensor([1.0, 0.0, 0.0, 0.0])
+
+        motion = MinimumJerkWaypointMotion.from_segment_speeds(
+            waypoints_w=(start_pos, middle_pos, goal_pos),
+            quat_w=quat,
+            start_time_s=0.0,
+            max_speed_m_s=(0.5, 1.0),
+        )
+
+        self.assertAlmostEqual(motion.profile.duration_s, 5.625)
+
+        pos, _, _ = motion.sample(0.5 * motion.profile.duration_s)
+        self.assertTrue(torch.allclose(pos, torch.tensor([0.75, 0.0, 0.0])))
